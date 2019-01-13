@@ -8,10 +8,9 @@
 package frc.robot;
 
 /**
- * The doer for auto stuff
+ * interface for Task Objects
  */
-public class AutoStuffDoer {
-
+public interface TaskInterface {
+    
 }
-
 
