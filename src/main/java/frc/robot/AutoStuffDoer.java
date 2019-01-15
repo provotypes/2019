@@ -82,6 +82,7 @@ public class AutoStuffDoer {
             if (currTask.isFinished()){
                 currTask.end();
                 taskState = 0;
+                taskCounter++;
             }
             
         }
