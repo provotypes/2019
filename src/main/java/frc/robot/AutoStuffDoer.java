@@ -10,11 +10,20 @@ package frc.robot;
 import java.util.ArrayList;
 
 import frc.robot.autotasks.TestTask;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The doer for auto stuff
  */
 public class AutoStuffDoer {
+
+    //Auto chooser things
+    private static final String kDefaultAuto = "Default";
+    private static final String kCustomAuto = "My Auto";
+    private String m_autoSelected;
+    private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
 
     ArrayList<TaskInterface> taskList = new ArrayList<TaskInterface>();
     /** Keeps track of which task to run */
@@ -23,6 +32,10 @@ public class AutoStuffDoer {
     int taskState;
 
     AutoStuffDoer(){
+        m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+        m_chooser.addOption("My Auto", kCustomAuto);
+        SmartDashboard.putData("Auto choices", m_chooser);
+
         taskList.add(new TestTask());
     }
 
@@ -33,12 +46,26 @@ public class AutoStuffDoer {
         taskCounter = 0;
         taskState = 0;
         
+        m_autoSelected = m_chooser.getSelected();
+        System.out.println("Auto selected: " + m_autoSelected);
+
     }
 
     /**
      * should be run repediatly during auto
      */
     public void runAuto(){
+
+        switch (m_autoSelected) {
+            case kCustomAuto:
+              // Put custom auto code here
+              break;
+            case kDefaultAuto:
+            default:
+              // Put default auto code here
+              break;
+        }
+
         if(taskCounter < taskList.size()) {
 
             TaskInterface currTask = taskList.get(taskCounter);
