@@ -7,10 +7,58 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
+import frc.robot.autotasks.TestTask;
+
 /**
  * The doer for auto stuff
  */
 public class AutoStuffDoer {
+
+    ArrayList<TaskInterface> taskList = new ArrayList<TaskInterface>();
+    /** Keeps track of which task to run */
+    int taskCounter;
+    /** Keeps track of an individual tasks state */
+    int taskState;
+
+    AutoStuffDoer(){
+        taskList.add(new TestTask());
+    }
+
+    /**
+     * should be run once at the begining of auto
+     */
+    public void autoInit(){
+        taskCounter = 0;
+        taskState = 0;
+        
+    }
+
+    /**
+     * should be run repediatly during auto
+     */
+    public void runAuto(){
+        if(taskCounter < taskList.size()) {
+
+            TaskInterface currTask = taskList.get(taskCounter);
+
+            if (taskState < 1){
+                currTask.start();
+                taskState++;
+            }
+            else {
+                currTask.execute();
+                taskState++;
+            }
+
+            if (currTask.isFinished()){
+                currTask.end();
+                taskState = 0;
+            }
+            
+        }
+    }
 
 }
 
