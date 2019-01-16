@@ -7,29 +7,27 @@
 
 package frc.robot.autotasks;
 
-
-
 /**
- * The testing task!
+ * Add your docs here.
  */
-public class TestTask implements TaskInterface {
+public class EasyPathTask implements TaskInterface {
 
-    private int count;
+    EasyPathTask() {
+        //TODO give this task the drivetrain interface
+    }
 
     /**
      * Should be called once at the begining of the task
      */
     public void start() {
-        count = 0;
-        System.out.println("The testing task has started!");
+
     }
 
     /**
      * Should be called repeatedly while a task is being executed
      */
     public void execute() {
-        count++;
-        System.out.println("The testing task has executed " + count + " times!");
+
     }
 
     /**
@@ -37,23 +35,15 @@ public class TestTask implements TaskInterface {
      * @return whether the task is finished
      */
     public boolean isFinished() {
-
-        if (count >= 10){
-            System.out.println("The testing task is finished!");
-            System.out.println("count = " + count);
-            return true;
-        }
-        else {
-            return false;
-        }
+        return false;
     }
 
     //FIXME would be cool to make this link work:
     /**
-     * should be run once after {@link isFinished()} returns true
+     * Should be run once after {@link isFinished()} returns true
     */
     public void end() {
-        System.out.println("The testing task has ended!");
+
     }
 
 }

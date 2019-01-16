@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.autotasks;
 
 /**
  * interface for Task Objects
@@ -30,7 +30,7 @@ public interface TaskInterface {
 
     //FIXME would be cool to make this link work:
     /**
-     * should be run once after {@link isFinished()} returns true
+     * Should be run once after {@link isFinished()} returns true
     */
     public void end();
 
