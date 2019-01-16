@@ -9,7 +9,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 
-import frc.robot.autotasks.TestTask;
+import frc.robot.autotasks.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
