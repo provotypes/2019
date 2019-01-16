@@ -1,6 +1,3 @@
-<<<<<<< HEAD:src/main/java/frc/robot/TaskInterface.java
-package frc.robot;
-=======
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -9,7 +6,6 @@ package frc.robot;
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.autotasks;
->>>>>>> c12a73f974ff115f89b46ef0c7d537db044e804c:src/main/java/frc/robot/autotasks/TaskInterface.java
 
 /**
  * interface for Task Objects
