@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 
 public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain, DrivetrainInterface {
 
 
-
+                                                        // there are like a million MotorType objects
     static CANSparkMax front_left = new CANSparkMax(1 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
     static CANSparkMax rear_left = new CANSparkMax(2 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
 
@@ -61,13 +61,14 @@ public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain,
 
     @Override
     public double getCurrentAngle(){
-        //TODO fill this
-        return 0.0d;
+        return gyro.getAngle();
     }
 
     @Override
     public void resetEncodersAndGyro(){
-        //TODO fill this
+        encoderLeft.reset();
+        encoderRight.reset();
+        gyro.reset();
     }
 
     public double getLeftEncoderDistance() {
