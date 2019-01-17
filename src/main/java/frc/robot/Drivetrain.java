@@ -14,37 +14,34 @@ public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain,
 
 
 
-static CANSparkMax front_left = new CANSparkMax(1 , MotorType.kBrushless);
-static CANSparkMax rear_left = new CANSparkMax(2 , MotorType.kBrushless);
+    static CANSparkMax front_left = new CANSparkMax(1 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax rear_left = new CANSparkMax(2 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
 
-static SpeedControllerGroup left_a = new SpeedControllerGroup(front_left , rear_left);
+    static SpeedControllerGroup left_a = new SpeedControllerGroup(front_left , rear_left);
 
-static CANSparkMax front_right = new CANSparkMax(3 , MotorType.kBrushless);
-static CANSparkMax rear_right = new CANSparkMax(4 , MotorType.kBrushless);
+    static CANSparkMax front_right = new CANSparkMax(3 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax rear_right = new CANSparkMax(4 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
 
-static SpeedControllerGroup right_a = new SpeedControllerGroup( front_right , rear_right );
+    static SpeedControllerGroup right_a = new SpeedControllerGroup( front_right , rear_right );
 
-ADXRS450_Gyro gyro;
-Encoder encoderLeft, encoderRight;
+    ADXRS450_Gyro gyro;
+    Encoder encoderLeft, encoderRight;
 
-public static final double TICKS_PER_INCH = 2048 / (6 * Math.PI);
-public static final double DISTANCE_PER_PULSE = 1 / TICKS_PER_INCH;
-gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
-
-encoderLeft = new Encoder(2, 3);
-encoderRight = new Encoder(4, 5);
-
-
+    public static final double TICKS_PER_INCH = 2048 / (6 * Math.PI);
+    public static final double DISTANCE_PER_PULSE = 1 / TICKS_PER_INCH;
+    
 
     public Drivetrain() {
         super(left_a , right_a);
 
+        gyro = new ADXRS450_Gyro();
+
+        encoderLeft = new Encoder(2, 3);
+        encoderRight = new Encoder(4, 5);
+
         encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
-    encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
-    public double getLeftEncoderDistance() {
-    return encoderLeft.getDistance();
-    
-}
+        encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
+    }
 
     @Override
     public void setLeftRightDriveSpeed(double left, double right){
@@ -56,25 +53,7 @@ encoderRight = new Encoder(4, 5);
         arcadeDrive(speed, turn);
     }
 
-
-
-}
-
-public double getLeftEncoderDistance() {
-		return encoderLeft.getDistance();
-	}
-
-	public double getRightEncoderDistance() {
-		return encoderRight.getDistance();
-
-
-    */
-  
-
-
-
-
-@Override
+    @Override
     public double getInchesTraveled(){
 
         return 0.0d;
@@ -89,6 +68,14 @@ public double getLeftEncoderDistance() {
     @Override
     public void resetEncodersAndGyro(){
         //TODO fill this
+    }
+
+    public double getLeftEncoderDistance() {
+		return encoderLeft.getDistance();
+	}
+
+	public double getRightEncoderDistance() {
+		return encoderRight.getDistance();
     }
 
 }
