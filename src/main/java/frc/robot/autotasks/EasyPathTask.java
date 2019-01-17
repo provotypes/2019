@@ -7,27 +7,31 @@
 
 package frc.robot.autotasks;
 
+import easypath.FollowPath;
+
 /**
  * Add your docs here.
  */
 public class EasyPathTask implements TaskInterface {
 
-    EasyPathTask() {
-        //TODO give this task the drivetrain interface
+    FollowPath path;
+
+    EasyPathTask(FollowPath p) {
+        this.path = p;
     }
 
     /**
      * Should be called once at the begining of the task
      */
     public void start() {
-
+        path.initialize();
     }
 
     /**
      * Should be called repeatedly while a task is being executed
      */
     public void execute() {
-
+        path.execute();
     }
 
     /**
@@ -35,7 +39,7 @@ public class EasyPathTask implements TaskInterface {
      * @return whether the task is finished
      */
     public boolean isFinished() {
-        return false;
+        return path.isFinished();
     }
 
     //FIXME would be cool to make this link work:
@@ -43,7 +47,7 @@ public class EasyPathTask implements TaskInterface {
      * Should be run once after {@link isFinished()} returns true
     */
     public void end() {
-
+        path.end();
     }
 
 }
