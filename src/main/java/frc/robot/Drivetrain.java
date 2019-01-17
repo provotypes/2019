@@ -2,6 +2,8 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 
+import easypath.EasyPath;
+import easypath.EasyPathConfig;
 import easypath.EasyPathDriveTrain;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -27,12 +29,19 @@ public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain,
     ADXRS450_Gyro gyro;
     Encoder encoderLeft, encoderRight;
 
-    public static final double TICKS_PER_INCH = 2048 / (6 * Math.PI);
-    public static final double DISTANCE_PER_PULSE = 1 / TICKS_PER_INCH;
+    public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
+    public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
     
+    EasyPathConfig pathConfig = new EasyPathConfig(this::setLeftRightDriveSpeed, 
+    this::getInchesTraveled, 
+    this::getCurrentAngle, 
+    this::resetEncodersAndGyro, 
+    0.7);
 
     public Drivetrain() {
         super(left_a , right_a);
+
+        EasyPath.configure(pathConfig);
 
         gyro = new ADXRS450_Gyro();
 
@@ -55,8 +64,8 @@ public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain,
 
     @Override
     public double getInchesTraveled(){
-
-        return 0.0d;
+        // average
+        return ((getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0d);
     }
 
     @Override
