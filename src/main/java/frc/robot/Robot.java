@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot implements DrivetrainInterface {
-  AutoStuffDoer marcus = new AutoStuffDoer();
+  AutoStuffDoer marcus = new AutoStuffDoer(this);
   Drivetrain drivetrain = new Drivetrain();
 
   /**
@@ -71,5 +71,20 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   @Override
   public void setArcadeDriveSpeed(double speed, double turn) {
     drivetrain.setArcadeDriveSpeed(speed, turn);
+  }
+
+  @Override
+  public double getInchesTraveled() {
+    return drivetrain.getInchesTraveled();
+  }
+
+  @Override
+  public double getCurrentAngle() {
+    return drivetrain.getCurrentAngle();
+  }
+
+  @Override
+  public void resetEncodersAndGyro() {
+    drivetrain.resetEncodersAndGyro();
   }
 }

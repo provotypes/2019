@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain, DrivetrainInterface {
+public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
 
                                                         // there are like a million MotorType objects
     static CANSparkMax front_left = new CANSparkMax(1 , CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -29,19 +29,9 @@ public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain,
 
     public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
     public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
-    
-    EasyPathConfig pathConfig = new EasyPathConfig(
-        this::setLeftRightDriveSpeed, 
-        this::getInchesTraveled, 
-        this::getCurrentAngle, 
-        this::resetEncodersAndGyro, 
-        0.7
-    );
 
     public Drivetrain() {
         super(left_a , right_a);
-
-        EasyPath.configure(pathConfig);
 
         gyro = new ADXRS450_Gyro();
 

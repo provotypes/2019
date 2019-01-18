@@ -1,14 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import java.util.ArrayList;
 
+import easypath.EasyPath;
+import easypath.EasyPathConfig;
 import frc.robot.autotasks.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +19,7 @@ public class AutoStuffDoer {
     private String m_autoSelected;
     private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+    EasyPathConfig pathConfig;
 
     ArrayList<TaskInterface> taskList = new ArrayList<TaskInterface>();
     /** Keeps track of which task to run */
@@ -31,11 +27,23 @@ public class AutoStuffDoer {
     /** Keeps track of an individual tasks state */
     int taskState;
 
-    AutoStuffDoer(){
+    public AutoStuffDoer(DrivetrainInterface dt){
+        
+        pathConfig = new EasyPathConfig(
+            dt::setLeftRightDriveSpeed, 
+            dt::getInchesTraveled, 
+            dt::getCurrentAngle, 
+            dt::resetEncodersAndGyro, 
+            0.7
+        );
+
+        EasyPath.configure(pathConfig);
+        
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
 
+        //Testing
         taskList.add(new TestTask());
     }
 
