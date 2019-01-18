@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
 import easypath.EasyPath;
 import easypath.EasyPathConfig;
@@ -10,21 +11,18 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-
-
 public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain, DrivetrainInterface {
 
-
                                                         // there are like a million MotorType objects
-    static CANSparkMax front_left = new CANSparkMax(1 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    static CANSparkMax rear_left = new CANSparkMax(2 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax front_left = new CANSparkMax(1 , CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax rear_left = new CANSparkMax(2 , CANSparkMaxLowLevel.MotorType.kBrushless);
 
     static SpeedControllerGroup left_a = new SpeedControllerGroup(front_left , rear_left);
 
-    static CANSparkMax front_right = new CANSparkMax(3 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-    static CANSparkMax rear_right = new CANSparkMax(4 , com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax front_right = new CANSparkMax(3 , CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax rear_right = new CANSparkMax(4 , CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    static SpeedControllerGroup right_a = new SpeedControllerGroup( front_right , rear_right );
+    static SpeedControllerGroup right_a = new SpeedControllerGroup(front_right , rear_right);
 
     ADXRS450_Gyro gyro;
     Encoder encoderLeft, encoderRight;
@@ -32,11 +30,13 @@ public class Drivetrain extends DifferentialDrive implements EasyPathDriveTrain,
     public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
     public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
     
-    EasyPathConfig pathConfig = new EasyPathConfig(this::setLeftRightDriveSpeed, 
-    this::getInchesTraveled, 
-    this::getCurrentAngle, 
-    this::resetEncodersAndGyro, 
-    0.7);
+    EasyPathConfig pathConfig = new EasyPathConfig(
+        this::setLeftRightDriveSpeed, 
+        this::getInchesTraveled, 
+        this::getCurrentAngle, 
+        this::resetEncodersAndGyro, 
+        0.7
+    );
 
     public Drivetrain() {
         super(left_a , right_a);
