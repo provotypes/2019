@@ -30,6 +30,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   
   Joystick gamepadOperator = new Joystick(2);
 
+  private boolean ButtonPressed = false;
+
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -53,14 +56,17 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   @Override
   public void autonomousInit() {
+    
     marcus.autoInit();
+    
+    ButtonPressed = false;
+
   }
 
   /**
    * This function is called periodically during autonomous.
    */
 
-  private boolean ButtonPressed = false;
 
   @Override
   public void autonomousPeriodic() {
@@ -73,11 +79,11 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
     }
 
-  if(ButtonPressed = false){
+  if(ButtonPressed == false){
       
     marcus.runAuto();
 
-  }else {
+  } else {
       
     drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
 
