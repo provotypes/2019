@@ -7,7 +7,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -17,8 +20,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot implements DrivetrainInterface {
+  
   AutoStuffDoer marcus = new AutoStuffDoer(this);
+  
   Drivetrain drivetrain = new Drivetrain();
+  
+  Joystick gamepadDriver = new Joystick(1);
+  
+  Joystick gamepadOperator = new Joystick(2);
 
   /**
    * This function is run when the robot is first started up and should be
@@ -55,7 +64,13 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  drivetrain.arcadeDrive(gamepadDriver.getX() * .7, gamepadDriver.getY() * .7);
+
+
+
+  }
 
   /**
    * This function is called periodically during test mode.
@@ -87,4 +102,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   public void resetEncodersAndGyro() {
     drivetrain.resetEncodersAndGyro();
   }
+
+
+
+
+
+
 }
