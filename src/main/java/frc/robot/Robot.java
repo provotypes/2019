@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot implements DrivetrainInterface {
-  AutoStuffDoer marcus = new AutoStuffDoer(this);
+  AutoStuffDoer marcus = new AutoStuffDoer(this, new SendableChooser<>());
   Drivetrain drivetrain = new Drivetrain();
 
   /**

@@ -17,7 +17,7 @@ public class AutoStuffDoer {
     private static final String kDefaultAuto = "Default";
     private static final String kCustomAuto = "My Auto";
     private String m_autoSelected;
-    private final SendableChooser<String> m_chooser = new SendableChooser<>();
+    private final SendableChooser<String> m_chooser;
 
     EasyPathConfig pathConfig;
 
@@ -27,8 +27,10 @@ public class AutoStuffDoer {
     /** Keeps track of an individual tasks state */
     int taskState;
 
-    public AutoStuffDoer(DrivetrainInterface dt){
-        
+    public AutoStuffDoer(DrivetrainInterface dt, SendableChooser<String> chooser){
+
+        m_chooser = chooser;
+
         pathConfig = new EasyPathConfig(
             dt::setLeftRightDriveSpeed, 
             dt::getInchesTraveled, 
@@ -41,7 +43,7 @@ public class AutoStuffDoer {
         
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);
-        SmartDashboard.putData("Auto choices", m_chooser);
+        //SmartDashboard.putData("Auto choices", m_chooser);
 
         //Testing
         taskList.add(new TestTask());
