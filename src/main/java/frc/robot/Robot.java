@@ -56,9 +56,31 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   /**
    * This function is called periodically during autonomous.
    */
+
+  private boolean ButtonPressed = false;
+
   @Override
   public void autonomousPeriodic() {
+   
     marcus.runAuto();
+  
+  //This is the code that switches from autonomous to human controlled
+
+  if (gamepadDriver.getRawButtonPressed(2)){
+    
+      ButtonPressed = !ButtonPressed;
+
+    }
+
+  if(ButtonPressed = false){
+      
+    marcus.runAuto();
+
+  }else {
+      
+    drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
+
+    }
   }
 
   /**
@@ -69,7 +91,6 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
 
-  
 
   }
 
