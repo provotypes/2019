@@ -46,7 +46,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    SmartDashboard.putNumber("angle", drivetrain.getCurrentAngle());
+    SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
+  }
 
   @Override
   public void autonomousInit() {
@@ -61,8 +64,6 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   @Override
   public void autonomousPeriodic() {
-   
-    marcus.runAuto();
   
   //This is the code that switches from autonomous to human controlled
 
@@ -112,7 +113,6 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   @Override
   public double getInchesTraveled() {
-    SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
     return drivetrain.getInchesTraveled();
   }
 
