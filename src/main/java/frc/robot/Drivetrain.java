@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+//------------------------------------------------------------------------------------------
+
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
 
                                                         // there are like a million MotorType objects
@@ -22,6 +24,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
     static SpeedControllerGroup right_a = new SpeedControllerGroup(front_right , rear_right);
 
     ADXRS450_Gyro gyro;
+    
     Encoder encoderLeft, encoderRight;
 
     public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
