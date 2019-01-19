@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -90,6 +91,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   @Override
   public double getInchesTraveled() {
+    SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
     return drivetrain.getInchesTraveled();
   }
 

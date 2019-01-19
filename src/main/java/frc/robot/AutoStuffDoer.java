@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import easypath.EasyPath;
 import easypath.EasyPathConfig;
 import easypath.FollowPath;
-import easypath.Path;
 import easypath.PathUtil;
 import frc.robot.autotasks.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -50,6 +49,7 @@ public class AutoStuffDoer {
         
         //test path
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(10), 0.7)));
+        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
     }
 
     /**
