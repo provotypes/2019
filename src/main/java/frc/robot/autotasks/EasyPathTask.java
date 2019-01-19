@@ -16,7 +16,7 @@ public class EasyPathTask implements TaskInterface {
 
     FollowPath path;
 
-    EasyPathTask(FollowPath p) {
+    public EasyPathTask(FollowPath p) {
         this.path = p;
     }
 
