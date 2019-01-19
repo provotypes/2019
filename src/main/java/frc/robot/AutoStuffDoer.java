@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 import easypath.EasyPath;
 import easypath.EasyPathConfig;
-import easypath.FollowPath;
-import easypath.Path;
-import easypath.PathUtil;
 import frc.robot.autotasks.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,10 +43,8 @@ public class AutoStuffDoer {
         m_chooser.addOption("My Auto", kCustomAuto);
         SmartDashboard.putData("Auto choices", m_chooser);
 
-        
-        
-        //test path
-        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(10), 0.7)));
+        //Testing
+        taskList.add(new TestTask());
     }
 
     /**
