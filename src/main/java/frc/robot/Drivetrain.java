@@ -38,8 +38,13 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
     public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
 
     public Drivetrain() {
+        
         super(left_a , right_a);
-
+        
+        left_a.setInverted(true);
+        
+        right_a.setInverted(true);
+        
         gyro = new ADXRS450_Gyro();
 
         encoderLeft = new Encoder(2, 3);

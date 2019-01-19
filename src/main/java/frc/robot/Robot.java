@@ -66,9 +66,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   @Override
   public void teleopPeriodic() {
 
-  drivetrain.arcadeDrive(gamepadDriver.getX() * .7, gamepadDriver.getY() * .7);
+  drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
 
-
+  
 
   }
 
