@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-//------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
 
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
 
