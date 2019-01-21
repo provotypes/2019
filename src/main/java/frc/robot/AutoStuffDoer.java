@@ -48,8 +48,8 @@ public class AutoStuffDoer {
         
         
         //test path
-        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(10), 0.7)));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
+        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(10), 0.7)));
     }
 
     /**
