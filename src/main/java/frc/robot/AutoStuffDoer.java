@@ -36,7 +36,7 @@ public class AutoStuffDoer {
             dt::getInchesTraveled, 
             dt::getCurrentAngle, 
             dt::resetEncodersAndGyro, 
-            0.7
+            0.1
         );
 
         EasyPath.configure(pathConfig);

@@ -46,9 +46,10 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
         right_a.setInverted(true);
         
         gyro = new ADXRS450_Gyro();
+        gyro.calibrate();       //FIXME make a button do this
 
         encoderLeft = new Encoder(2, 3);
-        encoderRight = new Encoder(4, 5);
+        encoderRight = new Encoder(1, 0);
 
         encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
         encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);

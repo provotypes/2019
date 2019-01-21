@@ -21,10 +21,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot implements DrivetrainInterface {
+
   
-  AutoStuffDoer marcus = new AutoStuffDoer(this);
   
   Drivetrain drivetrain = new Drivetrain();
+
+  AutoStuffDoer marcus = new AutoStuffDoer(this);
   
   Joystick gamepadDriver = new Joystick(1);
   
@@ -52,6 +54,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   public void robotPeriodic() {
     SmartDashboard.putNumber("angle", drivetrain.getCurrentAngle());
     SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
+    
+    SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
+    SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
+
   }
 
   @Override
@@ -88,6 +94,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
     drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
 
     }
+  }
+
+  @Override
+  public void teleopInit() {
   }
 
   /**
