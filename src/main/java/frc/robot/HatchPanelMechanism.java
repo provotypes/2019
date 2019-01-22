@@ -11,50 +11,20 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
 public class HatchPanelMechanism {
-
    
     DoubleSolenoid arm = new DoubleSolenoid(1, 2);
 
     // This is the method that Brennon said we don't really need. I guess I'll just leave it for now.
-
-    public void solenoidOff(){
-
-    arm.set(DoubleSolenoid.Value.kOff);
-
+    public void armNeutral(){
+        arm.set(DoubleSolenoid.Value.kOff);
     }
     
     public void armOut(){    
-        
-    arm.set(DoubleSolenoid.Value.kForward);
-    
+        arm.set(DoubleSolenoid.Value.kForward);
     }
     
-    //armBack or armIn?
-    
-    public void armBack(){
-    
-    arm.set(DoubleSolenoid.Value.kReverse);
-    
+    public void armIn(){
+        arm.set(DoubleSolenoid.Value.kReverse);
     }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
