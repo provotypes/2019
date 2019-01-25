@@ -1,0 +1,99 @@
+diff --git a/src/main/java/easypath/FollowPath.java b/src/main/java/easypath/FollowPath.java
+index 1168843..325728e 100644
+--- a/src/main/java/easypath/FollowPath.java
++++ b/src/main/java/easypath/FollowPath.java
+@@ -146,6 +146,7 @@ public class FollowPath {
+    */
+   public void initialize() {
+     EasyPath.getConfig().getResetEncodersAndGyroFunction().run();
++    System.out.println("FollowPath initialize()");
+   }
+ 
+   /**
+diff --git a/src/main/java/frc/robot/AutoStuffDoer.java b/src/main/java/frc/robot/AutoStuffDoer.java
+index e025ab0..a163e7f 100644
+--- a/src/main/java/frc/robot/AutoStuffDoer.java
++++ b/src/main/java/frc/robot/AutoStuffDoer.java
+@@ -36,7 +36,7 @@ public class AutoStuffDoer {
+             dt::getInchesTraveled, 
+             dt::getCurrentAngle, 
+             dt::resetEncodersAndGyro, 
+-            0.7
++            0.1
+         );
+ 
+         EasyPath.configure(pathConfig);
+@@ -47,9 +47,16 @@ public class AutoStuffDoer {
+ 
+         
+         
+-        //test path
+-        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(10), 0.7)));
+-        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
++        // test path
++        // /*
++        
++        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(10), 0.6)));
++        taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.6)));
++        // */
++        // test
++
++        //taskList.add(new TestTask());
++
+     }
+ 
+     /**
+diff --git a/src/main/java/frc/robot/Drivetrain.java b/src/main/java/frc/robot/Drivetrain.java
+index 08551fb..02fc7f3 100644
+--- a/src/main/java/frc/robot/Drivetrain.java
++++ b/src/main/java/frc/robot/Drivetrain.java
+@@ -46,9 +46,10 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
+         right_a.setInverted(true);
+         
+         gyro = new ADXRS450_Gyro();
++        gyro.calibrate();       //FIXME make a button do this
+ 
+         encoderLeft = new Encoder(2, 3);
+-        encoderRight = new Encoder(4, 5);
++        encoderRight = new Encoder(1, 0);
+ 
+         encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
+         encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
+diff --git a/src/main/java/frc/robot/Robot.java b/src/main/java/frc/robot/Robot.java
+index e95ffed..e245a9e 100644
+--- a/src/main/java/frc/robot/Robot.java
++++ b/src/main/java/frc/robot/Robot.java
+@@ -52,6 +52,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
+   public void robotPeriodic() {
+     SmartDashboard.putNumber("angle", drivetrain.getCurrentAngle());
+     SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
++    
++    SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
++    SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
++
+   }
+ 
+   @Override
+@@ -90,6 +94,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
+     }
+   }
+ 
++  @Override
++  public void teleopInit() {
++  }
++
+   /**
+    * This function is called periodically during operator control.
+    */
+diff --git a/src/main/java/frc/robot/autotasks/EasyPathTask.java b/src/main/java/frc/robot/autotasks/EasyPathTask.java
+index 0010841..0e5189c 100644
+--- a/src/main/java/frc/robot/autotasks/EasyPathTask.java
++++ b/src/main/java/frc/robot/autotasks/EasyPathTask.java
+@@ -25,6 +25,7 @@ public class EasyPathTask implements TaskInterface {
+      */
+     public void start() {
+         path.initialize();
++        System.out.println("EasyPathTask start()");
+     }
+ 
+     /**

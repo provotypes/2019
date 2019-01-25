@@ -7,8 +7,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,8 +22,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * project.
  */
 public class Robot extends TimedRobot implements DrivetrainInterface {
-  AutoStuffDoer marcus = new AutoStuffDoer(this, new SendableChooser<>());
+
+
+
   Drivetrain drivetrain = new Drivetrain();
+
+  AutoController autoController = new AutoController(this, new SendableChooser<>());
+
+  Joystick gamepadDriver = new Joystick(1);
+
+  Joystick gamepadOperator = new Joystick(2);
+
+  private boolean ButtonPressed = false;
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -37,26 +52,65 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    SmartDashboard.putNumber("angle", drivetrain.getCurrentAngle());
+    SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
+
+    SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
+    SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
+
+  }
 
   @Override
   public void autonomousInit() {
-    marcus.autoInit();
+
+    autoController.autoInit();
+
+    ButtonPressed = false;
+
   }
 
   /**
    * This function is called periodically during autonomous.
    */
+
+
   @Override
   public void autonomousPeriodic() {
-    marcus.runAuto();
+
+  //This is the code that switches from autonomous to human controlled
+
+  if (gamepadDriver.getRawButtonPressed(2)){
+
+      ButtonPressed = !ButtonPressed;
+
+    }
+
+  if(ButtonPressed == false){
+
+    autoController.runAuto();
+
+  } else {
+
+    drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
+
+    }
+  }
+
+  @Override
+  public void teleopInit() {
   }
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() * 0.7);
+
+
+  }
 
   /**
    * This function is called periodically during test mode.
@@ -88,4 +142,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   public void resetEncodersAndGyro() {
     drivetrain.resetEncodersAndGyro();
   }
+
+
+
+
+
+
 }
