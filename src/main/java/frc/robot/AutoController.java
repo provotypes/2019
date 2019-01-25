@@ -30,7 +30,7 @@ public class AutoController {
     /** Keeps track of an individual tasks state */
     int taskState;
 
-    public AutoContoller(DrivetrainInterface dt, SendableChooser<String> chooser){
+    public AutoController(DrivetrainInterface dt, SendableChooser<String> chooser){
 
         m_chooser = chooser;
 
