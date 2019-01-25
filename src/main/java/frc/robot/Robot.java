@@ -26,7 +26,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   
   Drivetrain drivetrain = new Drivetrain();
 
-  AutoStuffDoer marcus = new AutoStuffDoer(this);
+  AutoController autoController = new AutoController(this);
   
   Joystick gamepadDriver = new Joystick(1);
   
@@ -63,7 +63,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   @Override
   public void autonomousInit() {
     
-    marcus.autoInit();
+    autoController.autoInit();
     
     ButtonPressed = false;
 
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   if(ButtonPressed == false){
       
-    marcus.runAuto();
+    autoController.runAuto();
 
   } else {
       

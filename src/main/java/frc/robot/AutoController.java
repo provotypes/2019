@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * The doer for auto stuff
  */
-public class AutoStuffDoer {
+public class AutoController {
 
     //Auto chooser things
     private static final String kDefaultAuto = "Default";
@@ -30,7 +30,7 @@ public class AutoStuffDoer {
     /** Keeps track of an individual tasks state */
     int taskState;
 
-    public AutoStuffDoer(DrivetrainInterface dt){
+    public AutoController(DrivetrainInterface dt){
         
         pathConfig = new EasyPathConfig(
             dt::setLeftRightDriveSpeed, 
