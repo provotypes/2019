@@ -62,6 +62,10 @@ repositories {
         name 'revrobotics'
         url 'http://www.revrobotics.com/content/sw/max/sdk/maven/'
     }
+    maven {
+        name 'ctr-electronics'
+        url 'http://devsite.ctr-electronics.com/maven/release/'
+    }
     mavenCentral()
 }
 

@@ -20,7 +20,7 @@ public class AutoStuffDoerTest {
             times = 1;
         }};
 
-        AutoStuffDoer autoStuffDoer = new AutoStuffDoer(drivetrainInterface, sendableChooser);
+        AutoController autoStuffDoer = new AutoController(drivetrainInterface, sendableChooser);
         autoStuffDoer.autoInit();
 
         assertEquals(0, autoStuffDoer.taskState);
