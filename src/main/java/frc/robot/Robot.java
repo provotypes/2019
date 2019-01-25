@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -22,14 +23,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot implements DrivetrainInterface {
 
-  
-  
+
+
   Drivetrain drivetrain = new Drivetrain();
 
-  AutoController autoController = new AutoController(this);
-  
+  AutoController autoController = new AutoController(this, new SendableChooser<>());
+
   Joystick gamepadDriver = new Joystick(1);
-  
+
   Joystick gamepadOperator = new Joystick(2);
 
   private boolean ButtonPressed = false;
@@ -54,7 +55,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   public void robotPeriodic() {
     SmartDashboard.putNumber("angle", drivetrain.getCurrentAngle());
     SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
-    
+
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
@@ -62,9 +63,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   @Override
   public void autonomousInit() {
-    
+
     autoController.autoInit();
-    
+
     ButtonPressed = false;
 
   }
@@ -76,21 +77,21 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   @Override
   public void autonomousPeriodic() {
-  
+
   //This is the code that switches from autonomous to human controlled
 
   if (gamepadDriver.getRawButtonPressed(2)){
-    
+
       ButtonPressed = !ButtonPressed;
 
     }
 
   if(ButtonPressed == false){
-      
+
     autoController.runAuto();
 
   } else {
-      
+
     drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
 
     }
