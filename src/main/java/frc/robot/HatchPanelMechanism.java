@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -14,7 +15,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class HatchPanelMechanism {
    
+    VictorSPX rollers = new VictorSPX(1);
+
     DoubleSolenoid arm = new DoubleSolenoid(1, 2);
+
+    DoubleSolenoid detach = new DoubleSolenoid(1, 2);
 
     //Arm Methonds
     public void armNeutral(){
@@ -29,8 +34,6 @@ public class HatchPanelMechanism {
         arm.set(DoubleSolenoid.Value.kReverse);
     }
 
-    DoubleSolenoid detach = new DoubleSolenoid(1, 2);
-
     //Detach Methonds
     public void detachNeutral(){
         detach.set(DoubleSolenoid.Value.kOff);
@@ -42,8 +45,20 @@ public class HatchPanelMechanism {
     
     public void detachIn(){
         detach.set(DoubleSolenoid.Value.kReverse); 
-    
-    
     }
+
+    //rollers
+    public void rollerIntake(){
+        rollers.set(ControlMode.PercentOutput, 0.5);
+    }
+
+    public void rollerReverse(){
+        rollers.set(ControlMode.PercentOutput, -0.5);
+    }
+
+    public void rollerStop(){
+        rollers.set(ControlMode.PercentOutput, 0);
+    }
+ 
 
 }
