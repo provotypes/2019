@@ -33,6 +33,8 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
   Joystick gamepadOperator = new Joystick(2);
 
+  VisionCom vision = new VisionCom();
+
   private boolean ButtonPressed = false;
 
 
@@ -41,7 +43,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
    * used for any initialization code.
    */
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    vision.beginCamera();
+  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -58,6 +62,8 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
 
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
+
+    vision.doStuff();
 
   }
 
@@ -121,6 +127,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   @Override
   public void setLeftRightDriveSpeed(double left, double right) {
     drivetrain.setLeftRightDriveSpeed(left, right);
+    
   }
 
   @Override
