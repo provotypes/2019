@@ -21,8 +21,8 @@ public class TeleopController {
     DrivetrainInterface driveTrain;
 
     //Controllers
-    private Joystick stick;
-    private LogitechGamepadController gamepad;
+    private Joystick stick = new Joystick(0);
+    private LogitechGamepadController gamepad = new LogitechGamepadController(1);
 
     //SendableChooser for Drive controller
     private static final String kFlightStickDrive = "Flight Stick Drive";

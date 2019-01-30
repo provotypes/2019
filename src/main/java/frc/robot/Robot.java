@@ -34,9 +34,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   TeleopController teleController = new TeleopController(this, panel, this);
 
 
-  Joystick gamepadDriver = new Joystick(10);
+  Joystick gamepadDriver = new Joystick(4);
 
-  Joystick gamepadOperator = new Joystick(20);
+  Joystick gamepadOperator = new Joystick(5);
 
   private boolean ButtonPressed = false;
 
