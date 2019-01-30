@@ -15,58 +15,62 @@ import edu.wpi.first.wpilibj.VictorSP;
 /**
  * Add your docs here.
  */
-public class cargoMechanism {
+public class CargoMechanism implements CargoMechanismInterface{
     //prototype code
     private VictorSP awkwardThirdWheel = new VictorSP(4);
     private VictorSP launcher = new VictorSP(5);
     private TalonSRX intakeBar = new TalonSRX(5);
 
 
+    @Override
     public void intakeBall(){
         intakeOn();
         awkwardThirdWheelOn();
     }
+    @Override
     public void intakeBallOff(){
         intakeOff();
         awkwardThirdWheelOff();
     }
 
+    @Override
     public void launchBall(){
         awkwardThirdWheelOn();
         launcherOn();
     }
+    @Override
     public void launchBallOff(){
         awkwardThirdWheelOff();
         launcherOff();
     }
 
     public void intakeOn(){
-        intakeBar.set(ControlMode.PercentOutput, 0.7);
+        intakeBar.set(ControlMode.PercentOutput, -0.7);
     }
     public void intakeOff(){
         intakeBar.set(ControlMode.PercentOutput, 0);
     }
     public void intakeReverse(){
-        intakeBar.set(ControlMode.PercentOutput, -0.7);
+        intakeBar.set(ControlMode.PercentOutput, 0.7);
     }
 
     public void awkwardThirdWheelOn(){
-        awkwardThirdWheel.set(0.9);
+        awkwardThirdWheel.set(-0.9);
     }
     public void awkwardThirdWheelOff(){
         awkwardThirdWheel.set(0);
     }
     public void awkwardThirdWheelReverse(){
-        awkwardThirdWheel.set(-0.9);
+        awkwardThirdWheel.set(0.9);
     }
 
     public void launcherOn(){
-        launcher.set(0.7);
+        launcher.set(-0.7);
     }
     public void launcherOff(){
         launcher.set(0);
     }
     public void launcherReverse(){
-        launcher.set(-0.7);
+        launcher.set(0.7);
     }
 }

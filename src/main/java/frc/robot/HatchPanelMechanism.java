@@ -21,6 +21,8 @@ public class HatchPanelMechanism {
 
     DoubleSolenoid detach = new DoubleSolenoid(1, 2);
 
+
+
     //Arm Methonds
     public void armNeutral(){
         arm.set(DoubleSolenoid.Value.kOff);
