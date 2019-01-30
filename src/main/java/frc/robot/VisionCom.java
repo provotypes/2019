@@ -18,7 +18,7 @@ public class VisionCom {
 	// C:\Users\casey\Documents\eclipse-workspace
 	// java -jar whitetapevision.jar http://10.68.44.2:5800/stream.mjpg
 	// java -jar whitetapevision.jar http://169.254.57.251:5800/stream.mjpg
-	private final String hostName = "10.68.44.80";
+	private final String hostName = "10.68.44.11";
 	private final int portNumber = 5801;
 
 	private final int CAMERA_ANGLE = 90;
@@ -29,9 +29,11 @@ public class VisionCom {
 
 	private double cubeAngle = 0;
 
+	private double width = 390;
+
 	public void beginCamera() {
 		source = CameraServer.getInstance().startAutomaticCapture();
-		source.setResolution(480, 320);
+		source.setResolution(390, 260);
 		source.setFPS(60);
 
 		server = CameraServer.getInstance().addServer("VisionCam", 5800);
@@ -75,17 +77,26 @@ public class VisionCom {
 		SmartDashboard.putNumber("exposure", exposure);
 	}
 
+	public void resetWidth(){
+		try {
+			double width = Integer.parseInt(get(Requests.WIDTH));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public void doStuff() {
 
 		try {
-			SmartDashboard.putString("vision cube distance", get(Requests.NEAREST_CUBE_DISTANCE));
-
-			double width = Integer.parseInt(get(Requests.WIDTH));
 			String cubeXY = get(Requests.NEAREST_CUBE);
 			double cubeX = Integer.parseInt(cubeXY.substring(0, cubeXY.indexOf(",")));
 			double cubeAngle = ((cubeX * CAMERA_ANGLE) / width) - (CAMERA_ANGLE / 2);
 
-			SmartDashboard.putNumber("angle", cubeAngle);
+			SmartDashboard.putNumber("line angle", cubeAngle);
 			SmartDashboard.putNumber("cubeX", cubeX);
 
 		} catch (IOException e) {

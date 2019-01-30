@@ -57,7 +57,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("angle", drivetrain.getCurrentAngle());
+    SmartDashboard.putNumber("gyro angle", drivetrain.getCurrentAngle());
     SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
 
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
