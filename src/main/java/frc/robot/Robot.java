@@ -21,17 +21,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot implements DrivetrainInterface {
+public class Robot extends TimedRobot implements DrivetrainInterface, CargoMechanismInterface {
 
 
 
   Drivetrain drivetrain = new Drivetrain();
+  CargoMechanism cargo = new CargoMechanism();
+
+  HatchPanelMechanism panel = new HatchPanelMechanism();
 
   AutoController autoController = new AutoController(this, new SendableChooser<>());
+  TeleopController teleController = new TeleopController(this, panel, this);
 
-  Joystick gamepadDriver = new Joystick(1);
 
-  Joystick gamepadOperator = new Joystick(2);
+  Joystick gamepadDriver = new Joystick(4);
+
+  Joystick gamepadOperator = new Joystick(5);
 
   VisionCom vision = new VisionCom();
 
@@ -113,7 +118,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
   @Override
   public void teleopPeriodic() {
 
-  drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() * 0.7);
+    teleController.runTeleop();
+
+    drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() * 0.7);
 
 
   }
@@ -150,8 +157,25 @@ public class Robot extends TimedRobot implements DrivetrainInterface {
     drivetrain.resetEncodersAndGyro();
   }
 
+  @Override
+  public void intakeBall() {
+    cargo.intakeBall();
+  }
 
+  @Override
+  public void intakeBallOff() {
+    cargo.intakeBallOff();
+  }
 
+  @Override
+  public void launchBall() {
+    cargo.launchBall();
+  }
+
+  @Override
+  public void launchBallOff() {
+    cargo.launchBallOff();
+  }
 
 
 
