@@ -45,13 +45,13 @@ public class CargoMechanism implements CargoMechanismInterface{
     }
 
     public void intakeOn(){
-        intakeBar.set(ControlMode.PercentOutput, -0.7);
+        intakeBar.set(ControlMode.PercentOutput, 0.7);
     }
     public void intakeOff(){
         intakeBar.set(ControlMode.PercentOutput, 0);
     }
     public void intakeReverse(){
-        intakeBar.set(ControlMode.PercentOutput, 0.7);
+        intakeBar.set(ControlMode.PercentOutput, -0.7);
     }
 
     public void awkwardThirdWheelOn(){
