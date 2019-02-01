@@ -19,7 +19,7 @@ public class HatchPanelMechanism {
 
     DoubleSolenoid arm = new DoubleSolenoid(2, 3);
 
-    DoubleSolenoid detach = new DoubleSolenoid(0, 1);
+    DoubleSolenoid detach = new DoubleSolenoid(1, 0);
 
 
 

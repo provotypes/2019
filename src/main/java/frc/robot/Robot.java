@@ -33,7 +33,6 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   AutoController autoController = new AutoController(this, new SendableChooser<>());
   TeleopController teleController = new TeleopController(this, panel, this);
 
-
   Joystick gamepadDriver = new Joystick(4);
 
   Joystick gamepadOperator = new Joystick(5);
@@ -46,7 +45,8 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
    * used for any initialization code.
    */
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
     teleController.runTeleop();
 
-    drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() * 0.7);
+    // drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() * 0.7);
 
 
   }
@@ -168,6 +168,11 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   @Override
   public void launchBallOff() {
     cargo.launchBallOff();
+  }
+
+  @Override
+  public void reverse(){
+    cargo.reverse();
   }
 
 

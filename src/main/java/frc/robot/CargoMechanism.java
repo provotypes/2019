@@ -44,6 +44,13 @@ public class CargoMechanism implements CargoMechanismInterface{
         launcherOff();
     }
 
+    @Override
+    public void reverse(){
+        launcherReverse();
+        awkwardThirdWheelReverse();
+        intakeReverse();
+    }
+
     public void intakeOn(){
         intakeBar.set(ControlMode.PercentOutput, 0.7);
     }
@@ -65,12 +72,12 @@ public class CargoMechanism implements CargoMechanismInterface{
     }
 
     public void launcherOn(){
-        launcher.set(-0.7);
+        launcher.set(-0.9);
     }
     public void launcherOff(){
         launcher.set(0);
     }
     public void launcherReverse(){
-        launcher.set(0.7);
+        launcher.set(0.9);
     }
 }
