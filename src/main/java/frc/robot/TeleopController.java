@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +20,8 @@ public class TeleopController {
     CargoMechanismInterface cargo;    
     HatchPanelMechanism panel;
     DrivetrainInterface driveTrain;
+
+    Compressor compressor = new Compressor();
 
     //Controllers
     private Joystick stick = new Joystick(0);
@@ -53,6 +56,8 @@ public class TeleopController {
         panel = p;
         driveTrain = d;
 
+        compressor.stop();
+
         driveChooser.setDefaultOption(kFlightStickDrive, kFlightStickDrive);
         driveChooser.addOption(kGamePadArcadeDrive, kGamePadArcadeDrive);
         driveChooser.addOption(kGamePadTankDrive, kGamePadTankDrive);
@@ -66,6 +71,11 @@ public class TeleopController {
         SideChooser.addOption(kLeftPreference, kLeftPreference);
         SideChooser.setDefaultOption(kRightPreference, kRightPreference);
         SmartDashboard.putData("Side Choice", SideChooser);
+
+        SmartDashboard.putNumber("rotate multiplier", rotateMultiplier);
+        SmartDashboard.putNumber("speed multiplier", speedMultiplier);
+
+
     }
 
     public void runTeleop(){
@@ -78,33 +88,52 @@ public class TeleopController {
 
         //Operate
         if (m_OperateSelected == kFlightStickOperate){
-        if (stick.getRawButton(2)){
-            cargo.intakeBall();
-        } else {
-            cargo.intakeBallOff();
-        }
+            if (stick.getRawButton(2)){
+                cargo.intakeBall();
+                compressor.stop();
+            } else {
+                cargo.intakeBallOff();
+                compressor.start();
+            }
 
-        if (stick.getRawButton(1)){
-            cargo.launchBall();
-        } else if(stick.getRawButton(11)){
-            cargo.launchBallOff();
-        } else {
-            cargo.launchBallOff();
-        }
-        } else {
-        if (gamepad.getLeftBumper()){
-            cargo.intakeBall();
-        } else {
-            cargo.intakeBallOff();
-        }
+            if (stick.getRawButton(1)){
+                cargo.launchBall();
+                compressor.stop();
+            } else if(stick.getRawButton(11)){
+                cargo.reverse();
+            } else {
+                cargo.launchBallOff();
+                compressor.start();
+            }
 
-        if (gamepad.getRightBumper()){
-            cargo.launchBall();
-        } else if(gamepad.getXButton()){
-            cargo.launchBallOff();
+            if (stick.getRawButtonPressed(5)){
+                panel.detachOut();
+            }
+            if (stick.getRawButtonPressed(3)){
+                panel.detachIn();
+            }
+            
+
         } else {
-            cargo.launchBallOff();
-        }
+            if (gamepad.getLeftBumper()){
+                cargo.intakeBall();
+            } else {
+                cargo.intakeBallOff();
+            }
+
+            if (gamepad.getRightBumper()){
+                cargo.launchBall();
+            } else if(gamepad.getXButton()){
+                cargo.reverse();
+            } else {
+                cargo.launchBallOff();
+            }
+
+            if (gamepad.getYButton()){
+                panel.detachOut();
+            } else if (gamepad.getAButton()){
+                panel.detachIn();
+            }
 
         }
 
@@ -146,12 +175,12 @@ public class TeleopController {
     }
 
     private void arcade(double speed, double rotation) {
-        double outSpeed = - speedMultiplier * speed;
+        double outSpeed = speedMultiplier * speed;
     
         // double outRotation = rotation * speed * rotateMultiplier;
         double outRotation = rotation * rotateMultiplier;
     
-        driveTrain.setArcadeDriveSpeed(outSpeed, outRotation);
+        driveTrain.setArcadeDriveSpeed(outSpeed, -outRotation);
       }
     
       private void tank(double left, double right) {

@@ -9,4 +9,6 @@ public interface CargoMechanismInterface{
     public void launchBall();
 
     public void launchBallOff();
+
+    public void reverse();
 }
