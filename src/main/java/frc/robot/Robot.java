@@ -67,6 +67,8 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
+    vision.updateExposure();
+
     // vision.doStuff();
 
   }
@@ -130,12 +132,12 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   @Override
   public void testPeriodic() {
     double turn = - vision.getAngleToCube() / 45;
-    if (turn > 0.65){
-      turn = 0.65;
-    } else if (turn < -0.65){
-      turn = -0.65;
+    if (turn > 0.7){
+      turn = 0.7;
+    } else if (turn < -0.7){
+      turn = -0.7;
     }
-    setArcadeDriveSpeed(0, turn);
+    setArcadeDriveSpeed(0.67, turn);
   }
 
   @Override
