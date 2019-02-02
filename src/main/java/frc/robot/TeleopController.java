@@ -56,7 +56,7 @@ public class TeleopController {
         panel = p;
         driveTrain = d;
 
-        compressor.stop();
+        compressor.start();
 
         driveChooser.setDefaultOption(kFlightStickDrive, kFlightStickDrive);
         driveChooser.addOption(kGamePadArcadeDrive, kGamePadArcadeDrive);
@@ -90,20 +90,20 @@ public class TeleopController {
         if (m_OperateSelected == kFlightStickOperate){
             if (stick.getRawButton(2)){
                 cargo.intakeBall();
-                compressor.stop();
+                // compressor.stop();
             } else {
                 cargo.intakeBallOff();
-                compressor.start();
+                // compressor.start();
             }
 
             if (stick.getRawButton(1)){
                 cargo.launchBall();
-                compressor.stop();
+                // compressor.stop();
             } else if(stick.getRawButton(11)){
                 cargo.reverse();
             } else {
                 cargo.launchBallOff();
-                compressor.start();
+                // compressor.start();
             }
 
             if (stick.getRawButtonPressed(5)){
