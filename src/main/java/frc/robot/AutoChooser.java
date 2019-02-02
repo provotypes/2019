@@ -6,7 +6,6 @@ import easypath.EasyPath;
 import easypath.EasyPathConfig;
 import easypath.FollowPath;
 import easypath.Path;
-import easypath.PathUtil;
 import frc.robot.autotasks.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * The doer for auto stuff
  */
-public class AutoController {
+public class AutoChooser {
 
     //Auto chooser things
     private static final String kDefaultAuto = "Default";
@@ -30,19 +29,10 @@ public class AutoController {
     /** Keeps track of an individual tasks state */
     int taskState;
 
-    public AutoController(DrivetrainInterface dt, SendableChooser<String> chooser){
+    public AutoChooser(DrivetrainInterface dt, SendableChooser<String> chooser){
 
         m_chooser = chooser;
 
-        pathConfig = new EasyPathConfig(
-            dt::setLeftRightDriveSpeed, 
-            dt::getInchesTraveled, 
-            dt::getCurrentAngle, 
-            dt::resetEncodersAndGyro, 
-            0.05
-        );
-
-        EasyPath.configure(pathConfig);
         
         m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
         m_chooser.addOption("My Auto", kCustomAuto);

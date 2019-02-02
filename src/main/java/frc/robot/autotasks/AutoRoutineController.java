@@ -1,15 +1,19 @@
 package frc.robot.autotasks;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import frc.robot.autotasks.TaskInterface;
 
-public class AutoRoutine implements TaskInterface {
+public class AutoRoutineController implements TaskInterface {
 
     private boolean isFinished;
 
-    ArrayList<TaskInterface> taskList;
+    List<TaskInterface> taskList;
     int curTaskIndex;
+
+    public AutoRoutineController(RoutineInterface routine){
+        taskList = routine.getTasks();
+    }
 
     public void addTask(TaskInterface task){
         taskList.add(task);

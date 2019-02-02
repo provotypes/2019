@@ -1,7 +1,7 @@
 package frc.robot.autotasks;
 
-import java.util.Queue;
+import java.util.List;
 
 public interface RoutineInterface extends TaskInterface {
-    Queue<TaskInterface> getTasks();
+    List<TaskInterface> getTasks();
 }

@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,67 +29,53 @@ public class TeleopController {
     private Joystick stick = new Joystick(0);
     private LogitechGamepadController gamepad = new LogitechGamepadController(1);
 
-    //SendableChooser for Drive controller
-    private static final String kFlightStickDrive = "Flight Stick Drive";
-    private static final String kGamePadArcadeDrive = "Game Pad Arcade Drive";
-    private static final String kGamePadTankDrive = "Game Pad Tank Drive";
-    private static final String kGamePadStickDrive = "Game Pad Stick Drive";
-    private String m_DriveSelected;
-    private final SendableChooser<String> driveChooser = new SendableChooser<>();
+    SendableChooser<String> driveChooser;
+    SendableChooser<String> operateChooser;
+    SendableChooser<String> sideChooser;
 
-    //SendableChooser for Operate controller
-    private static final String kFlightStickOperate = "Flight Stick Operate";
-    private static final String kGamePadOperate = "Game Pad Operate";
-    private String m_OperateSelected;
-    private final SendableChooser<String> operateChooser = new SendableChooser<>();
-
-    //SendableChooser for Side preference
-    private static final String kLeftPreference = "Left";
-    private static final String kRightPreference = "Right";
-    private String m_SidePreference;
-    private final SendableChooser<String> SideChooser = new SendableChooser<>();
+    private String driveSelected;
+    private String operateSelected;
+    private String sidePreference;
 
     private double rotateMultiplier = 0.6;
     private double speedMultiplier = 0.85;
 
+    private final Supplier<Double> rotateMultiplierSupplier;
+    private final Supplier<Double> speedMultiplierSupplier;
 
-    public TeleopController(CargoMechanismInterface c, HatchPanelMechanism p, DrivetrainInterface d){
+    public TeleopController(CargoMechanismInterface c, 
+                            HatchPanelMechanism p, 
+                            DrivetrainInterface d,
+                            SendableChooser<String> driveChooser,
+                            SendableChooser<String> operateChooser,
+                            SendableChooser<String> sideChooser,
+                            Supplier<Double> rotateMultiplierSupplier,
+                            Supplier<Double> speedMultiplierSupplier) {
         cargo = c;
         panel = p;
         driveTrain = d;
 
+        this.rotateMultiplierSupplier = rotateMultiplierSupplier;
+        this.speedMultiplierSupplier = speedMultiplierSupplier;
+
         compressor.stop();
 
-        driveChooser.setDefaultOption(kFlightStickDrive, kFlightStickDrive);
-        driveChooser.addOption(kGamePadArcadeDrive, kGamePadArcadeDrive);
-        driveChooser.addOption(kGamePadTankDrive, kGamePadTankDrive);
-        driveChooser.addOption(kGamePadStickDrive, kGamePadStickDrive);
-        SmartDashboard.putData("Drive Choice", driveChooser);
-
-        operateChooser.setDefaultOption(kFlightStickOperate, kFlightStickOperate);
-        operateChooser.addOption(kGamePadOperate, kGamePadOperate);
-        SmartDashboard.putData("Operate Choice", operateChooser);
-
-        SideChooser.addOption(kLeftPreference, kLeftPreference);
-        SideChooser.setDefaultOption(kRightPreference, kRightPreference);
-        SmartDashboard.putData("Side Choice", SideChooser);
-
-        SmartDashboard.putNumber("rotate multiplier", rotateMultiplier);
-        SmartDashboard.putNumber("speed multiplier", speedMultiplier);
+        //SmartDashboard.putNumber("rotate multiplier", tc.getRotateMultiplier);
+        //SmartDashboard.putNumber("speed multiplier", tc.getSpeedMultiplier);
 
 
     }
 
     public void runTeleop(){
-        m_DriveSelected = driveChooser.getSelected();
-        m_OperateSelected = operateChooser.getSelected();
-        m_SidePreference = SideChooser.getSelected();
+        driveSelected = driveChooser.getSelected();
+        operateSelected = operateChooser.getSelected();
+        sidePreference = sideChooser.getSelected();
 
-        rotateMultiplier = SmartDashboard.getNumber("rotate multiplier", 1);
-        speedMultiplier = SmartDashboard.getNumber("speed multiplier", 1);
+        rotateMultiplier = rotateMultiplierSupplier.get(); //SmartDashboard.getNumber("rotate multiplier", 1);
+        speedMultiplier = speedMultiplierSupplier.get(); //SmartDashboard.getNumber("speed multiplier", 1);
 
         //Operate
-        if (m_OperateSelected == kFlightStickOperate){
+        if (operateSelected == RobotInit.kFlightStickDrive){
             if (stick.getRawButton(2)){
                 cargo.intakeBall();
                 compressor.stop();
@@ -138,31 +126,31 @@ public class TeleopController {
         }
 
         //Drive
-        switch (m_DriveSelected) {
-        case kFlightStickDrive:
-            if (m_SidePreference == kLeftPreference) {
+        switch (driveSelected) {
+        case RobotInit.kFlightStickDrive:
+            if (sidePreference == RobotInit.kLeftPreference) {
             arcade(stick.getY(), stick.getZ());
-            } else if (m_SidePreference == kRightPreference){
+            } else if (sidePreference == RobotInit.kRightPreference){
             arcade(stick.getY(), stick.getX());
             }
             break;
 
-        case kGamePadArcadeDrive:
-        if (m_SidePreference == kLeftPreference) {
+        case RobotInit.kGamePadArcadeDrive:
+        if (sidePreference == RobotInit.kLeftPreference) {
             arcade(gamepad.getLeftY(), gamepad.getRightX());
-        } else if (m_SidePreference == kRightPreference){
+        } else if (sidePreference == RobotInit.kRightPreference){
             arcade(gamepad.getRightY(), gamepad.getLeftX());
         }
             break;
 
-        case kGamePadTankDrive:
+        case RobotInit.kGamePadTankDrive:
             tank(gamepad.getLeftY(), gamepad.getRightY());
             break;
 
-        case kGamePadStickDrive:
-        if (m_SidePreference == kLeftPreference) {
+        case RobotInit.kGamePadStickDrive:
+        if (sidePreference == RobotInit.kLeftPreference) {
             arcade(gamepad.getLeftY(), gamepad.getLeftX());
-        } else if (m_SidePreference == kRightPreference){
+        } else if (sidePreference == RobotInit.kRightPreference){
             arcade(gamepad.getRightY(), gamepad.getRightX());
         }
             break;

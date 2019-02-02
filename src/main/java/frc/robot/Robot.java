@@ -23,22 +23,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot implements DrivetrainInterface, CargoMechanismInterface {
 
-
-
   Drivetrain drivetrain = new Drivetrain();
   CargoMechanism cargo = new CargoMechanism();
 
   HatchPanelMechanism panel = new HatchPanelMechanism();
 
-  AutoController autoController = new AutoController(this, new SendableChooser<>());
-  TeleopController teleController = new TeleopController(this, panel, this);
+  AutoChooser autoChooser = new AutoChooser(this, new SendableChooser<>());
+  TeleopController teleController;
 
   Joystick gamepadDriver = new Joystick(4);
-
   Joystick gamepadOperator = new Joystick(5);
 
-  private boolean ButtonPressed = false;
-
+  private boolean autoTogglePressed = false;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -46,6 +42,14 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
    */
   @Override
   public void robotInit() {
+    RobotInit.init(drivetrain);
+    teleController = new TeleopController(this, panel, this, 
+      RobotInit.getDriveChooser(), 
+      RobotInit.getOperateChooser(), 
+      RobotInit.getSideChooser(), 
+      () -> SmartDashboard.getNumber("rotate multiplier", 1),
+      () -> SmartDashboard.getNumber("speed multiplier", 1));
+
   }
 
   /**
@@ -68,10 +72,12 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
   @Override
   public void autonomousInit() {
+    
+    //autoChooser.getRoutine();
 
-    autoController.autoInit();
+    //autoController.autoInit();
 
-    ButtonPressed = false;
+    autoTogglePressed = false;
 
   }
 
@@ -82,23 +88,16 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
   @Override
   public void autonomousPeriodic() {
-
-  //This is the code that switches from autonomous to human controlled
-
-  if (gamepadDriver.getRawButtonPressed(2)){
-
-      ButtonPressed = !ButtonPressed;
-
+    
+    //This is the code that switches from autonomous to human controlled
+    if (gamepadDriver.getRawButtonPressed(2)){
+      autoTogglePressed = !autoTogglePressed;
     }
 
-  if(ButtonPressed == false){
-
-    autoController.runAuto();
-
-  } else {
-
-    drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
-
+    if(autoTogglePressed == false){
+      autoChooser.runAuto();
+    } else {
+      drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
     }
   }
 
