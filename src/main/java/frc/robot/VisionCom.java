@@ -1,11 +1,8 @@
 package frc.robot;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.Socket;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
@@ -18,14 +15,17 @@ public class VisionCom {
 	// C:\Users\casey\Documents\eclipse-workspace
 	// java -jar whitetapevision.jar http://10.68.44.2:5800/stream.mjpg
 	// java -jar whitetapevision.jar http://169.254.57.251:5800/stream.mjpg
-	private final String hostName = "10.68.44.77";
-	private final int visionPortNumber = 5801;
+
+	private NetworkTableInstance inst;
+	private NetworkTable table;
+	private NetworkTableEntry nearestCube;
+
 
 	private final int CAMERA_ANGLE = 90;
 
 	private UsbCamera source;
 	private MjpegServer server;
-	private int exposure = 50;
+	private int exposure = 33;
 
 	private double width = 390;
 
@@ -39,6 +39,10 @@ public class VisionCom {
 		server = CameraServer.getInstance().addServer("VisionCam", 5800);
 		server.setSource(source);
 		server.getListenAddress();
+
+		inst = NetworkTableInstance.getDefault();
+	    table = inst.getTable("vision");
+	    nearestCube = table.getEntry("nearestCube");
 	}
 
 	public void updateExposure() {
@@ -54,20 +58,19 @@ public class VisionCom {
 	}
 
 	public void getStreamWidth() {
-		try {
-			width = Integer.parseInt(get(Requests.WIDTH));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void doStuff() {
-
 		updateExposure();
 		
-		String cubeXY = get(Requests.NEAREST_CUBE);
-		double cubeX = Integer.parseInt(cubeXY.substring(0, cubeXY.indexOf(",")));
+		String cubeXY = nearestCube.getString((width/2) + ",0");
+		double cubeX;
+		try {
+			cubeX = Integer.parseInt(cubeXY.substring(0, cubeXY.indexOf(",")));
+		} catch (Exception e) {
+			// e.printStackTrace();
+			cubeX = width/2;
+		}
 		double cubeAngle = ((cubeX * CAMERA_ANGLE) / width) - (CAMERA_ANGLE / 2);
 
 		SmartDashboard.putNumber("line angle", cubeAngle);
@@ -76,9 +79,14 @@ public class VisionCom {
 	}
 
 	public double getAngleToCube() {
-
-		String cubeXY = get(Requests.NEAREST_CUBE);
-		double cubeX = Integer.parseInt(cubeXY.substring(0, cubeXY.indexOf(",")));
+		String cubeXY = nearestCube.getString((width/2) + ",0");
+		double cubeX;
+		try {
+			cubeX = Integer.parseInt(cubeXY.substring(0, cubeXY.indexOf(",")));
+		} catch (Exception e) {
+			// e.printStackTrace();
+			cubeX = width/2;
+		}
 		double cubeAngle = ((cubeX * CAMERA_ANGLE) / width) - (CAMERA_ANGLE / 2);
 
 		return cubeAngle;
@@ -87,24 +95,6 @@ public class VisionCom {
 	public String get(int request) {
 
 		String output = "";
-		// connect
-		try {
-			Socket socket = new Socket(hostName, visionPortNumber);
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-			// send and receive
-			out.println(request);
-			// System.out.println("Server: " + in.readLine());
-			output = in.readLine();
-
-			socket.close();
-
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return output;
 
 	}

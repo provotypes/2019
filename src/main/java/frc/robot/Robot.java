@@ -67,7 +67,8 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
-    vision.updateExposure();
+    vision.doStuff();
+
 
     // vision.doStuff();
 
@@ -137,7 +138,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
     } else if (turn < -0.7){
       turn = -0.7;
     }
-    setArcadeDriveSpeed(0.67, turn);
+    setArcadeDriveSpeed(0.63, turn);
   }
 
   @Override
