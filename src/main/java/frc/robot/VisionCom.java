@@ -18,7 +18,7 @@ public class VisionCom {
 	// C:\Users\casey\Documents\eclipse-workspace
 	// java -jar whitetapevision.jar http://10.68.44.2:5800/stream.mjpg
 	// java -jar whitetapevision.jar http://169.254.57.251:5800/stream.mjpg
-	private final String hostName = "10.68.44.11";
+	private final String hostName = "10.68.44.77";
 	private final int visionPortNumber = 5801;
 
 	private final int CAMERA_ANGLE = 90;
