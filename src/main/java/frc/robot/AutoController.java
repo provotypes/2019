@@ -55,7 +55,7 @@ public class AutoController {
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(10), 0.7)));
         // */
-
+        
         taskList.add(new EasyPathTask(new FollowPath(new Path(t ->
 		/* {"start":{"x":0,"y":165},"mid1":{"x":46,"y":163},"mid2":{"x":51,"y":224},"end":{"x":100,"y":223}} */
 		(-375 * Math.pow(t, 2) + 378 * t + -6) / (255 * Math.pow(t, 2) + -246 * t + 138),
