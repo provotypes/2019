@@ -6,9 +6,10 @@ public class CargoMechanismTask implements TaskInterface {
 
     private CargoMechanismInterface mechanism;
     private boolean isShooting;
+    private boolean isFinished;
     private int numTicks;
     private int duration;
-
+    
     //TODO: make boolean isShooting into enum typeOfTask
     //TODO: make unit of duration variable seconds instead of ticks
 
@@ -26,19 +27,21 @@ public class CargoMechanismTask implements TaskInterface {
     @Override
     public void execute() {
 
-        while (numTicks < duration){
+        if (numTicks < duration){
             if (isShooting){
                 mechanism.launchBall();
             } else {
                 mechanism.intakeBall();
             }
+        } else {
+            end();
         }
         numTicks++;
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return isFinished;
     }
 
     @Override
@@ -48,6 +51,6 @@ public class CargoMechanismTask implements TaskInterface {
         } else {
             mechanism.intakeBallOff();
         }
+        isFinished = true;
     }
-
 }
