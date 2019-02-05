@@ -47,7 +47,7 @@ public class HatchPanelMechanism {
         detach.set(DoubleSolenoid.Value.kReverse); 
     }
 
-    //rollers
+    //Rollers
     public void rollerIntake(){
         rollers.set(ControlMode.PercentOutput, 0.5);
     }
