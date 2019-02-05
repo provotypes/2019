@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot implements DrivetrainInterface, CargoMechanismInterface {
+public class Robot extends TimedRobot implements DrivetrainInterface, CargoMechanismInterface , HatchPanelMechanismInterface{
 
 
 
@@ -31,7 +31,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   HatchPanelMechanism panel = new HatchPanelMechanism();
 
   AutoController autoController = new AutoController(this, new SendableChooser<>());
-  TeleopController teleController = new TeleopController(this, panel, this);
+  TeleopController teleController = new TeleopController(this, this, this);
 
   Joystick gamepadDriver = new Joystick(4);
 
@@ -173,6 +173,21 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   @Override
   public void reverse(){
     cargo.reverse();
+  }
+
+  @Override
+  public void floorPickup() {
+    panel.floorPickup();
+  }
+
+  @Override
+  public void stow() {
+    panel.stow();
+  }
+
+  @Override
+  public void deposit() {
+    panel.deposit();
   }
 
 
