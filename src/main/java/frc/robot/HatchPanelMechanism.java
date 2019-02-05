@@ -74,7 +74,7 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface{
     public void stow() {
         armIn();
         rollerStop();
-        detachNeutral();
+        detachIn();
     }
 
     @Override
