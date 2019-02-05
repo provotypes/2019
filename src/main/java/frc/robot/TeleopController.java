@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TeleopController {
 
     CargoMechanismInterface cargo;    
-    HatchPanelMechanism panel;
+    HatchPanelMechanismInterface panel;
     DrivetrainInterface driveTrain;
 
     Compressor compressor = new Compressor();
@@ -51,7 +51,7 @@ public class TeleopController {
     private double speedMultiplier = 0.85;
 
 
-    public TeleopController(CargoMechanismInterface c, HatchPanelMechanism p, DrivetrainInterface d){
+    public TeleopController(CargoMechanismInterface c, HatchPanelMechanismInterface p, DrivetrainInterface d){
         cargo = c;
         panel = p;
         driveTrain = d;
@@ -107,10 +107,10 @@ public class TeleopController {
             }
 
             if (stick.getRawButtonPressed(5)){
-                panel.detachOut();
+                panel.deposit();
             }
             if (stick.getRawButtonPressed(3)){
-                panel.detachIn();
+                panel.stow();
             }
             
 
@@ -130,9 +130,9 @@ public class TeleopController {
             }
 
             if (gamepad.getYButton()){
-                panel.detachOut();
+                panel.deposit();
             } else if (gamepad.getAButton()){
-                panel.detachIn();
+                panel.stow();
             }
 
         }
