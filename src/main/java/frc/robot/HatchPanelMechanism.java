@@ -8,12 +8,13 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
-public class HatchPanelMechanism {
+public class HatchPanelMechanism implements HatchPanelMechanismInterface{ 
    
     VictorSPX rollers = new VictorSPX(1);
 
@@ -60,6 +61,28 @@ public class HatchPanelMechanism {
 
     public void rollerStop(){
         rollers.set(ControlMode.PercentOutput, 0);
+    }
+
+    @Override
+    public void floorPickup() {
+        armOut();
+        rollerIntake();
+        detachIn();
+    }
+
+    @Override
+    public void stow() {
+        armIn();
+        rollerStop();
+        detachNeutral();
+    }
+
+    @Override
+    public void deposit() {
+        armIn();
+        rollerStop();
+        detachOut();
+        
     }
  
 
