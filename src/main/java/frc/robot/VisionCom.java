@@ -6,32 +6,37 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class VisionCom {
+public class VisionCom extends Thread{
 
 	// http://10.68.44.2:5800/stream.mjpg
 	// C:\Users\casey\Documents\eclipse-workspace
 	// java -jar whitetapevision.jar http://10.68.44.2:5800/stream.mjpg
 	// java -jar whitetapevision.jar http://169.254.57.251:5800/stream.mjpg
-	private final String hostName = "10.68.44.77";
+
+	private final String hostName = "10.68.44.5"; // static IP for the driver station
 	private final int visionPortNumber = 5801;
 
 	private final int CAMERA_ANGLE = 90;
 
 	private UsbCamera source;
 	private MjpegServer server;
-	private int exposure = 50;
+	private int exposure = 33;
 
-	private double width = 390;
+	private double width = 320;
+	private double lineAngle = 0;
+	private double lineCount = 0;
 
 	public void beginCamera() {
 		source = CameraServer.getInstance().startAutomaticCapture();
-		source.setResolution(390, 260);
+		source.setResolution(320, 240);
 		source.setFPS(60);
 		source.setExposureManual(exposure);
 		SmartDashboard.putNumber("exposure", exposure);
@@ -39,6 +44,76 @@ public class VisionCom {
 		server = CameraServer.getInstance().addServer("VisionCam", 5800);
 		server.setSource(source);
 		server.getListenAddress();
+	}
+
+	@Override
+	public void run(){
+		while(!isInterrupted()) {
+			updateExposure();
+			double[] LineInfo = getLineInfo();
+			lineAngle = LineInfo[0];
+
+		}
+	}
+
+	public double getLineAngle() {
+		return lineAngle;
+	}
+
+	public double getLineCount() {
+		return lineCount;
+	}
+
+	public double[] getLineInfo(){
+		Timer t = new Timer();
+		t.reset();
+		t.start();
+		double LineAngle;
+		double lineNum;
+		try {
+			String lineXY = get(Requests.NEAREST_LINE);
+			int lineX = Integer.parseInt(lineXY.substring(0, lineXY.indexOf(",")));
+			lineNum = Integer.parseInt(lineXY.substring(lineXY.indexOf(";") + 1));
+			LineAngle = ((lineX * CAMERA_ANGLE) / width) - (CAMERA_ANGLE / 2);
+		} catch (Exception e) {
+			lineNum = Double.NaN;
+			LineAngle = Double.NaN;
+		}
+
+		SmartDashboard.putNumber("line num", lineNum);
+		
+		SmartDashboard.putNumber("vision com time", t.get());
+
+		return new double[] {LineAngle, lineNum};
+	}
+
+	public String get(int request) {
+
+		String output = "";
+		// connect
+		try {
+			Socket socket = new Socket(hostName, visionPortNumber);
+			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+			socket.setSoTimeout(40);
+
+			// send and receive
+			out.println(request);
+			// System.out.println("Server: " + in.readLine());
+			output = in.readLine();
+
+			socket.close();
+
+		} catch (ConnectException e) {
+			e.printStackTrace();
+		} catch (SocketTimeoutException e){
+			System.out.println("conection to vision code timeout");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return output;
+
 	}
 
 	public void updateExposure() {
@@ -57,56 +132,8 @@ public class VisionCom {
 		try {
 			width = Integer.parseInt(get(Requests.WIDTH));
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public void doStuff() {
-
-		updateExposure();
-		
-		String cubeXY = get(Requests.NEAREST_CUBE);
-		double cubeX = Integer.parseInt(cubeXY.substring(0, cubeXY.indexOf(",")));
-		double cubeAngle = ((cubeX * CAMERA_ANGLE) / width) - (CAMERA_ANGLE / 2);
-
-		SmartDashboard.putNumber("line angle", cubeAngle);
-		SmartDashboard.putNumber("line X", cubeX);
-
-	}
-
-	public double getAngleToCube() {
-
-		String cubeXY = get(Requests.NEAREST_CUBE);
-		double cubeX = Integer.parseInt(cubeXY.substring(0, cubeXY.indexOf(",")));
-		double cubeAngle = ((cubeX * CAMERA_ANGLE) / width) - (CAMERA_ANGLE / 2);
-
-		return cubeAngle;
-	}
-
-	public String get(int request) {
-
-		String output = "";
-		// connect
-		try {
-			Socket socket = new Socket(hostName, visionPortNumber);
-			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-			// send and receive
-			out.println(request);
-			// System.out.println("Server: " + in.readLine());
-			output = in.readLine();
-
-			socket.close();
-
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return output;
-
 	}
 
 }

@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -22,8 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot implements DrivetrainInterface, CargoMechanismInterface {
-
-
 
   Drivetrain drivetrain = new Drivetrain();
   CargoMechanism cargo = new CargoMechanism();
@@ -41,23 +38,24 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
   private boolean ButtonPressed = false;
 
-
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
     vision.beginCamera();
+    vision.start();
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
@@ -67,10 +65,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
-    vision.updateExposure();
-
-    // vision.doStuff();
-
+    SmartDashboard.putNumber("line angle", vision.getLineAngle());
   }
 
   @Override
@@ -86,25 +81,24 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
    * This function is called periodically during autonomous.
    */
 
-
   @Override
   public void autonomousPeriodic() {
 
-  //This is the code that switches from autonomous to human controlled
+    // This is the code that switches from autonomous to human controlled
 
-  if (gamepadDriver.getRawButtonPressed(2)){
+    if (gamepadDriver.getRawButtonPressed(2)) {
 
       ButtonPressed = !ButtonPressed;
 
     }
 
-  if(ButtonPressed == false){
+    if (ButtonPressed == false) {
 
-    autoController.runAuto();
+      autoController.runAuto();
 
-  } else {
+    } else {
 
-    drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
+      drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
 
     }
   }
@@ -121,8 +115,8 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
     teleController.runTeleop();
 
-    // drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() * 0.7);
-
+    // drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() *
+    // 0.7);
 
   }
 
@@ -131,19 +125,28 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
    */
   @Override
   public void testPeriodic() {
-    double turn = - vision.getAngleToCube() / 45;
-    if (turn > 0.7){
-      turn = 0.7;
-    } else if (turn < -0.7){
-      turn = -0.7;
-    }
-    setArcadeDriveSpeed(0.67, turn);
+    if (vision.getLineCount() < 1.0) {
+      double turn = -vision.getLineAngle() / 45;
+      if (turn > 0.7) {
+        turn = 0.7;
+      } else if (turn < -0.7) {
+        turn = -0.7;
+      }
+
+      setArcadeDriveSpeed(0.67, turn);
+
+    } else {
+      panel.detachOut();
+      setArcadeDriveSpeed(-0.68, 0.0);
+    } 
+
+
   }
 
   @Override
   public void setLeftRightDriveSpeed(double left, double right) {
     drivetrain.setLeftRightDriveSpeed(left, right);
-    
+
   }
 
   @Override
@@ -187,10 +190,8 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   }
 
   @Override
-  public void reverse(){
+  public void reverse() {
     cargo.reverse();
   }
-
-
 
 }
