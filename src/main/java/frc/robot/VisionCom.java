@@ -32,7 +32,7 @@ public class VisionCom extends Thread{
 
 	private double width = 320;
 	private double lineAngle = 0;
-	private double lineCount = 0;
+	private double lineCount = Double.NaN;
 
 	public void beginCamera() {
 		source = CameraServer.getInstance().startAutomaticCapture();
@@ -50,9 +50,11 @@ public class VisionCom extends Thread{
 	public void run(){
 		while(!isInterrupted()) {
 			updateExposure();
-			double[] LineInfo = getLineInfo();
-			lineAngle = LineInfo[0];
-
+			double[] lineInfo = getLineInfo();
+			lineAngle = lineInfo[0];
+			lineCount = lineInfo[1];
+			SmartDashboard.putNumber("line num", lineCount);
+		
 		}
 	}
 
@@ -79,11 +81,8 @@ public class VisionCom extends Thread{
 			lineNum = Double.NaN;
 			LineAngle = Double.NaN;
 		}
-
-		SmartDashboard.putNumber("line num", lineNum);
 		
 		SmartDashboard.putNumber("vision com time", t.get());
-
 		return new double[] {LineAngle, lineNum};
 	}
 

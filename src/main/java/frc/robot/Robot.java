@@ -120,12 +120,23 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
   }
 
+
+  boolean testing = false;
+  @Override
+  public void testInit() {
+    testing = false;
+  }
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    if (vision.getLineCount() < 1.0) {
+    // /*
+    double lineCount = vision.getLineCount();
+    if (Double.isNaN(lineCount)){
+      lineCount = 1.0;
+    }
+    if (lineCount > 0 && !testing) {
       double turn = -vision.getLineAngle() / 45;
       if (turn > 0.7) {
         turn = 0.7;
@@ -136,10 +147,12 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
       setArcadeDriveSpeed(0.67, turn);
 
     } else {
+      testing = true;
       panel.detachOut();
       setArcadeDriveSpeed(-0.68, 0.0);
     } 
-
+    // */
+    // panel.detachOut();
 
   }
 
