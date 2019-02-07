@@ -107,7 +107,7 @@ public class VisionCom extends Thread{
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		} catch (SocketTimeoutException e){
-			System.out.println("conection to vision code timeout");
+			// System.out.println("conection to vision code timeout");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
