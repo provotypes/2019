@@ -228,4 +228,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
     panel.deposit();
   }
 
+  @Override
+  public void periodic() {
+    panel.periodic();
+  }
+
 }

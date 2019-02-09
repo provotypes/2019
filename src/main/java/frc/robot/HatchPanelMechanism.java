@@ -15,15 +15,38 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
 public class HatchPanelMechanism implements HatchPanelMechanismInterface{ 
-   
     VictorSPX rollers = new VictorSPX(1);
-
     DoubleSolenoid arm = new DoubleSolenoid(2, 3);
-
     DoubleSolenoid detach = new DoubleSolenoid(1, 0);
 
 
+    @Override
+    public void periodic() {
+        
+    }
 
+    @Override
+    public void floorPickup() {
+        armOut();
+        rollerIntake();
+        detachIn();
+    }
+
+    @Override
+    public void stow() {
+        armIn();
+        rollerStop();
+        detachIn();
+    }
+
+    @Override
+    public void deposit() {
+        armIn();
+        rollerStop();
+        detachOut();
+        
+    }
+ 
     //Arm Methonds
     public void armNeutral(){
         arm.set(DoubleSolenoid.Value.kOff);
@@ -62,28 +85,5 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface{
     public void rollerStop(){
         rollers.set(ControlMode.PercentOutput, 0);
     }
-
-    @Override
-    public void floorPickup() {
-        armOut();
-        rollerIntake();
-        detachIn();
-    }
-
-    @Override
-    public void stow() {
-        armIn();
-        rollerStop();
-        detachIn();
-    }
-
-    @Override
-    public void deposit() {
-        armIn();
-        rollerStop();
-        detachOut();
-        
-    }
- 
 
 }

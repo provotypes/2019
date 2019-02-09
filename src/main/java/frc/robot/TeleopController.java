@@ -86,6 +86,8 @@ public class TeleopController {
         rotateMultiplier = SmartDashboard.getNumber("rotate multiplier", 1);
         speedMultiplier = SmartDashboard.getNumber("speed multiplier", 1);
 
+        panel.periodic();
+
         //Operate
         if (m_OperateSelected == kFlightStickOperate){
             if (stick.getRawButton(2)){
