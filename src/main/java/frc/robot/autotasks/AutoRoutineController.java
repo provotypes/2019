@@ -11,8 +11,8 @@ public class AutoRoutineController implements TaskInterface {
     List<TaskInterface> taskList;
     int curTaskIndex;
 
-    public AutoRoutineController(RoutineInterface routine){
-        taskList = routine.getTasks();
+    public AutoRoutineController(List<TaskInterface> taskList){
+        this.taskList = taskList;
     }
 
     public void addTask(TaskInterface task){
