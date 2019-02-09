@@ -90,7 +90,7 @@ public class TeleopController {
 
         //Operate
         if (m_OperateSelected == kFlightStickOperate){
-            if (stick.getRawButton(2)){
+            if (stick.getRawButton(ControllerButtons.cargoIntake)){
                 cargo.intakeBall();
                 // compressor.stop();
             } else {
@@ -98,23 +98,25 @@ public class TeleopController {
                 // compressor.start();
             }
 
-            if (stick.getRawButton(1)){
+            if (stick.getRawButton(ControllerButtons.cargoLaunch)){
                 cargo.launchBall();
                 // compressor.stop();
-            } else if(stick.getRawButton(11)){
+            } else if(stick.getRawButton(ControllerButtons.cargoReverse)){
                 cargo.reverse();
             } else {
                 cargo.launchBallOff();
                 // compressor.start();
             }
 
-            if (stick.getRawButtonPressed(5)){
+            if (stick.getRawButtonPressed(ControllerButtons.panelDetach)){
                 panel.deposit();
             }
-            if (stick.getRawButtonPressed(3)){
+            if (stick.getRawButtonPressed(ControllerButtons.pannelStow)){
                 panel.stow();
             }
-            
+            if (stick.getRawButtonPressed(ControllerButtons.panelFloorPickup)){
+                panel.floorPickup();
+            }
 
         } else {
             if (gamepad.getLeftBumper()){
