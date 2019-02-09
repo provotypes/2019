@@ -19,32 +19,44 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface{
     DoubleSolenoid arm = new DoubleSolenoid(2, 3);
     DoubleSolenoid detach = new DoubleSolenoid(1, 0);
 
+    States state = States.stow;
+   
 
     @Override
     public void periodic() {
-        
+       
+        switch (state) {
+       
+        case floorPickup : 
+            armOut();
+            rollerIntake();
+            detachIn();
+            break;
+        case stow : 
+            armIn();
+            rollerStop();
+            detachIn();
+            break;
+        case deposit:
+            armIn();
+            rollerStop();
+            detachOut();
+       }
     }
 
     @Override
     public void floorPickup() {
-        armOut();
-        rollerIntake();
-        detachIn();
+        state = States.floorPickup;
     }
 
     @Override
     public void stow() {
-        armIn();
-        rollerStop();
-        detachIn();
+        state = States.stow;
     }
 
     @Override
     public void deposit() {
-        armIn();
-        rollerStop();
-        detachOut();
-        
+        state = States.deposit;   
     }
  
     //Arm Methonds
@@ -84,6 +96,12 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface{
 
     public void rollerStop(){
         rollers.set(ControlMode.PercentOutput, 0);
+    }
+
+    private enum States{
+        floorPickup,
+        stow,
+        deposit,
     }
 
 }
