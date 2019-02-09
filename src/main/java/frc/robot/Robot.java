@@ -45,7 +45,9 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   @Override
   public void robotInit() {
     vision.beginCamera();
-    vision.start();
+    // vision.start();
+    SmartDashboard.putBoolean("calibrate gyro", false);
+    drivetrain.calibrateGyro();
   }
 
   /**
@@ -66,6 +68,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
     SmartDashboard.putNumber("line angle", vision.getLineAngle());
+    if (SmartDashboard.getBoolean("calibrate gyro", false)) {
+      drivetrain.calibrateGyro();
+      SmartDashboard.putBoolean("calibrate gyro", false);
+    }
   }
 
   @Override
