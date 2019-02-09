@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autotasks.AutoRoutineController;
+import frc.robot.autotasks.*;
 
 
 /**
@@ -28,7 +30,10 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
   HatchPanelMechanism panel = new HatchPanelMechanism();
 
-  AutoChooser autoChooser = new AutoChooser(this, new SendableChooser<>());
+  TaskInterface autoRoutine;
+  /** Keeps track of auto */
+  int taskState;
+
   TeleopController teleController;
 
   Joystick gamepadDriver = new Joystick(4);
@@ -72,13 +77,11 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
   @Override
   public void autonomousInit() {
-    
-    //autoChooser.getRoutine();
+    autoRoutine = AutoChooser.getChosenAuto();
 
-    //autoController.autoInit();
+    autoRoutine.start();
 
     autoTogglePressed = false;
-
   }
 
   /**
@@ -88,17 +91,23 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
   @Override
   public void autonomousPeriodic() {
-    
-    //This is the code that switches from autonomous to human controlled
+  if (!autoRoutine.isFinished()) {
+    autoRoutine.execute();
+  } 
+  else {
+    autoRoutine.end();
+  }
+
+    /* //This is the code that switches from autonomous to human controlled
     if (gamepadDriver.getRawButtonPressed(2)){
       autoTogglePressed = !autoTogglePressed;
     }
 
     if(autoTogglePressed == false){
-      autoChooser.runAuto();
     } else {
       drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
-    }
+    } 
+    // */
   }
 
   @Override

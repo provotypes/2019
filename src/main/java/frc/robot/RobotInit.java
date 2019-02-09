@@ -23,6 +23,11 @@ public class RobotInit {
     public static final String kRightPreference = "Right";
     private static final SendableChooser<String> sideChooser = new SendableChooser<>();
 
+    //SendableChooser for Auto 
+    public static final String kDefaultAuto = "Default";
+    public static final String kCustomAuto = "My Auto";
+    private static final SendableChooser<String> AutoChooser = new SendableChooser<>();
+
     public static void init(DrivetrainInterface drivetrain){
         driveChooser.setDefaultOption(kFlightStickDrive, kFlightStickDrive);
         driveChooser.addOption(kGamePadArcadeDrive, kGamePadArcadeDrive);
@@ -37,6 +42,10 @@ public class RobotInit {
         sideChooser.addOption(kLeftPreference, kLeftPreference);
         sideChooser.setDefaultOption(kRightPreference, kRightPreference);
         SmartDashboard.putData("Side Choice", sideChooser);
+
+        AutoChooser.setDefaultOption("Default Auto", kDefaultAuto);
+        AutoChooser.addOption("My Auto", kCustomAuto);
+        SmartDashboard.putData("Auto Choice", AutoChooser);
 
         EasyPathConfig pathConfig = new EasyPathConfig(
             drivetrain::setLeftRightDriveSpeed, 
@@ -58,6 +67,10 @@ public class RobotInit {
 
     public static SendableChooser<String> getSideChooser(){
         return sideChooser;
+    }
+
+    public static SendableChooser<String> getAutoChooser(){
+        return AutoChooser;
     }
 }
 

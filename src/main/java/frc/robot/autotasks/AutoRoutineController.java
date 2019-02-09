@@ -21,22 +21,27 @@ public class AutoRoutineController implements TaskInterface {
 
     @Override
     public void start() {
+        isFinished = false;
         curTaskIndex = 0;
         taskList.get(curTaskIndex).start();
     }
 
     @Override
     public void execute() {
-        if (!taskList.get(curTaskIndex).isFinished()){
-            taskList.get(curTaskIndex).execute();
-        } else {
-            curTaskIndex += 1;
-            if (taskList.size() > curTaskIndex){
-                taskList.get(curTaskIndex).start();
+        if (!isFinished){
+            if (!taskList.get(curTaskIndex).isFinished()){
+                taskList.get(curTaskIndex).execute();
             } else {
-                end();
+                taskList.get(curTaskIndex).end();
+                curTaskIndex += 1;
+                if (taskList.size() > curTaskIndex){
+                    taskList.get(curTaskIndex).start();
+                } else {
+                    isFinished = true;
+                }
             }
         }
+        
     }
 
     @Override

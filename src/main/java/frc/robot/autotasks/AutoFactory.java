@@ -28,6 +28,7 @@ public class AutoFactory {
     public static List<TaskInterface> makeAuto1(){
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
+        // taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         return taskList;
     }
 
