@@ -92,7 +92,7 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
 
     // This is the code that switches from autonomous to human controlled
 
-    if (gamepadDriver.getRawButtonPressed(2)) {
+    if (gamepadDriver.getRawButtonPressed(ControllerButtons.autoSwitch)) {
 
       ButtonPressed = !ButtonPressed;
 
