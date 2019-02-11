@@ -13,15 +13,13 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
-public class HatchPanelMechanism {
+public class HatchPanelMechanism implements HatchPanelMechanismInterface {
    
     VictorSPX rollers = new VictorSPX(1);
 
     DoubleSolenoid arm = new DoubleSolenoid(2, 3);
 
     DoubleSolenoid detach = new DoubleSolenoid(1, 0);
-
-
 
     //Arm Methonds
     public void armNeutral(){
@@ -60,6 +58,21 @@ public class HatchPanelMechanism {
 
     public void rollerStop(){
         rollers.set(ControlMode.PercentOutput, 0);
+    }
+
+    @Override
+    public void floorPickup() {
+
+    }
+
+    @Override
+    public void stow() {
+
+    }
+
+    @Override
+    public void deposit() {
+
     }
  
 
