@@ -23,12 +23,12 @@ import frc.robot.autotasks.*;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot implements DrivetrainInterface, CargoMechanismInterface {
 
-  Drivetrain drivetrain = new Drivetrain();
-  CargoMechanism cargo = new CargoMechanism();
+public class Robot extends TimedRobot {
 
-  HatchPanelMechanism panel = new HatchPanelMechanism();
+  DrivetrainInterface drivetrain = new Drivetrain();
+  CargoMechanismInterface cargo = new CargoMechanism();
+  HatchPanelMechanismInterface panel = new HatchPanelMechanism();
 
   TaskInterface autoRoutine;
   /** Keeps track of auto */
@@ -48,12 +48,13 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
   @Override
   public void robotInit() {
     RobotInit.init(drivetrain);
-    teleController = new TeleopController(this, panel, this, 
+    teleController = new TeleopController(drivetrain, panel, cargo, 
       RobotInit.getDriveChooser(), 
-      RobotInit.getOperateChooser(), 
+      RobotInit.getOperateChooser(),
       RobotInit.getSideChooser(), 
       () -> SmartDashboard.getNumber("rotate multiplier", 1),
-      () -> SmartDashboard.getNumber("speed multiplier", 1));
+      () -> SmartDashboard.getNumber("speed multiplier", 1)
+    );
 
   }
 
@@ -132,57 +133,4 @@ public class Robot extends TimedRobot implements DrivetrainInterface, CargoMecha
    */
   @Override
   public void testPeriodic() {}
-
-  @Override
-  public void setLeftRightDriveSpeed(double left, double right) {
-    drivetrain.setLeftRightDriveSpeed(left, right);
-  }
-
-  @Override
-  public void setArcadeDriveSpeed(double speed, double turn) {
-    drivetrain.setArcadeDriveSpeed(speed, turn);
-  }
-
-  @Override
-  public double getInchesTraveled() {
-    return drivetrain.getInchesTraveled();
-  }
-
-  @Override
-  public double getCurrentAngle() {
-    return drivetrain.getCurrentAngle();
-  }
-
-  @Override
-  public void resetEncodersAndGyro() {
-    drivetrain.resetEncodersAndGyro();
-  }
-
-  @Override
-  public void intakeBall() {
-    cargo.intakeBall();
-  }
-
-  @Override
-  public void intakeBallOff() {
-    cargo.intakeBallOff();
-  }
-
-  @Override
-  public void launchBall() {
-    cargo.launchBall();
-  }
-
-  @Override
-  public void launchBallOff() {
-    cargo.launchBallOff();
-  }
-
-  @Override
-  public void reverse(){
-    cargo.reverse();
-  }
-
-
-
 }
