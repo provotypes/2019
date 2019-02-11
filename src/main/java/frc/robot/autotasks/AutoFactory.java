@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import easypath.FollowPath;
+import easypath.Path;
 import easypath.PathUtil;
+
 import frc.robot.CargoMechanismInterface;
 import frc.robot.DrivetrainInterface;
 import frc.robot.HatchPanelMechanismInterface;
-
-import frc.robot.autotasks.EasyPathTask;
-import frc.robot.autotasks.HatchMechanismTask;
-import frc.robot.autotasks.CargoMechanismTask;
 
 public class AutoFactory {
 
@@ -25,14 +23,14 @@ public class AutoFactory {
         this.cargoMech = cg;
     }
 
-    public static List<TaskInterface> makeAuto1(){
+    public List<TaskInterface> straightPath(){
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         // taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         return taskList;
     }
 
-    public static List<TaskInterface> rightStartCloseRightBay() {
+    public List<TaskInterface> rightStartCloseRightBay() {
         // Right side start - Close right bay.
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
 
@@ -42,13 +40,13 @@ public class AutoFactory {
         196.337),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         return taskList;
     }
 
-    public static List<TaskInterface> rightSideMiddleRightBay(){
+    public List<TaskInterface> rightSideMiddleRightBay(){
         // Right side start - Middle right bay.
 
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -58,13 +56,13 @@ public class AutoFactory {
         204.813),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         return taskList;
     }
 
-    public static List<TaskInterface> rightStartFarRightBay(){
+    public List<TaskInterface> rightStartFarRightBay(){
         //Right side start - Far right bay.
         
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -74,14 +72,14 @@ public class AutoFactory {
         222.275),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
     }
 
-    public static List<TaskInterface> middleStartRightBay(){
+    public List<TaskInterface> middleStartRightBay(){
         //Middle Start - Right bay.
        
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -91,14 +89,14 @@ public class AutoFactory {
         93.143),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
     }
 
-    public static List<TaskInterface> middleStartLeftBay(){
+    public List<TaskInterface> middleStartLeftBay(){
         //Middle Stat - Left bay.
        
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -108,14 +106,14 @@ public class AutoFactory {
         94.171),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
     }
 
-    public static List<TaskInterface> leftSideCloserLeftBay(){
+    public List<TaskInterface> leftSideCloserLeftBay(){
         //Left Side - Closer Left Bay.
 
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -125,14 +123,14 @@ public class AutoFactory {
         182.969),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
     }
 
-    public static List<TaskInterface> leftSideMiddleLeftBay(){
+    public List<TaskInterface> leftSideMiddleLeftBay(){
         //Left Side - Middle Left Bay.
 
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -142,14 +140,14 @@ public class AutoFactory {
         210.089),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
     }
 
-    public static List<TaskInterface> leftSideFarLeftBay(){
+    public List<TaskInterface> leftSideFarLeftBay(){
         //Left Side - Far Left Bay.
         
         List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -159,8 +157,8 @@ public class AutoFactory {
         235.634),
         0.7)));
 
-        taskList.add(new VisionLineUpTask());
-        tasklist.add(new HatchMechanismTask());
+        //taskList.add(new VisionLineUpTask());
+        taskList.add(new HatchMechanismTask());
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;

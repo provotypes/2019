@@ -4,27 +4,32 @@ import java.util.ArrayList;
 
 import frc.robot.autotasks.*;
 
-
 /**
- * The class to get the chosen auto 
+ * The class to translate the SmartDashboard input to an AutoRoutine object 
  */
 public class AutoChooser {
 
     ArrayList<TaskInterface> taskList = new ArrayList<TaskInterface>();
 
-    public static AutoRoutineController getChosenAuto(){
+    AutoFactory autoFactory;
+
+    public AutoChooser(AutoFactory factory){
+        autoFactory = factory;
+    }
+
+    public AutoRoutine getChosenAuto(){
         String autoSelected = RobotInit.getAutoChooser().getSelected();
         System.out.println("Auto selected: " + autoSelected);
 
-        AutoRoutineController chosenRoutine;
+        AutoRoutine chosenRoutine;
 
         switch (autoSelected) {
             case RobotInit.kCustomAuto:
-              chosenRoutine = new AutoRoutineController(AutoFactory.makeAuto1());
+              chosenRoutine = new AutoRoutine(autoFactory.rightStartFarRightBay());
               break;
             case RobotInit.kDefaultAuto:
             default:
-                chosenRoutine = new AutoRoutineController(AutoFactory.makeAuto1());
+                chosenRoutine = new AutoRoutine(autoFactory.straightPath());
               break;
         }
         
@@ -32,5 +37,3 @@ public class AutoChooser {
     }
 
 }
-
-
