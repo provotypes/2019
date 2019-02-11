@@ -8,19 +8,64 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
-public class HatchPanelMechanism implements HatchPanelMechanismInterface {
-   
+public class HatchPanelMechanism implements HatchPanelMechanismInterface { 
+    /* //prototype robot
     VictorSPX rollers = new VictorSPX(1);
-
     DoubleSolenoid arm = new DoubleSolenoid(2, 3);
+    DoubleSolenoid detach = new DoubleSolenoid(0, 1);
+    // */
 
-    DoubleSolenoid detach = new DoubleSolenoid(1, 0);
+    VictorSPX rollers = new VictorSPX(1);
+    DoubleSolenoid detach = new DoubleSolenoid(2, 6, 7);
+    DoubleSolenoid arm = new DoubleSolenoid(0, 2, 3);
 
+
+    States state = States.stow;
+   
+
+    @Override
+    public void periodic() {
+       
+        switch (state) {
+       
+        case floorPickup : 
+            armOut();
+            rollerIntake();
+            detachIn();
+            break;
+        case stow : 
+            armIn();
+            rollerStop();
+            detachIn();
+            break;
+        case deposit:
+            armIn();
+            rollerStop();
+            detachOut();
+       }
+    }
+
+    @Override
+    public void floorPickup() {
+        state = States.floorPickup;
+    }
+
+    @Override
+    public void stow() {
+        state = States.stow;
+    }
+
+    @Override
+    public void deposit() {
+        state = States.deposit;   
+    }
+ 
     //Arm Methonds
     public void armNeutral(){
         arm.set(DoubleSolenoid.Value.kOff);
@@ -47,7 +92,7 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
         detach.set(DoubleSolenoid.Value.kReverse); 
     }
 
-    //rollers
+    //Rollers
     public void rollerIntake(){
         rollers.set(ControlMode.PercentOutput, 0.5);
     }
@@ -60,20 +105,10 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
         rollers.set(ControlMode.PercentOutput, 0);
     }
 
-    @Override
-    public void floorPickup() {
-
+    private enum States{
+        floorPickup,
+        stow,
+        deposit,
     }
-
-    @Override
-    public void stow() {
-
-    }
-
-    @Override
-    public void deposit() {
-
-    }
- 
 
 }

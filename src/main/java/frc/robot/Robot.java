@@ -31,19 +31,20 @@ public class Robot extends TimedRobot {
   TaskInterface visionAutoTask;
   /** Keeps track of auto */
   int taskState;
-
-  TeleopController teleController;
   
   AutoChooser autoChooser;
+  TeleopController teleController;
 
   Joystick gamepadDriver = new Joystick(4);
   Joystick gamepadOperator = new Joystick(5);
 
+  VisionCom vision = new VisionCom();
+
   private boolean autoTogglePressed = false;
 
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
@@ -59,24 +60,34 @@ public class Robot extends TimedRobot {
     autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo));
 
       //visionAutoTask = new VisionLineUpTask();
+    vision.beginCamera();
+    // vision.start();
+    SmartDashboard.putBoolean("calibrate gyro", false);
+    drivetrain.calibrateGyro();
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("angle", drivetrain.getCurrentAngle());
+    SmartDashboard.putNumber("gyro angle", drivetrain.getCurrentAngle());
     SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
 
     SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
     SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
+    SmartDashboard.putNumber("line angle", vision.getLineAngle());
+    if (SmartDashboard.getBoolean("calibrate gyro", false)) {
+      drivetrain.calibrateGyro();
+      SmartDashboard.putBoolean("calibrate gyro", false);
+    }
   }
 
   @Override
@@ -129,6 +140,8 @@ public class Robot extends TimedRobot {
     if (gamepadDriver.getRawButtonPressed(2)){
       autoTogglePressed = !autoTogglePressed;
     }
+    // drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() *
+    // 0.7);
 
     if(!autoTogglePressed){
       visionState = 0;
@@ -143,9 +156,40 @@ public class Robot extends TimedRobot {
     } */
   }
 
+
+  boolean testing = false;
+  @Override
+  public void testInit() {
+    testing = false;
+  }
   /**
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    // /*
+    double lineCount = vision.getLineCount();
+    if (Double.isNaN(lineCount)){
+      lineCount = 1.0;
+    }
+    if (lineCount > 0 && !testing) {
+      double turn = -vision.getLineAngle() / 45;
+      if (turn > 0.7) {
+        turn = 0.7;
+      } else if (turn < -0.7) {
+        turn = -0.7;
+      }
+
+      drivetrain.setArcadeDriveSpeed(0.67, turn);
+
+    } else {
+      testing = true;
+      panel.detachOut();
+      drivetrain.setArcadeDriveSpeed(-0.68, 0.0);
+    } 
+    // */
+    // panel.detachOut();
+
+  }
+
 }

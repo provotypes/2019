@@ -57,8 +57,9 @@ public class TeleopController {
 
         this.rotateMultiplierSupplier = rotateMultiplierSupplier;
         this.speedMultiplierSupplier = speedMultiplierSupplier;
+        compressor.start();
 
-        compressor.stop();
+        // compressor.stop();
 
         //SmartDashboard.putNumber("rotate multiplier", tc.getRotateMultiplier);
         //SmartDashboard.putNumber("speed multiplier", tc.getSpeedMultiplier);
@@ -74,33 +75,37 @@ public class TeleopController {
         rotateMultiplier = rotateMultiplierSupplier.get(); //SmartDashboard.getNumber("rotate multiplier", 1);
         speedMultiplier = speedMultiplierSupplier.get(); //SmartDashboard.getNumber("speed multiplier", 1);
 
+        panel.periodic();
+
         //Operate
         if (operateSelected == RobotInit.kFlightStickDrive){
-            if (stick.getRawButton(2)){
+            if (stick.getRawButton(ControllerButtons.cargoIntake)){
                 cargo.intakeBall();
-                compressor.stop();
+                // compressor.stop();
             } else {
                 cargo.intakeBallOff();
-                compressor.start();
+                // compressor.start();
             }
 
-            if (stick.getRawButton(1)){
+            if (stick.getRawButton(ControllerButtons.cargoLaunch)){
                 cargo.launchBall();
-                compressor.stop();
-            } else if(stick.getRawButton(11)){
+                // compressor.stop();
+            } else if(stick.getRawButton(ControllerButtons.cargoReverse)){
                 cargo.reverse();
             } else {
                 cargo.launchBallOff();
-                compressor.start();
+                // compressor.start();
             }
 
-            if (stick.getRawButtonPressed(5)){
-                panel.detachOut();
+            if (stick.getRawButtonPressed(ControllerButtons.panelDetach)){
+                panel.deposit();
             }
-            if (stick.getRawButtonPressed(3)){
-                panel.detachIn();
+            if (stick.getRawButtonPressed(ControllerButtons.pannelStow)){
+                panel.stow();
             }
-            
+            if (stick.getRawButtonPressed(ControllerButtons.panelFloorPickup)){
+                panel.floorPickup();
+            }
 
         } else {
             if (gamepad.getLeftBumper()){
@@ -118,9 +123,9 @@ public class TeleopController {
             }
 
             if (gamepad.getYButton()){
-                panel.detachOut();
+                panel.deposit();
             } else if (gamepad.getAButton()){
-                panel.detachIn();
+                panel.stow();
             }
 
         }
