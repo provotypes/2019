@@ -4,14 +4,14 @@ import java.util.List;
 
 import frc.robot.autotasks.TaskInterface;
 
-public class AutoRoutineController implements TaskInterface {
+public class AutoRoutine implements TaskInterface {
 
     private boolean isFinished;
 
     List<TaskInterface> taskList;
     int curTaskIndex;
 
-    public AutoRoutineController(List<TaskInterface> taskList){
+    public AutoRoutine(List<TaskInterface> taskList){
         this.taskList = taskList;
     }
 
