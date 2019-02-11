@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autotasks.*;
 
@@ -57,7 +56,7 @@ public class Robot extends TimedRobot {
       () -> SmartDashboard.getNumber("speed multiplier", 1)
     );
 
-    autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo));
+    autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo, vision));
 
       //visionAutoTask = new VisionLineUpTask();
     vision.beginCamera();
@@ -188,7 +187,6 @@ public class Robot extends TimedRobot {
       drivetrain.setArcadeDriveSpeed(-0.68, 0.0);
     } 
     // */
-    // panel.detachOut();
 
   }
 

@@ -10,17 +10,21 @@ import easypath.PathUtil;
 import frc.robot.CargoMechanismInterface;
 import frc.robot.DrivetrainInterface;
 import frc.robot.HatchPanelMechanismInterface;
+import frc.robot.VisionCom;
 
 public class AutoFactory {
 
     DrivetrainInterface drivetrain;
     HatchPanelMechanismInterface hatchPanelMech;
     CargoMechanismInterface cargoMech;
+    VisionCom vision;
 
-    public AutoFactory(DrivetrainInterface dt, HatchPanelMechanismInterface hp, CargoMechanismInterface cg) {
+    public AutoFactory(DrivetrainInterface dt, HatchPanelMechanismInterface hp, CargoMechanismInterface cg, VisionCom v) {
         this.drivetrain = dt;
         this.hatchPanelMech = hp;
         this.cargoMech = cg;
+        this.vision = v;
+
     }
 
     public List<TaskInterface> straightPath(){
@@ -40,8 +44,8 @@ public class AutoFactory {
         196.337),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         return taskList;
     }
@@ -56,8 +60,8 @@ public class AutoFactory {
         204.813),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
         return taskList;
     }
@@ -72,8 +76,8 @@ public class AutoFactory {
         222.275),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
@@ -89,8 +93,8 @@ public class AutoFactory {
         93.143),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
@@ -106,8 +110,8 @@ public class AutoFactory {
         94.171),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
@@ -123,8 +127,8 @@ public class AutoFactory {
         182.969),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
@@ -140,8 +144,8 @@ public class AutoFactory {
         210.089),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;
@@ -157,8 +161,8 @@ public class AutoFactory {
         235.634),
         0.7)));
 
-        //taskList.add(new VisionLineUpTask());
-        taskList.add(new HatchMechanismTask());
+        taskList.add(new VisionLineUpTask(drivetrain, vision));
+        taskList.add(new HatchMechanismTask(hatchPanelMech));
         taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 
         return taskList;

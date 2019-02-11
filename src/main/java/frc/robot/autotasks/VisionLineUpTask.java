@@ -7,9 +7,7 @@
 
 package frc.robot.autotasks;
 
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.DrivetrainInterface;
-import frc.robot.HatchPanelMechanismInterface;
 import frc.robot.VisionCom;
 
 /**
