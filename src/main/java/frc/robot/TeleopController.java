@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TeleopController {
 
     CargoMechanismInterface cargo;    
-    HatchPanelMechanism panel;
+    HatchPanelMechanismInterface panel;
     DrivetrainInterface driveTrain;
 
     Compressor compressor = new Compressor();
@@ -43,9 +43,9 @@ public class TeleopController {
     private final Supplier<Double> rotateMultiplierSupplier;
     private final Supplier<Double> speedMultiplierSupplier;
 
-    public TeleopController(CargoMechanismInterface c, 
-                            HatchPanelMechanism p, 
-                            DrivetrainInterface d,
+    public TeleopController(DrivetrainInterface d, 
+                            HatchPanelMechanismInterface p, 
+                            CargoMechanismInterface c,
                             SendableChooser<String> driveChooser,
                             SendableChooser<String> operateChooser,
                             SendableChooser<String> sideChooser,
