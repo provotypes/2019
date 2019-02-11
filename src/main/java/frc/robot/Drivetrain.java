@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
 
-    /* spark max (neo motors)
+    // /* spark max (neo motors)
                                                         // there are like a million MotorType objects
     static CANSparkMax front_left = new CANSparkMax(1 , CANSparkMaxLowLevel.MotorType.kBrushless);
     static CANSparkMax rear_left = new CANSparkMax(2 , CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -24,10 +24,10 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
     static CANSparkMax rear_right = new CANSparkMax(4 , CANSparkMaxLowLevel.MotorType.kBrushless);
 
     static SpeedControllerGroup right_a = new SpeedControllerGroup(front_right , rear_right);
-    */
+    // */
 
-    static SpeedControllerGroup left_a = new SpeedControllerGroup(new Spark(0) , new Spark(1));
-    static SpeedControllerGroup right_a = new SpeedControllerGroup(new Spark(2) , new Spark(3));
+    // static SpeedControllerGroup left_a = new SpeedControllerGroup(new Spark(0) , new Spark(1));
+    // static SpeedControllerGroup right_a = new SpeedControllerGroup(new Spark(2) , new Spark(3));
 
 
     ADXRS450_Gyro gyro;

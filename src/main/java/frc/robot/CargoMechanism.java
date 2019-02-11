@@ -9,23 +9,34 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
 /**
  * Add your docs here.
  */
 public class CargoMechanism implements CargoMechanismInterface{
-    //prototype code
+    /* //prototype code
     private VictorSP awkwardThirdWheel = new VictorSP(4);
     private VictorSP launcher = new VictorSP(5);
     private TalonSRX intakeBar = new TalonSRX(5);
+    // */
+
+    private TalonSRX awkwardThirdWheel = new TalonSRX(6);
+    private TalonSRX launcher = new TalonSRX(4);
+    VictorSPX intakeBar = new VictorSPX(2);
+    DoubleSolenoid hood = new DoubleSolenoid(0, 6, 7);
+    DoubleSolenoid arm = new DoubleSolenoid(0, 4, 5);
+
 
 
     @Override
     public void intakeBall(){
-        intakeOn();
         awkwardThirdWheelOn();
+        intakeOn();
+        
     }
     @Override
     public void intakeBallOff(){
@@ -62,22 +73,22 @@ public class CargoMechanism implements CargoMechanismInterface{
     }
 
     public void awkwardThirdWheelOn(){
-        awkwardThirdWheel.set(-0.9);
+        awkwardThirdWheel.set(ControlMode.PercentOutput, -0.9);
     }
     public void awkwardThirdWheelOff(){
-        awkwardThirdWheel.set(0);
+        awkwardThirdWheel.set(ControlMode.PercentOutput, 0);
     }
     public void awkwardThirdWheelReverse(){
-        awkwardThirdWheel.set(0.9);
+        awkwardThirdWheel.set(ControlMode.PercentOutput, 0.9);
     }
 
     public void launcherOn(){
-        launcher.set(-0.9);
+        launcher.set(ControlMode.PercentOutput, -0.9);
     }
     public void launcherOff(){
-        launcher.set(0);
+        launcher.set(ControlMode.PercentOutput, 0);
     }
     public void launcherReverse(){
-        launcher.set(0.9);
+        launcher.set(ControlMode.PercentOutput, 0.9);
     }
 }

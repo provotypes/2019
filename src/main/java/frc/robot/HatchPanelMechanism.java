@@ -15,9 +15,16 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 
 public class HatchPanelMechanism implements HatchPanelMechanismInterface{ 
+    /* //prototype robot
     VictorSPX rollers = new VictorSPX(1);
     DoubleSolenoid arm = new DoubleSolenoid(2, 3);
-    DoubleSolenoid detach = new DoubleSolenoid(1, 0);
+    DoubleSolenoid detach = new DoubleSolenoid(0, 1);
+    // */
+
+    VictorSPX rollers = new VictorSPX(1);
+    DoubleSolenoid detach = new DoubleSolenoid(2, 6, 7);
+    DoubleSolenoid arm = new DoubleSolenoid(0, 2, 3);
+
 
     States state = States.stow;
    
