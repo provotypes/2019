@@ -12,9 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.autotasks.AutoRoutineController;
 import frc.robot.autotasks.*;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,7 +21,6 @@ import frc.robot.autotasks.*;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-
 public class Robot extends TimedRobot {
 
   DrivetrainInterface drivetrain = new Drivetrain();
@@ -31,10 +28,13 @@ public class Robot extends TimedRobot {
   HatchPanelMechanismInterface panel = new HatchPanelMechanism();
 
   TaskInterface autoRoutine;
+  TaskInterface visionAutoTask;
   /** Keeps track of auto */
   int taskState;
 
   TeleopController teleController;
+  
+  AutoChooser autoChooser;
 
   Joystick gamepadDriver = new Joystick(4);
   Joystick gamepadOperator = new Joystick(5);
@@ -56,6 +56,9 @@ public class Robot extends TimedRobot {
       () -> SmartDashboard.getNumber("speed multiplier", 1)
     );
 
+    autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo));
+
+      //visionAutoTask = new VisionLineUpTask();
   }
 
   /**
@@ -78,35 +81,32 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    autoRoutine = AutoChooser.getChosenAuto();
-
-    autoRoutine.start();
-
     autoTogglePressed = false;
+
+    autoRoutine = autoChooser.getChosenAuto();
+    autoRoutine.start();
   }
 
   /**
    * This function is called periodically during autonomous.
    */
-
-
   @Override
   public void autonomousPeriodic() {
-  if (!autoRoutine.isFinished()) {
-    autoRoutine.execute();
-  } 
-  else {
-    autoRoutine.end();
-  }
+    if (!autoRoutine.isFinished()) {
+      autoRoutine.execute();
+    } 
+    else {
+      autoRoutine.end();
+    }
 
     /* //This is the code that switches from autonomous to human controlled
     if (gamepadDriver.getRawButtonPressed(2)){
       autoTogglePressed = !autoTogglePressed;
     }
 
-    if(autoTogglePressed == false){
-    } else {
+    if(!autoTogglePressed){
       drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
+    } else {
     } 
     // */
   }
@@ -123,9 +123,24 @@ public class Robot extends TimedRobot {
 
     teleController.runTeleop();
 
-    // drivetrain.arcadeDrive(gamepadDriver.getY() * 0.7, -gamepadDriver.getZ() * 0.7);
+    /* //This is the code that switches from human controlled to autonomous 
+    int visionState = 0;
 
+    if (gamepadDriver.getRawButtonPressed(2)){
+      autoTogglePressed = !autoTogglePressed;
+    }
 
+    if(!autoTogglePressed){
+      visionState = 0;
+      drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
+    } else {
+      if (visionState == 0) {
+        visionAutoTask.start();
+        visionState += 1;
+      } else {
+        visionAutoTask.execute();
+      }
+    } */
   }
 
   /**
