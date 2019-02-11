@@ -9,4 +9,7 @@ public interface DrivetrainInterface extends EasyPathDriveTrain {
      * @param right power to which right motors will be set
      */
     public void setArcadeDriveSpeed(double speed, double turn);
+
+    public double getLeftEncoderDistance();
+    public double getRightEncoderDistance();
 }
