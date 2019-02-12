@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
  * Add your docs here.
@@ -31,64 +32,79 @@ public class CargoMechanism implements CargoMechanismInterface{
     DoubleSolenoid arm = new DoubleSolenoid(0, 4, 5);
 
 
-
     @Override
-    public void intakeBall(){
-        awkwardThirdWheelOn();
-        intakeOn();
-        
-    }
-    @Override
-    public void intakeBallOff(){
-        intakeOff();
-        awkwardThirdWheelOff();
+    public void intakeArmSwitch() {
+        if (arm.get() == Value.kForward) {
+            arm.set(Value.kForward);
+        } else {
+            arm.set(Value.kReverse);
+        }
     }
 
     @Override
-    public void launchBall(){
-        awkwardThirdWheelOn();
-        launcherOn();
-    }
-    @Override
-    public void launchBallOff(){
-        awkwardThirdWheelOff();
-        launcherOff();
+    public void hoodSwitch() {
+        if (hood.get() == Value.kForward) {
+            hood.set(Value.kForward);
+        } else {
+            hood.set(Value.kReverse);
+        }
     }
 
     @Override
-    public void reverse(){
-        launcherReverse();
-        awkwardThirdWheelReverse();
-        intakeReverse();
+    public boolean hoodState() {
+        if (hood.get() == Value.kForward) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void intakeOn(){
+    @Override
+    public boolean armState() {
+        if (arm.get() == Value.kForward) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void intakeBarOn(){
         intakeBar.set(ControlMode.PercentOutput, 0.7);
     }
-    public void intakeOff(){
+    @Override
+    public void intakeBarOff(){
         intakeBar.set(ControlMode.PercentOutput, 0);
     }
-    public void intakeReverse(){
+    @Override
+    public void intakeBarReverse(){
         intakeBar.set(ControlMode.PercentOutput, -0.7);
     }
 
+    @Override
     public void awkwardThirdWheelOn(){
         awkwardThirdWheel.set(ControlMode.PercentOutput, -0.9);
     }
+    @Override
     public void awkwardThirdWheelOff(){
         awkwardThirdWheel.set(ControlMode.PercentOutput, 0);
     }
+    @Override
     public void awkwardThirdWheelReverse(){
         awkwardThirdWheel.set(ControlMode.PercentOutput, 0.9);
     }
 
+    @Override
     public void launcherOn(){
         launcher.set(ControlMode.PercentOutput, -0.9);
     }
+    @Override
     public void launcherOff(){
         launcher.set(ControlMode.PercentOutput, 0);
     }
+    @Override
     public void launcherReverse(){
         launcher.set(ControlMode.PercentOutput, 0.9);
     }
+
 }

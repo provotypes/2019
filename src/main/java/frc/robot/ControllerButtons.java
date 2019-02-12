@@ -16,15 +16,25 @@ public class ControllerButtons {
 
     public static final int panelDetach = 5;
 
-    public static final int pannelStow = 3;
+    public static final int panelStow = 3;
 
-    public static final int cargoIntake = 2;
+    public static final int cargoFloorIntake = 2;
+
+    public static final int cargoMidIntake = 9;
 
     public static final int cargoLaunch = 1;
 
-    public static final int cargoReverse = 4;
+    public static final int cargoReverseIntakeBar = 8;
 
-    public static final int autoSwitch = 8;
+    public static final int cargoReverseThirdWheel = 10;
+
+    public static final int cargoReverseLauncher = 12;
+
+    public static final int cargoArmSwitch = 7;
+
+    public static final int cargoHoodSwitch = 11;
+
+    // public static final int autoSwitch = /*use driver?*/;
 
 
 }

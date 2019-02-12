@@ -29,9 +29,11 @@ public class CargoMechanismTask implements TaskInterface {
 
         if (numTicks < duration){
             if (isShooting){
-                mechanism.launchBall();
+                mechanism.awkwardThirdWheelOn();
+                mechanism.launcherOn();
             } else {
-                mechanism.intakeBall();
+                mechanism.intakeBarOn();
+                mechanism.awkwardThirdWheelOn();
             }
         } else {
             end();
@@ -47,9 +49,11 @@ public class CargoMechanismTask implements TaskInterface {
     @Override
     public void end() {
         if (isShooting){
-            mechanism.launchBallOff();
+            mechanism.launcherOff();
+            mechanism.awkwardThirdWheelOff();
         } else {
-            mechanism.intakeBallOff();
+            mechanism.intakeBarOff();
+            mechanism.awkwardThirdWheelOff();
         }
         isFinished = true;
     }

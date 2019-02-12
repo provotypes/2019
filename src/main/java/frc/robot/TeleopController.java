@@ -78,28 +78,74 @@ public class TeleopController {
 
         //Operate
         if (operateSelected == RobotInit.kFlightStickDrive){
-            if (stick.getRawButton(ControllerButtons.cargoIntake)){
-                cargo.intakeBall();
+            // cargo
+            if (stick.getRawButton(ControllerButtons.cargoFloorIntake)) {
+                if (cargo.armState()) {
+                    cargo.intakeBarOn();
+                }
+                cargo.awkwardThirdWheelOn();
                 // compressor.stop();
+            } else if (stick.getRawButton(ControllerButtons.cargoReverseIntakeBar) || stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)){
+                if (stick.getRawButton(ControllerButtons.cargoReverseIntakeBar)){
+                    cargo.intakeBarReverse();
+                } else {
+                    cargo.intakeBarOff();
+                }
+                if (stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)){
+                    cargo.awkwardThirdWheelReverse();
+                } else {
+                    cargo.awkwardThirdWheelOff();
+                }
             } else {
-                cargo.intakeBallOff();
+                cargo.intakeBarOff();
+                cargo.awkwardThirdWheelOff();
                 // compressor.start();
             }
 
-            if (stick.getRawButton(ControllerButtons.cargoLaunch)){
-                cargo.launchBall();
+            if (stick.getRawButton(ControllerButtons.cargoMidIntake)) {
+                if (cargo.armState()) {
+                    cargo.intakeBarReverse();
+                    cargo.awkwardThirdWheelOn();
+                }
+                else {
+                    cargo.intakeBarOff();
+                    cargo.awkwardThirdWheelOff();
+                }
+            }
+
+            if (stick.getRawButton(ControllerButtons.cargoLaunch)) {
+                cargo.launcherOn();
+                cargo.awkwardThirdWheelOn();
                 // compressor.stop();
-            } else if(stick.getRawButton(ControllerButtons.cargoReverse)){
-                cargo.reverse();
+            } else if (stick.getRawButton(ControllerButtons.cargoReverseLauncher) || stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)) {
+                if (stick.getRawButton(ControllerButtons.cargoReverseLauncher)) {
+                    cargo.launcherReverse();
+                } else {
+                    cargo.launcherOff();
+                }
+                if (stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)) {
+                    cargo.awkwardThirdWheelReverse();
+                } else {
+                    cargo.awkwardThirdWheelOff();
+                }
             } else {
-                cargo.launchBallOff();
+                cargo.launcherOff();
+                cargo.awkwardThirdWheelOff();
                 // compressor.start();
             }
 
+            if (stick.getRawButtonPressed(ControllerButtons.cargoArmSwitch)){
+                cargo.intakeArmSwitch();
+            }
+            if (stick.getRawButtonPressed(ControllerButtons.cargoHoodSwitch)){
+                cargo.hoodSwitch();
+            }
+
+            // hatch panels
             if (stick.getRawButtonPressed(ControllerButtons.panelDetach)){
                 panel.deposit();
             }
-            if (stick.getRawButtonPressed(ControllerButtons.pannelStow)){
+            if (stick.getRawButtonPressed(ControllerButtons.panelStow)){
                 panel.stow();
             }
             if (stick.getRawButtonPressed(ControllerButtons.panelFloorPickup)){
@@ -108,17 +154,22 @@ public class TeleopController {
 
         } else {
             if (gamepad.getLeftBumper()){
-                cargo.intakeBall();
+                cargo.intakeBarOn();
+                cargo.awkwardThirdWheelOn();
             } else {
-                cargo.intakeBallOff();
+                cargo.intakeBarOff();
+                cargo.awkwardThirdWheelOff();
             }
 
             if (gamepad.getRightBumper()){
-                cargo.launchBall();
+                cargo.launcherOn();
+                cargo.awkwardThirdWheelOn();
             } else if(gamepad.getXButton()){
-                cargo.reverse();
+                cargo.launcherReverse();
+                // cargo.awkwardThirdWheelReverse();
             } else {
-                cargo.launchBallOff();
+                cargo.launcherOff();
+                cargo.awkwardThirdWheelOff();
             }
 
             if (gamepad.getYButton()){
