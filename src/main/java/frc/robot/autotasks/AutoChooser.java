@@ -1,8 +1,10 @@
-package frc.robot;
+package frc.robot.autotasks;
 
 import java.util.ArrayList;
 
-import frc.robot.autotasks.*;
+import frc.robot.RobotInit;
+
+
 
 /**
  * The class to translate the SmartDashboard input to an AutoRoutine object 
