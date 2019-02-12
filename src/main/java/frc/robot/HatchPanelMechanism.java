@@ -1,18 +1,8 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
 
 public class HatchPanelMechanism implements HatchPanelMechanismInterface { 
     /* //prototype robot
@@ -25,21 +15,19 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
     DoubleSolenoid detach = new DoubleSolenoid(2, 6, 7);
     DoubleSolenoid arm = new DoubleSolenoid(0, 2, 3);
 
-
-    States state = States.stow;
+    HatchPanelState state = HatchPanelState.stow;
    
-
     @Override
     public void periodic() {
        
         switch (state) {
-       
-        case floorPickup : 
+        
+        case floorPickup: 
             armOut();
             rollerIntake();
             detachIn();
             break;
-        case stow : 
+        case stow: 
             armIn();
             rollerStop();
             detachIn();
@@ -48,24 +36,25 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
             armIn();
             rollerStop();
             detachOut();
+            break;
        }
     }
 
     @Override
     public void floorPickup() {
-        state = States.floorPickup;
+        state = HatchPanelState.floorPickup;
     }
 
     @Override
     public void stow() {
-        state = States.stow;
+        state = HatchPanelState.stow;
     }
 
     @Override
     public void deposit() {
-        state = States.deposit;   
+        state = HatchPanelState.deposit;   
     }
- 
+
     //Arm Methonds
     public void armNeutral(){
         arm.set(DoubleSolenoid.Value.kOff);
@@ -105,7 +94,7 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
         rollers.set(ControlMode.PercentOutput, 0);
     }
 
-    private enum States{
+    private enum HatchPanelState {
         floorPickup,
         stow,
         deposit,
