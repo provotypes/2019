@@ -12,7 +12,7 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
     // */
 
     VictorSPX rollers = new VictorSPX(1);
-    DoubleSolenoid detach = new DoubleSolenoid(2, 6, 7);
+    DoubleSolenoid detach = new DoubleSolenoid(2, 7, 6);
     DoubleSolenoid arm = new DoubleSolenoid(0, 2, 3);
 
     HatchPanelState state = HatchPanelState.stow;

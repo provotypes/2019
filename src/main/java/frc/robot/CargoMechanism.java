@@ -25,16 +25,16 @@ public class CargoMechanism implements CargoMechanismInterface{
     private TalonSRX intakeBar = new TalonSRX(5);
     // */
 
-    private TalonSRX awkwardThirdWheel = new TalonSRX(6);
-    private TalonSRX launcher = new TalonSRX(4);
+    private TalonSRX awkwardThirdWheel = new TalonSRX(4);
+    private TalonSRX launcher = new TalonSRX(6);
     VictorSPX intakeBar = new VictorSPX(2);
-    DoubleSolenoid hood = new DoubleSolenoid(0, 6, 7);
+    DoubleSolenoid hood = new DoubleSolenoid(0, 7, 6);
     DoubleSolenoid arm = new DoubleSolenoid(0, 4, 5);
 
 
     @Override
     public void intakeArmSwitch() {
-        if (arm.get() == Value.kForward) {
+        if (arm.get() == Value.kReverse) {
             arm.set(Value.kForward);
         } else {
             arm.set(Value.kReverse);
@@ -43,7 +43,7 @@ public class CargoMechanism implements CargoMechanismInterface{
 
     @Override
     public void hoodSwitch() {
-        if (hood.get() == Value.kForward) {
+        if (hood.get() == Value.kReverse) {
             hood.set(Value.kForward);
         } else {
             hood.set(Value.kReverse);
@@ -70,7 +70,7 @@ public class CargoMechanism implements CargoMechanismInterface{
 
     @Override
     public void intakeBarOn(){
-        intakeBar.set(ControlMode.PercentOutput, 0.7);
+        intakeBar.set(ControlMode.PercentOutput, -0.7);
     }
     @Override
     public void intakeBarOff(){
@@ -78,7 +78,7 @@ public class CargoMechanism implements CargoMechanismInterface{
     }
     @Override
     public void intakeBarReverse(){
-        intakeBar.set(ControlMode.PercentOutput, -0.7);
+        intakeBar.set(ControlMode.PercentOutput, 0.7);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class CargoMechanism implements CargoMechanismInterface{
 
     @Override
     public void launcherOn(){
-        launcher.set(ControlMode.PercentOutput, -0.9);
+        launcher.set(ControlMode.PercentOutput, 0.9);
     }
     @Override
     public void launcherOff(){
@@ -104,7 +104,7 @@ public class CargoMechanism implements CargoMechanismInterface{
     }
     @Override
     public void launcherReverse(){
-        launcher.set(ControlMode.PercentOutput, 0.9);
+        launcher.set(ControlMode.PercentOutput, -0.9);
     }
 
 }
