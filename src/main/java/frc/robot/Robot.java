@@ -156,38 +156,34 @@ public class Robot extends TimedRobot {
   }
 
 
-  boolean testing = false;
+ 
   @Override
   public void testInit() {
-    testing = false;
+    
+    panel.stow();
+    panel.periodic();
+
+    boolean hoodState = cargo.hoodState();
+    boolean armState = cargo.armState();
+    
+    if (hoodState == true) {
+      cargo.hoodSwitch();    
+    } else if (hoodState == false) {
+      //just leave it
+    }
+
+    if (armState == true) { 
+      cargo.intakeArmSwitch();
+    } else if (armState == false) {
+      //just leave it
+    }
+
   }
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-    // /*
-    double lineCount = vision.getLineCount();
-    if (Double.isNaN(lineCount)){
-      lineCount = 1.0;
-    }
-    if (lineCount > 0 && !testing) {
-      double turn = -vision.getLineAngle() / 45;
-      if (turn > 0.7) {
-        turn = 0.7;
-      } else if (turn < -0.7) {
-        turn = -0.7;
-      }
-
-      drivetrain.setArcadeDriveSpeed(0.67, turn);
-
-    } else {
-      testing = true;
-      panel.detachOut();
-      drivetrain.setArcadeDriveSpeed(-0.68, 0.0);
-    } 
-    // */
-
+   
   }
-
 }
