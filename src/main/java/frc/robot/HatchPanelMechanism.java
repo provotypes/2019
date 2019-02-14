@@ -37,6 +37,11 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
             rollerStop();
             detachOut();
             break;
+        case stationPickup:
+            armIn();
+            rollerReverse();
+            detachIn();
+            break;
        }
     }
 
@@ -53,6 +58,11 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
     @Override
     public void deposit() {
         state = HatchPanelState.deposit;   
+    }
+
+    @Override
+    public void loadingStationPickup() {
+        state = HatchPanelState.stationPickup;
     }
 
     //Arm Methonds
@@ -98,6 +108,7 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
         floorPickup,
         stow,
         deposit,
+        stationPickup,
     }
 
 }

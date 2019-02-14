@@ -14,5 +14,5 @@ public interface HatchPanelMechanismInterface{
     public void detachIn();
 
     //  if this needs to be diffrent then stow()
-    // public void loadingStationPickup();
+    public void loadingStationPickup();
 }

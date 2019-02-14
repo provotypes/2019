@@ -135,6 +135,9 @@ public class TeleopController {
             if (stick.getRawButtonPressed(ControllerButtons.panelFloorPickup)){
                 panel.floorPickup();
             }
+            if (stick.getRawButtonPressed(4)){
+                panel.loadingStationPickup();
+            }
 
         } else {
             if (gamepad.getLeftBumper()){
@@ -192,7 +195,7 @@ public class TeleopController {
         } else {
             cargo.intakeBarOff();
         }
-        
+
 
         //Drive
         switch (driveSelected) {
