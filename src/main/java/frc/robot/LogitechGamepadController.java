@@ -7,20 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import javafx.util.Pair;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BooleanSupplier;
-
 /**
  * Describes a Logitech Gamepad Controller.  This type of controller is used
  * for driver control, and it simplifies and abstracts the raw joystick.
  */
-public class LogitechGamepadController extends Joystick {
-
-	private List<Pair<BooleanSupplier, Runnable>> boundFunctions = new ArrayList<>();
+public class LogitechGamepadController extends ProvotypesJoystick {
 
 	//Buttons
 	public final int A_BUTTON = 1;
@@ -94,21 +85,5 @@ public class LogitechGamepadController extends Joystick {
 
 	public double getRightTrigger() {
 		return super.getRawAxis(RIGHT_TRIGGER);
-	}
-
-	public void bindButton(int button, Runnable action) {
-		bind(() -> super.getRawButton(button), action);
-	}
-
-	public void bind(BooleanSupplier condition, Runnable action) {
-		boundFunctions.add(new Pair(condition, action));
-	}
-
-	public void run() {
-		for (Pair<BooleanSupplier, Runnable> pair : boundFunctions) {
-			if (pair.getKey().getAsBoolean()) {
-				pair.getValue().run();
-			}
-		}
 	}
 }
