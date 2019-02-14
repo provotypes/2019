@@ -63,6 +63,8 @@ public class Robot extends TimedRobot {
     // vision.start();
     SmartDashboard.putBoolean("calibrate gyro", false);
     drivetrain.calibrateGyro();
+
+    SmartDashboard.putNumber("launcher speed", 0);
   }
 
   /**
@@ -159,7 +161,7 @@ public class Robot extends TimedRobot {
  
   @Override
   public void testInit() {
-    
+    /*
     panel.stow();
     panel.periodic();
 
@@ -177,13 +179,22 @@ public class Robot extends TimedRobot {
     } else if (armState == false) {
       //just leave it
     }
+    */
 
+    drivetrain.resetEncodersAndGyro();
   }
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
-   
-  }
+    double turn = (90 - drivetrain.getCurrentAngle() ) / 45;
+    if (turn > 0.6) {
+        turn = 0.6;
+    } else if (turn < -0.6) {
+        turn = -0.6;
+    }
+
+    drivetrain.setArcadeDriveSpeed(0, turn);
+    }
 }

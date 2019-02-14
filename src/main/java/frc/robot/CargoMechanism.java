@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -96,7 +97,9 @@ public class CargoMechanism implements CargoMechanismInterface{
 
     @Override
     public void launcherOn(){
-        launcher.set(ControlMode.PercentOutput, 0.9);
+        launcher.set(ControlMode.PercentOutput, SmartDashboard.getNumber("launcher speed", 0));
+        // launcher.set(ControlMode.Velocity, -10000);
+        // launcher.set(ControlMode.MotionMagic, demand);
     }
     @Override
     public void launcherOff(){
@@ -104,7 +107,7 @@ public class CargoMechanism implements CargoMechanismInterface{
     }
     @Override
     public void launcherReverse(){
-        launcher.set(ControlMode.PercentOutput, -0.9);
+        launcher.set(ControlMode.PercentOutput, -0.5);
     }
 
 }
