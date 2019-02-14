@@ -14,7 +14,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class VisionCom extends Thread{
+public class VisionCom extends Thread {
 
 	// http://10.68.44.2:5800/stream.mjpg
 	// C:\Users\casey\Documents\eclipse-workspace
@@ -47,14 +47,14 @@ public class VisionCom extends Thread{
 	}
 
 	@Override
-	public void run(){
-		while(!isInterrupted()) {
+	public void run() {
+		while (!isInterrupted()) {
 			updateExposure();
 			double[] lineInfo = getLineInfo();
 			lineAngle = lineInfo[0];
 			lineCount = lineInfo[1];
 			SmartDashboard.putNumber("line num", lineCount);
-		
+
 		}
 	}
 
@@ -66,7 +66,7 @@ public class VisionCom extends Thread{
 		return lineCount;
 	}
 
-	public double[] getLineInfo(){
+	public double[] getLineInfo() {
 		Timer t = new Timer();
 		t.reset();
 		t.start();
@@ -81,9 +81,9 @@ public class VisionCom extends Thread{
 			lineNum = Double.NaN;
 			LineAngle = Double.NaN;
 		}
-		
+
 		SmartDashboard.putNumber("vision com time", t.get());
-		return new double[] {LineAngle, lineNum};
+		return new double[]{LineAngle, lineNum};
 	}
 
 	public String get(int request) {
@@ -106,7 +106,7 @@ public class VisionCom extends Thread{
 
 		} catch (ConnectException e) {
 			e.printStackTrace();
-		} catch (SocketTimeoutException e){
+		} catch (SocketTimeoutException e) {
 			// System.out.println("conection to vision code timeout");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -117,12 +117,12 @@ public class VisionCom extends Thread{
 
 	public void updateExposure() {
 		exposure = (int) SmartDashboard.getNumber("exposure", -1);
-		if (exposure < 0){
+		if (exposure < 0) {
 			source.setExposureAuto();
-		} else if (exposure > 100){
+		} else if (exposure > 100) {
 			exposure = 100;
 			source.setExposureManual(exposure);
-		}	else {
+		} else {
 			source.setExposureManual(exposure);
 		}
 	}

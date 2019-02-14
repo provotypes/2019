@@ -22,94 +22,95 @@ import frc.robot.autotasks.*;
  */
 public class Robot extends TimedRobot {
 
-  DrivetrainInterface drivetrain = new Drivetrain();
-  CargoMechanismInterface cargo = new CargoMechanism();
-  HatchPanelMechanismInterface panel = new HatchPanelMechanism();
+	DrivetrainInterface drivetrain = new Drivetrain();
+	CargoMechanismInterface cargo = new CargoMechanism();
+	HatchPanelMechanismInterface panel = new HatchPanelMechanism();
 
-  TaskInterface autoRoutine;
-  TaskInterface visionAutoTask;
-  /** Keeps track of auto */
-  int taskState;
-  
-  AutoChooser autoChooser;
-  TeleopController teleController;
+	TaskInterface autoRoutine;
+	TaskInterface visionAutoTask;
+	/**
+	 * Keeps track of auto
+	 */
+	int taskState;
 
-  Joystick gamepadDriver = new Joystick(4);
-  Joystick gamepadOperator = new Joystick(5);
+	AutoChooser autoChooser;
+	TeleopController teleController;
 
-  VisionCom vision = new VisionCom();
+	Joystick gamepadDriver = new Joystick(4);
+	Joystick gamepadOperator = new Joystick(5);
 
-  private boolean autoTogglePressed = false;
+	VisionCom vision = new VisionCom();
 
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
-  @Override
-  public void robotInit() {
-    RobotInit.init(drivetrain);
-    teleController = new TeleopController(drivetrain, panel, cargo, 
-      RobotInit.getDriveChooser(), 
-      RobotInit.getOperateChooser(),
-      RobotInit.getSideChooser(), 
-      () -> SmartDashboard.getNumber("rotate multiplier", 1),
-      () -> SmartDashboard.getNumber("speed multiplier", 1)
-    );
+	private boolean autoTogglePressed = false;
 
-    autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo, vision));
+	/**
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
+	 */
+	@Override
+	public void robotInit() {
+		RobotInit.init(drivetrain);
+		teleController = new TeleopController(drivetrain, panel, cargo,
+				RobotInit.getDriveChooser(),
+				RobotInit.getOperateChooser(),
+				RobotInit.getSideChooser(),
+				() -> SmartDashboard.getNumber("rotate multiplier", 1),
+				() -> SmartDashboard.getNumber("speed multiplier", 1)
+		);
 
-      //visionAutoTask = new VisionLineUpTask();
-    vision.beginCamera();
-    // vision.start();
-    SmartDashboard.putBoolean("calibrate gyro", false);
-    drivetrain.calibrateGyro();
+		autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo, vision));
 
-    SmartDashboard.putNumber("launcher speed", 0);
-  }
+		//visionAutoTask = new VisionLineUpTask();
+		vision.beginCamera();
+		// vision.start();
+		SmartDashboard.putBoolean("calibrate gyro", false);
+		drivetrain.calibrateGyro();
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for
-   * items like diagnostics that you want ran during disabled, autonomous,
-   * teleoperated and test.
-   *
-   * <p>
-   * This runs after the mode specific periodic functions, but before LiveWindow
-   * and SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-    SmartDashboard.putNumber("gyro angle", drivetrain.getCurrentAngle());
-    SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
+		SmartDashboard.putNumber("launcher speed", 0);
+	}
 
-    SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
-    SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
+	/**
+	 * This function is called every robot packet, no matter the mode. Use this for
+	 * items like diagnostics that you want ran during disabled, autonomous,
+	 * teleoperated and test.
+	 *
+	 * <p>
+	 * This runs after the mode specific periodic functions, but before LiveWindow
+	 * and SmartDashboard integrated updating.
+	 */
+	@Override
+	public void robotPeriodic() {
+		SmartDashboard.putNumber("gyro angle", drivetrain.getCurrentAngle());
+		SmartDashboard.putNumber("inches", drivetrain.getInchesTraveled());
 
-    SmartDashboard.putNumber("line angle", vision.getLineAngle());
-    if (SmartDashboard.getBoolean("calibrate gyro", false)) {
-      drivetrain.calibrateGyro();
-      SmartDashboard.putBoolean("calibrate gyro", false);
-    }
-  }
+		SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
+		SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
-  @Override
-  public void autonomousInit() {
-    autoTogglePressed = false;
+		SmartDashboard.putNumber("line angle", vision.getLineAngle());
+		if (SmartDashboard.getBoolean("calibrate gyro", false)) {
+			drivetrain.calibrateGyro();
+			SmartDashboard.putBoolean("calibrate gyro", false);
+		}
+	}
 
-    autoRoutine = autoChooser.getChosenAuto();
-    autoRoutine.start();
-  }
+	@Override
+	public void autonomousInit() {
+		autoTogglePressed = false;
 
-  /**
-   * This function is called periodically during autonomous.
-   */
-  @Override
-  public void autonomousPeriodic() {
-    if (!autoRoutine.isFinished()) {
-      autoRoutine.execute();
-    } 
-    else {
-      autoRoutine.end();
-    }
+		autoRoutine = autoChooser.getChosenAuto();
+		autoRoutine.start();
+	}
+
+	/**
+	 * This function is called periodically during autonomous.
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		if (!autoRoutine.isFinished()) {
+			autoRoutine.execute();
+		} else {
+			autoRoutine.end();
+		}
 
     /* //This is the code that switches from autonomous to human controlled
     if (gamepadDriver.getRawButtonPressed(2)){
@@ -121,19 +122,19 @@ public class Robot extends TimedRobot {
     } else {
     } 
     // */
-  }
+	}
 
-  @Override
-  public void teleopInit() {
-  }
+	@Override
+	public void teleopInit() {
+	}
 
-  /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic() {
+	/**
+	 * This function is called periodically during operator control.
+	 */
+	@Override
+	public void teleopPeriodic() {
 
-    teleController.runTeleop();
+		teleController.runTeleop();
 
     /* //This is the code that switches from human controlled to autonomous 
     int visionState = 0;
@@ -155,12 +156,11 @@ public class Robot extends TimedRobot {
         visionAutoTask.execute();
       }
     } */
-  }
+	}
 
 
- 
-  @Override
-  public void testInit() {
+	@Override
+	public void testInit() {
     /*
     panel.stow();
     panel.periodic();
@@ -181,20 +181,21 @@ public class Robot extends TimedRobot {
     }
     */
 
-    drivetrain.resetEncodersAndGyro();
-  }
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
-    double turn = (90 - drivetrain.getCurrentAngle() ) / 45;
-    if (turn > 0.6) {
-        turn = 0.6;
-    } else if (turn < -0.6) {
-        turn = -0.6;
-    }
+		drivetrain.resetEncodersAndGyro();
+	}
 
-    drivetrain.setArcadeDriveSpeed(0, turn);
-    }
+	/**
+	 * This function is called periodically during test mode.
+	 */
+	@Override
+	public void testPeriodic() {
+		double turn = (90 - drivetrain.getCurrentAngle()) / 45;
+		if (turn > 0.6) {
+			turn = 0.6;
+		} else if (turn < -0.6) {
+			turn = -0.6;
+		}
+
+		drivetrain.setArcadeDriveSpeed(0, turn);
+	}
 }

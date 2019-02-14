@@ -13,18 +13,18 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
 	public static final double RAMP_PERIOD = 0.5;
 
-	static CANSparkMax front_left = new CANSparkMax(1 , CANSparkMaxLowLevel.MotorType.kBrushless);
-	static CANSparkMax rear_left = new CANSparkMax(2 , CANSparkMaxLowLevel.MotorType.kBrushless);
+	static CANSparkMax front_left = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
+	static CANSparkMax rear_left = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
 
 	static SpeedControllerGroup left_a = new SpeedControllerGroup(front_left, rear_left);
 
-	static CANSparkMax front_right = new CANSparkMax(3 , CANSparkMaxLowLevel.MotorType.kBrushless);
-	static CANSparkMax rear_right = new CANSparkMax(4 , CANSparkMaxLowLevel.MotorType.kBrushless);
+	static CANSparkMax front_right = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
+	static CANSparkMax rear_right = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
 
 	static SpeedControllerGroup right_a = new SpeedControllerGroup(front_right, rear_right);
 
 	ADXRS450_Gyro gyro;
-	
+
 	Encoder encoderLeft, encoderRight;
 
 	public Drivetrain() {
@@ -38,7 +38,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 
 		left_a.setInverted(true);
 		right_a.setInverted(true);
-		
+
 		gyro = new ADXRS450_Gyro();
 
 		encoderLeft = new Encoder(2, 3);
@@ -49,28 +49,28 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	}
 
 	@Override
-	public void setLeftRightDriveSpeed(double left, double right){
+	public void setLeftRightDriveSpeed(double left, double right) {
 		tankDrive(left, right);
 	}
 
 	@Override
-	public void setArcadeDriveSpeed(double speed, double turn){
+	public void setArcadeDriveSpeed(double speed, double turn) {
 		arcadeDrive(speed, turn);
 	}
 
 	@Override
-	public double getInchesTraveled(){
+	public double getInchesTraveled() {
 		// average
 		return ((getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0d);
 	}
 
 	@Override
-	public double getCurrentAngle(){
+	public double getCurrentAngle() {
 		return gyro.getAngle();
 	}
 
 	@Override
-	public void resetEncodersAndGyro(){
+	public void resetEncodersAndGyro() {
 		encoderLeft.reset();
 		encoderRight.reset();
 		gyro.reset();
@@ -85,7 +85,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	}
 
 	@Override
-	public void calibrateGyro(){
+	public void calibrateGyro() {
 		gyro.calibrate();
 	}
 

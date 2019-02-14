@@ -4,57 +4,57 @@ import frc.robot.CargoMechanismInterface;
 
 public class CargoMechanismTask implements TaskInterface {
 
-    private CargoMechanismInterface mechanism;
-    private boolean isShooting;
-    private boolean isFinished;
-    private int numTicks;
-    private int duration;
-    
-    //TODO: make boolean isShooting into enum typeOfTask
-    //TODO: make unit of duration variable seconds instead of ticks
+	private CargoMechanismInterface mechanism;
+	private boolean isShooting;
+	private boolean isFinished;
+	private int numTicks;
+	private int duration;
 
-    public CargoMechanismTask(CargoMechanismInterface c, boolean isShooting, int duration){
-        this.mechanism = c;
-        this.isShooting = isShooting;
-        this.duration = duration;
-    }
+	//TODO: make boolean isShooting into enum typeOfTask
+	//TODO: make unit of duration variable seconds instead of ticks
 
-    @Override
-    public void start() {
-        numTicks = 0;
-    }
+	public CargoMechanismTask(CargoMechanismInterface c, boolean isShooting, int duration) {
+		this.mechanism = c;
+		this.isShooting = isShooting;
+		this.duration = duration;
+	}
 
-    @Override
-    public void execute() {
+	@Override
+	public void start() {
+		numTicks = 0;
+	}
 
-        if (numTicks < duration){
-            if (isShooting){
-                mechanism.awkwardThirdWheelOn();
-                mechanism.launcherOn();
-            } else {
-                mechanism.intakeBarOn();
-                mechanism.awkwardThirdWheelOn();
-            }
-        } else {
-            end();
-        }
-        numTicks++;
-    }
+	@Override
+	public void execute() {
 
-    @Override
-    public boolean isFinished() {
-        return isFinished;
-    }
+		if (numTicks < duration) {
+			if (isShooting) {
+				mechanism.awkwardThirdWheelOn();
+				mechanism.launcherOn();
+			} else {
+				mechanism.intakeBarOn();
+				mechanism.awkwardThirdWheelOn();
+			}
+		} else {
+			end();
+		}
+		numTicks++;
+	}
 
-    @Override
-    public void end() {
-        if (isShooting){
-            mechanism.launcherOff();
-            mechanism.awkwardThirdWheelOff();
-        } else {
-            mechanism.intakeBarOff();
-            mechanism.awkwardThirdWheelOff();
-        }
-        isFinished = true;
-    }
+	@Override
+	public boolean isFinished() {
+		return isFinished;
+	}
+
+	@Override
+	public void end() {
+		if (isShooting) {
+			mechanism.launcherOff();
+			mechanism.awkwardThirdWheelOff();
+		} else {
+			mechanism.intakeBarOff();
+			mechanism.awkwardThirdWheelOff();
+		}
+		isFinished = true;
+	}
 }

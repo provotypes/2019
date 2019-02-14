@@ -4,14 +4,15 @@ import easypath.EasyPathDriveTrain;
 
 public interface DrivetrainInterface extends EasyPathDriveTrain {
 
-    /** 
-     * @param left power to which left motors will be set
-     * @param right power to which right motors will be set
-     */
-    public void setArcadeDriveSpeed(double speed, double turn);
+	/**
+	 * @param left  power to which left motors will be set
+	 * @param right power to which right motors will be set
+	 */
+	public void setArcadeDriveSpeed(double speed, double turn);
 
-    public double getLeftEncoderDistance();
-    public double getRightEncoderDistance();
+	public double getLeftEncoderDistance();
 
-    public void calibrateGyro();
+	public double getRightEncoderDistance();
+
+	public void calibrateGyro();
 }

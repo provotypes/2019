@@ -14,40 +14,42 @@ import easypath.FollowPath;
  */
 public class EasyPathTask implements TaskInterface {
 
-    FollowPath path;
+	FollowPath path;
 
-    public EasyPathTask(FollowPath p) {
-        this.path = p;
-    }
+	public EasyPathTask(FollowPath p) {
+		this.path = p;
+	}
 
-    /**
-     * Should be called once at the begining of the task
-     */
-    public void start() {
-        path.initialize();
-    }
+	/**
+	 * Should be called once at the begining of the task
+	 */
+	public void start() {
+		path.initialize();
+	}
 
-    /**
-     * Should be called repeatedly while a task is being executed
-     */
-    public void execute() {
-        path.execute();
-    }
+	/**
+	 * Should be called repeatedly while a task is being executed
+	 */
+	public void execute() {
+		path.execute();
+	}
 
-    /**
-     * Should return true when the task is finished
-     * @return whether the task is finished
-     */
-    public boolean isFinished() {
-        return path.isFinished();
-    }
+	/**
+	 * Should return true when the task is finished
+	 *
+	 * @return whether the task is finished
+	 */
+	public boolean isFinished() {
+		return path.isFinished();
+	}
 
-    //FIXME would be cool to make this link work:
-    /**
-     * Should be run once after {@link isFinished()} returns true
-    */
-    public void end() {
-        path.end();
-    }
+	//FIXME would be cool to make this link work:
+
+	/**
+	 * Should be run once after {@link isFinished()} returns true
+	 */
+	public void end() {
+		path.end();
+	}
 
 }

@@ -3,34 +3,34 @@ package frc.robot.autotasks;
 import frc.robot.HatchPanelMechanismInterface;
 
 public class HatchMechanismTask implements TaskInterface {
-    
-    HatchPanelMechanismInterface panel;
 
-    int count;
+	HatchPanelMechanismInterface panel;
 
-    public HatchMechanismTask(HatchPanelMechanismInterface p){
-        panel = p;
-        count = 0;
-    }
+	int count;
 
-    @Override
-    public void start() {
-        panel.deposit();
-    }
+	public HatchMechanismTask(HatchPanelMechanismInterface p) {
+		panel = p;
+		count = 0;
+	}
 
-    @Override
-    public void execute() {
-        count++;
-    }
+	@Override
+	public void start() {
+		panel.deposit();
+	}
 
-    @Override
-    public boolean isFinished() {
-       return count >= 50;        
-    }
+	@Override
+	public void execute() {
+		count++;
+	}
 
-    @Override
-    public void end() {
-        panel.stow();
-    }
+	@Override
+	public boolean isFinished() {
+		return count >= 50;
+	}
+
+	@Override
+	public void end() {
+		panel.stow();
+	}
 
 }
