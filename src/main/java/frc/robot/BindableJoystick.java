@@ -162,7 +162,9 @@ public abstract class BindableJoystick extends Joystick {
 		}
 	}
 
-	
+	/**
+	 * Clears all actions from the list of bound actions.
+	 */
 	public void clear(){
 		boundActions.clear();
 	}
