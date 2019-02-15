@@ -51,7 +51,7 @@ import java.util.function.Consumer;
  *
  * Note how much cleaner this is than a bunch of if statements.
  */
-public abstract class ProvotypesJoystick extends Joystick {
+public abstract class BindableJoystick extends Joystick {
 
 	/**
 	 * JavaFX is not included in OpenJDK 11, so we include this class here in lieu of a Pair.
@@ -96,7 +96,7 @@ public abstract class ProvotypesJoystick extends Joystick {
 	 * Defer to parent constructor.
 	 * @param port The controller identifier on the Driver Station.
 	 */
-	public ProvotypesJoystick(int port) {
+	public BindableJoystick(int port) {
 		super(port);
 	}
 

@@ -11,7 +11,7 @@ package frc.robot;
  * Describes a Logitech Gamepad Controller.  This type of controller is used
  * for driver control, and it simplifies and abstracts the raw joystick.
  */
-public class LogitechGamepadController extends ProvotypesJoystick {
+public class LogitechGamepadController extends BindableJoystick {
 
 	//Buttons
 	public static final int A_BUTTON = 1;
