@@ -119,10 +119,10 @@ public class TeleopController {
 			}
 
 			if (stick.getRawButtonPressed(ControllerButtons.cargoArmSwitch)) {
-				cargo.intakeArmSwitch();
+				//cargo.intakeArmSwitch();
 			}
 			if (stick.getRawButtonPressed(ControllerButtons.cargoHoodSwitch)) {
-				cargo.hoodSwitch();
+				//cargo.hoodSwitch();
 			}
 
 			// hatch panels
@@ -186,7 +186,7 @@ public class TeleopController {
 		} else {
 			cargo.awkwardThirdWheelOff();
 		}
-		if (intakeState != null && cargo.armState()) {
+		if (intakeState != null /*&& cargo.armState()*/) {
 			if (intakeState.booleanValue()) {
 				cargo.intakeBarOn();
 			} else {
@@ -201,17 +201,17 @@ public class TeleopController {
 		switch (driveSelected) {
 			case RobotInit.kFlightStickDrive:
 				if (sidePreference == RobotInit.kLeftPreference) {
-					arcade(stick.getY(), stick.getZ());
+					driveTrain.cheesyDrive(stick.getY(), stick.getZ());
 				} else if (sidePreference == RobotInit.kRightPreference) {
-					arcade(stick.getY(), stick.getX());
+					driveTrain.cheesyDrive(stick.getY(), stick.getX());
 				}
 				break;
 
 			case RobotInit.kGamePadArcadeDrive:
 				if (sidePreference == RobotInit.kLeftPreference) {
-					arcade(gamepad.getLeftY(), gamepad.getRightX());
+					driveTrain.cheesyDrive(gamepad.getLeftY(), gamepad.getRightX());
 				} else if (sidePreference == RobotInit.kRightPreference) {
-					arcade(gamepad.getRightY(), gamepad.getLeftX());
+					driveTrain.cheesyDrive(gamepad.getRightY(), gamepad.getLeftX());
 				}
 				break;
 
@@ -221,9 +221,9 @@ public class TeleopController {
 
 			case RobotInit.kGamePadStickDrive:
 				if (sidePreference == RobotInit.kLeftPreference) {
-					arcade(gamepad.getLeftY(), gamepad.getLeftX());
+					driveTrain.cheesyDrive(gamepad.getLeftY(), gamepad.getLeftX());
 				} else if (sidePreference == RobotInit.kRightPreference) {
-					arcade(gamepad.getRightY(), gamepad.getRightX());
+					driveTrain.cheesyDrive(gamepad.getRightY(), gamepad.getRightX());
 				}
 				break;
 

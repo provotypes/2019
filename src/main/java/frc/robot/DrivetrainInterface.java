@@ -15,4 +15,6 @@ public interface DrivetrainInterface extends EasyPathDriveTrain {
 	public double getRightEncoderDistance();
 
 	public void calibrateGyro();
+
+	public void cheesyDrive(double moveValue, double rotateValue);
 }

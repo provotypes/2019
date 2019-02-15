@@ -48,6 +48,32 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
 	}
 
+	public void cheesyDrive(double moveValue, double rotateValue){
+		double leftMotorSpeed = 0, rightMotorSpeed = 0;
+        
+        rotateValue = -rotateValue;
+        
+        if (moveValue > 0.0) {
+            if (rotateValue > 0.0) {
+                leftMotorSpeed = moveValue - rotateValue;
+                rightMotorSpeed = Math.max(moveValue, rotateValue);
+            } else {
+                leftMotorSpeed = Math.max(moveValue, -rotateValue);
+                rightMotorSpeed = moveValue + rotateValue;
+            }
+        } else {
+            if (rotateValue > 0.0) {
+                leftMotorSpeed = -Math.max(-moveValue, rotateValue);
+                rightMotorSpeed = moveValue + rotateValue;
+            } else {
+                leftMotorSpeed = moveValue - rotateValue;
+                rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+            }
+		}
+		
+		tankDrive(leftMotorSpeed, rightMotorSpeed);
+	}
+
 	@Override
 	public void setLeftRightDriveSpeed(double left, double right) {
 		tankDrive(left, right);
