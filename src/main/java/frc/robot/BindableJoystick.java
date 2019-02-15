@@ -161,4 +161,9 @@ public abstract class BindableJoystick extends Joystick {
 			}
 		}
 	}
+
+	
+	public void clear(){
+		boundActions.clear();
+	}
 }
