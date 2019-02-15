@@ -101,13 +101,24 @@ public abstract class BindableJoystick extends Joystick {
 	}
 
 	/**
-	 * Bind an action to a button.  Whenever the button is pressed, the action will be run.
+	 * Bind an action to a button.  Whenever the button is held, the action will be run.
 	 * @param button The button number for the Joystick in use.
 	 * @param action An action (function) to execute when and while the button is pressed (whenever
 	 *               {@code getRawButton()} is true).
 	 */
 	public void bindButton(int button, Runnable action) {
 		bind(() -> super.getRawButton(button), action);
+	}
+
+	/**
+	 * Bind an action to a button press.  Whenever the button is pressed, the action will be run.
+	 * This is diffrent from {@code bindButton()} in that it only runs once when the button is pressed.
+	 * @param button The button number for the Joystick in use.
+	 * @param action An action (function) to execute when the button is pressed (whenever
+	 *               {@code getRawButtonPressed()} is true).
+	 */
+	public void bindButtonPress(int button, Runnable action) {
+		bind(() -> super.getRawButtonPressed(button), action);
 	}
 
 	/**

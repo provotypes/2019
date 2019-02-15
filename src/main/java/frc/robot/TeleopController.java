@@ -54,6 +54,27 @@ public class TeleopController {
 		this.speedMultiplierSupplier = speedMultiplierSupplier;
 		compressor.start();
 
+		// stick.bindButton(ControllerButtons., );
+
+		// Operate
+		// cargo mech
+		stick.bindButtonPress(ControllerButtons.panelFloorPickup, panel::floorPickup);
+		stick.bindButtonPress(ControllerButtons.panelDetach, panel::deposit);
+		stick.bindButtonPress(ControllerButtons.panelStow, panel::stow);
+		stick.bindButtonPress(ControllerButtons.panelLoadingStationPickup, panel::loadingStationPickup);
+
+		stick.bindButton(ControllerButtons.cargoFloorIntakeBarIn, cargo::floorIntakeBarIn);
+		stick.bindButton(ControllerButtons.cargoFloorIntakeBarOut, cargo::floorIntakeBarOut);
+		stick.bindButton(ControllerButtons.cargoMidIntake, cargo::midIntake);
+		stick.bindButton(ControllerButtons.cargoHoodIntake, cargo::hoodIntake);
+		stick.bindButton(ControllerButtons.cargoShootHigh, cargo::shootHigh);
+		stick.bindButton(ControllerButtons.cargoShootLow, cargo::shootLow);
+		stick.bindButton(ControllerButtons.cargoFlush, cargo::flush);
+		stick.bindButton(ControllerButtons.cargoIdle, cargo::idle);
+
+		// Drive
+		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
+
 		// compressor.stop();
 	}
 
@@ -66,17 +87,11 @@ public class TeleopController {
 		panel.periodic();
 		cargo.periodic();
 
-		// stick.bindButton(ControllerButtons., );
-		stick.bindButton(ControllerButtons.panelFloorPickup, panel::floorPickup);
-		stick.bindButton(ControllerButtons.panelDetach, panel::deposit);
-		stick.bindButton(ControllerButtons.panelStow, panel::stow);
-		stick.bindButton(ControllerButtons.panelLoadingStationPickup, panel::loadingStationPickup);
+		gamepad.run();
+		stick.run();
 
-
-
-
-		// Operate
-		// cargo mech
+		
+		
 		/*
 		if (stick.getRawButton(ControllerButtons.cargoFloorIntake)) {
 			intakeState = true;
@@ -138,19 +153,10 @@ public class TeleopController {
 		/*
 		switch (driveSelected) {
 			case RobotInit.kFlightStickDrive:
-				if (sidePreference == RobotInit.kLeftPreference) {
-					arcade(stick.getY(), stick.getZ());
-				} else if (sidePreference == RobotInit.kRightPreference) {
-					arcade(stick.getY(), stick.getX());
-				}
-				break;
+				arcade(stick.getY(), stick.getZ());
 
 			case RobotInit.kGamePadArcadeDrive:
-				if (sidePreference == RobotInit.kLeftPreference) {
-					arcade(gamepad.getLeftY(), gamepad.getRightX());
-				} else if (sidePreference == RobotInit.kRightPreference) {
-					arcade(gamepad.getRightY(), gamepad.getLeftX());
-				}
+				arcade(gamepad.getRightY(), gamepad.getLeftX());
 				break;
 
 			case RobotInit.kGamePadTankDrive:
@@ -158,18 +164,14 @@ public class TeleopController {
 				break;
 
 			case RobotInit.kGamePadStickDrive:
-				if (sidePreference == RobotInit.kLeftPreference) {
-					arcade(gamepad.getLeftY(), gamepad.getLeftX());
-				} else if (sidePreference == RobotInit.kRightPreference) {
-					arcade(gamepad.getRightY(), gamepad.getRightX());
-				}
+				arcade(gamepad.getRightY(), gamepad.getRightX());
 				break;
 
 			default:
 				driveTrain.setLeftRightDriveSpeed(0, 0);
 				break;
 		}
-		*/
+		// */
 	}
 
 	private void arcade(double speed, double rotation) {
