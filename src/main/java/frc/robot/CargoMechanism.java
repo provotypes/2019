@@ -32,51 +32,62 @@ public class CargoMechanism implements CargoMechanismInterface {
 	DoubleSolenoid hood = new DoubleSolenoid(0, 7, 6);
 	DoubleSolenoid arm = new DoubleSolenoid(0, 4, 5);
 
-	private enum CargoMechanismModes {
-		idle,
-		floorIntakeBarOut,
-		floorIntakeBarIn,
-		midIntake,
-		stationIntake,
-		ballRecentering,
-		shootHigh,
-		shootLow
+	CargoMechanismModes state = CargoMechanismModes.idle;
+	
+	public void idle(){
+
+    }
+    
+    public void floorIntakeBarOut(){
+
+    }
+    
+    public void floorIntakeBarIn(){
+
+    }
+    
+    public void midIntake(){
+
+    }
+    
+    public void stationIntake(){
+
+    }
+    
+    public void hoodIntake(){
+
+    }
+    
+    public void shootHigh(){
+	
+    }
+    
+    public void shootLow(){
+
+	}
+	
+	public void flush(){
+
 	}
 
 	@Override
-	public void intakeArmSwitch() {
-		if (arm.get() == Value.kReverse) {
-			arm.set(Value.kForward);
-		} else {
-			arm.set(Value.kReverse);
-		}
+	public void intakeArmIn() {
+		arm.set(Value.kReverse);
 	}
 
 	@Override
-	public void hoodSwitch() {
-		if (hood.get() == Value.kReverse) {
-			hood.set(Value.kForward);
-		} else {
-			hood.set(Value.kReverse);
-		}
+	public void intakeArmOut() {
+		arm.set(Value.kForward);
 	}
 
 	@Override
-	public boolean hoodState() {
-		if (hood.get() == Value.kForward) {
-			return true;
-		} else {
-			return false;
-		}
+	public void hoodOut(){
+		hood.set(Value.kForward);
 	}
 
 	@Override
-	public boolean armState() {
-		if (arm.get() == Value.kForward) {
-			return true;
-		} else {
-			return false;
-		}
+	public void hoodIn(){
+		hood.set(Value.kReverse);
 	}
 
 	@Override
