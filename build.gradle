@@ -70,7 +70,6 @@ repositories {
     jcenter()
 }
 
-def jmockitVersion = '1.44'
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
 dependencies {
@@ -95,5 +94,5 @@ jar {
 
 
 test {
-    jvmArgs "-javaagent:${classpath.find { it.name.contains("jmockit") }.absolutePath}"
+
 }
