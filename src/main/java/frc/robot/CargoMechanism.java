@@ -32,15 +32,42 @@ public class CargoMechanism implements CargoMechanismInterface {
 	DoubleSolenoid hood = new DoubleSolenoid(0, 7, 6);
 	DoubleSolenoid arm = new DoubleSolenoid(0, 4, 5);
 
-	private enum CargoMechanismModes {
-		idle,
-		floorIntakeBarOut,
-		floorIntakeBarIn,
-		midIntake,
-		stationIntake,
-		ballRecentering,
-		shootHigh,
-		shootLow
+	CargoMechanismModes state = CargoMechanismModes.idle;
+	
+	public void idle(){
+
+    }
+    
+    public void floorIntakeBarOut(){
+
+    }
+    
+    public void floorIntakeBarIn(){
+
+    }
+    
+    public void midIntake(){
+
+    }
+    
+    public void stationIntake(){
+
+    }
+    
+    public void hoodIntake(){
+
+    }
+    
+    public void shootHigh(){
+	
+    }
+    
+    public void shootLow(){
+
+	}
+	
+	public void flush(){
+
 	}
 
 	@Override
@@ -77,7 +104,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 		} else {
 			return false;
 		}
-	}
+	}	
 
 	@Override
 	public void intakeBarOn() {
