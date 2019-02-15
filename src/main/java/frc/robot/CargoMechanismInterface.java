@@ -31,11 +31,11 @@ public interface CargoMechanismInterface {
 
 	void awkwardThirdWheelOff();
 
-	void intakeArmSwitch();
+	void intakeArmOut();
 
-	void hoodSwitch();
+	void intakeArmIn();
 
-	boolean hoodState();
+	void hoodOut();
 
-	boolean armState();
+	void hoodIn();
 }
