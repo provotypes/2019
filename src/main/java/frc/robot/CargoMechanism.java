@@ -14,17 +14,14 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * Add your docs here.
- */
 public class CargoMechanism implements CargoMechanismInterface {
-    /* //prototype code
-    private VictorSP stagingWheel = new VictorSP(4);
-    private VictorSP launcher = new VictorSP(5);
-    private TalonSRX intakeBar = new TalonSRX(5);
-    // */
+
+	private static final double STAGING_WHEEL_PERCENT_VOLTAGE = 0.7;
+	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 0.5;
+	private static final double LAUNCHER_LOW_PERCENT_VOLTAGE = 0.4;
+	private static final double LAUNCHER_HIGH_PERCENT_VOLTAGE = 0.8;
+	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.4;
 
 	private TalonSRX stagingWheel = new TalonSRX(4);
 	private TalonSRX launcher = new TalonSRX(6);
@@ -76,17 +73,17 @@ public class CargoMechanism implements CargoMechanismInterface {
 				break;
 			case shootHigh:
 				stagingWheelOn();
-				launcherOn();
-				intakeBarOff();
-				intakeArmIn();
-				hoodDown();
-				break;
-			case shootLow:
-				stagingWheelOn();
-				launcherOn();
+				launcherOnHigh();
 				intakeBarOff();
 				intakeArmIn();
 				hoodUp();
+				break;
+			case shootLow:
+				stagingWheelOn();
+				launcherOnLow();
+				intakeBarOn();
+				intakeArmIn();
+				hoodDown();
 				break;
 			case flush:
 				stagingWheelReverse();
@@ -147,15 +144,15 @@ public class CargoMechanism implements CargoMechanismInterface {
 	}
 
 	private void hoodDown() {
-		hood.set(Value.kForward);
-	}
-
-	private void hoodUp() {
 		hood.set(Value.kReverse);
 	}
 
+	private void hoodUp() {
+		hood.set(Value.kForward);
+	}
+
 	private void intakeBarOn() {
-		intakeBar.set(ControlMode.PercentOutput, -0.7);
+		intakeBar.set(ControlMode.PercentOutput, INTAKE_BAR_PERCENT_VOLTAGE);
 	}
 
 	private void intakeBarOff() {
@@ -163,11 +160,11 @@ public class CargoMechanism implements CargoMechanismInterface {
 	}
 
 	private void intakeBarReverse() {
-		intakeBar.set(ControlMode.PercentOutput, 0.7);
+		intakeBar.set(ControlMode.PercentOutput, -INTAKE_BAR_PERCENT_VOLTAGE);
 	}
 
 	private void stagingWheelOn() {
-		stagingWheel.set(ControlMode.PercentOutput, -0.9);
+		stagingWheel.set(ControlMode.PercentOutput, -STAGING_WHEEL_PERCENT_VOLTAGE);
 	}
 
 	private void stagingWheelOff() {
@@ -175,13 +172,15 @@ public class CargoMechanism implements CargoMechanismInterface {
 	}
 
 	private void stagingWheelReverse() {
-		stagingWheel.set(ControlMode.PercentOutput, 0.9);
+		stagingWheel.set(ControlMode.PercentOutput, STAGING_WHEEL_PERCENT_VOLTAGE);
 	}
 
-	private void launcherOn() {
-		launcher.set(ControlMode.PercentOutput, SmartDashboard.getNumber("launcher speed", 0));
-		// launcher.set(ControlMode.Velocity, -10000);
-		// launcher.set(ControlMode.MotionMagic, demand);
+	private void launcherOnHigh() {
+		launcher.set(ControlMode.PercentOutput, LAUNCHER_HIGH_PERCENT_VOLTAGE);
+	}
+
+	private void launcherOnLow() {
+		launcher.set(ControlMode.PercentOutput, LAUNCHER_LOW_PERCENT_VOLTAGE);
 	}
 
 	private void launcherOff() {
@@ -189,7 +188,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 	}
 
 	private void launcherReverse() {
-		launcher.set(ControlMode.PercentOutput, -0.5);
+		launcher.set(ControlMode.PercentOutput, LAUNCHER_REVERSE_PERCENT_VOLTAGE);
 	}
 
 }
