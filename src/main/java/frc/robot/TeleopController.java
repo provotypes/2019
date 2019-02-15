@@ -11,11 +11,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.HatchPanelMechanismInterface.HatchPanelMode;
 
-/**
- * Add your docs here.
- */
 public class TeleopController {
 
 	CargoMechanismInterface cargo;
@@ -25,7 +21,7 @@ public class TeleopController {
 	Compressor compressor = new Compressor();
 
 	//Controllers
-	private FlightStick stick = new FlightStick(0);
+	private Extreme3DProJoystick stick = new Extreme3DProJoystick(0);
 	private LogitechGamepadController gamepad = new LogitechGamepadController(1);
 
 	SendableChooser<String> driveChooser;
@@ -53,132 +49,43 @@ public class TeleopController {
 
 		this.rotateMultiplierSupplier = rotateMultiplierSupplier;
 		this.speedMultiplierSupplier = speedMultiplierSupplier;
+
 		compressor.start();
 
-		// panel::setMode(HatchPanelMode.)
-
 		// Operate
-		// cargo mech
-		stick.bindButtonPress(ControllerButtons.panelFloorPickup, panel::floorPickup);
-		stick.bindButtonPress(ControllerButtons.panelDetach, panel::deposit);
-		stick.bindButtonPress(ControllerButtons.panelStow, panel::stow);
-		stick.bindButtonPress(ControllerButtons.panelLoadingStationPickup, panel::stationPickup);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_TOP_BUTTON,     panel::floorPickup,       panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::deposit,           panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::stationPickup,     panel::stow);
+		stick.bindButtonPress(Extreme3DProJoystick.BOTTOM_RIGHT_TOP_BUTTON,   panel::stow);
 
-		stick.bindButton(ControllerButtons.cargoFloorIntakeBarIn, cargo::floorIntakeBarIn);
-		stick.bindButton(ControllerButtons.cargoFloorIntakeBarOut, cargo::floorIntakeBarOut);
-		stick.bindButton(ControllerButtons.cargoMidIntake, cargo::midIntake);
-		stick.bindButton(ControllerButtons.cargoHoodIntake, cargo::hoodIntake);
-		stick.bindButton(ControllerButtons.cargoShootHigh, cargo::shootHigh);
-		stick.bindButton(ControllerButtons.cargoShootLow, cargo::shootLow);
-		stick.bindButton(ControllerButtons.cargoFlush, cargo::flush);
-		stick.bindButton(ControllerButtons.cargoIdle, cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.TRIGGER,                  cargo::shootHigh,         cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.THUMB_BUTTON,             cargo::shootLow,          cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_BASE_BUTTON,     cargo::floorIntakeBarIn,  cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_BASE_BUTTON,    cargo::floorIntakeBarOut, cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_LEFT_BASE_BUTTON,  cargo::midIntake,         cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_RIGHT_BASE_BUTTON, cargo::hoodIntake,        cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_BASE_BUTTON,  cargo::flush,             cargo::idle);
+		stick.bindButtonPress(Extreme3DProJoystick.BOTTOM_RIGHT_BASE_BUTTON,  cargo::idle);
 
 		// Drive
 		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
-
-		// compressor.stop();
 	}
 
 	public void runTeleop() {
 		driveSelected = driveChooser.getSelected();
 
-		rotateMultiplier = rotateMultiplierSupplier.get(); //SmartDashboard.getNumber("rotate multiplier", 1);
-		speedMultiplier = speedMultiplierSupplier.get(); //SmartDashboard.getNumber("speed multiplier", 1);
+		rotateMultiplier = rotateMultiplierSupplier.get();
+		speedMultiplier = speedMultiplierSupplier.get();
 
 		panel.periodic();
 		cargo.periodic();
 
 		gamepad.run();
 		stick.run();
-
-		
-		
-		/*
-		if (stick.getRawButton(ControllerButtons.cargoFloorIntake)) {
-			intakeState = true;
-			thirdWheelState = true;
-			// compressor.stop();
-		} else if (stick.getRawButton(ControllerButtons.cargoReverseIntakeBar) || stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)) {
-			if (stick.getRawButton(ControllerButtons.cargoReverseIntakeBar)) {
-				intakeState = false;
-			}
-			if (stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)) {
-				thirdWheelState = false;
-			}
-		}
-
-		if (stick.getRawButton(ControllerButtons.cargoMidIntake)) {
-			intakeState = false;
-			thirdWheelState = true;
-
-		}
-
-		if (stick.getRawButton(ControllerButtons.cargoLaunch)) {
-			launcherState = true;
-			thirdWheelState = true;
-			// compressor.stop();
-		} else if (stick.getRawButton(ControllerButtons.cargoReverseLauncher) || stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)) {
-			if (stick.getRawButton(ControllerButtons.cargoReverseLauncher)) {
-				launcherState = false;
-			}
-			if (stick.getRawButton(ControllerButtons.cargoReverseThirdWheel)) {
-				thirdWheelState = false;
-			}
-		}
-
-		if (stick.getRawButtonPressed(ControllerButtons.cargoArmSwitch)) {
-			cargo.intakeArmSwitch();
-		}
-		if (stick.getRawButtonPressed(ControllerButtons.cargoHoodSwitch)) {
-			cargo.hoodSwitch();
-		}
-
-		// hatch panels
-		if (stick.getRawButtonPressed(ControllerButtons.panelDetach)) {
-			panel.deposit();
-		}
-		if (stick.getRawButtonPressed(ControllerButtons.panelStow)) {
-			panel.stow();
-		}
-		if (stick.getRawButtonPressed(ControllerButtons.panelFloorPickup)) {
-			panel.floorPickup();
-		}
-		if (stick.getRawButtonPressed(4)) {
-			panel.loadingStationPickup();
-		}
-		*/
-
-
-		//Drive
-
-		/*
-		switch (driveSelected) {
-			case RobotInit.kFlightStickDrive:
-				arcade(stick.getY(), stick.getZ());
-
-			case RobotInit.kGamePadArcadeDrive:
-				arcade(gamepad.getRightY(), gamepad.getLeftX());
-				break;
-
-			case RobotInit.kGamePadTankDrive:
-				tank(gamepad.getLeftY(), gamepad.getRightY());
-				break;
-
-			case RobotInit.kGamePadStickDrive:
-				arcade(gamepad.getRightY(), gamepad.getRightX());
-				break;
-
-			default:
-				driveTrain.setLeftRightDriveSpeed(0, 0);
-				break;
-		}
-		// */
 	}
 
 	private void arcade(double speed, double rotation) {
 		double outSpeed = speedMultiplier * speed;
-
-		// double outRotation = rotation * speed * rotateMultiplier;
 		double outRotation = rotation * rotateMultiplier;
 
 		driveTrain.setArcadeDriveSpeed(outSpeed, -outRotation);
