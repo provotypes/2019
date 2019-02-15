@@ -5,17 +5,16 @@ import frc.robot.CargoMechanismInterface;
 public class CargoMechanismTask implements TaskInterface {
 
 	private CargoMechanismInterface mechanism;
-	private boolean isShooting;
+	private Runnable modeMethod;
 	private boolean isFinished;
 	private int numTicks;
 	private int duration;
 
-	//TODO: make boolean isShooting into enum typeOfTask
 	//TODO: make unit of duration variable seconds instead of ticks
 
-	public CargoMechanismTask(CargoMechanismInterface c, boolean isShooting, int duration) {
+	public CargoMechanismTask(CargoMechanismInterface c, Runnable modeMethod, int duration) {
 		this.mechanism = c;
-		this.isShooting = isShooting;
+		this.modeMethod = modeMethod;
 		this.duration = duration;
 	}
 
@@ -26,15 +25,8 @@ public class CargoMechanismTask implements TaskInterface {
 
 	@Override
 	public void execute() {
-
 		if (numTicks < duration) {
-			if (isShooting) {
-				mechanism.awkwardThirdWheelOn();
-				mechanism.launcherOn();
-			} else {
-				mechanism.intakeBarOn();
-				mechanism.awkwardThirdWheelOn();
-			}
+			modeMethod.run();
 		} else {
 			end();
 		}
@@ -48,13 +40,7 @@ public class CargoMechanismTask implements TaskInterface {
 
 	@Override
 	public void end() {
-		if (isShooting) {
-			mechanism.launcherOff();
-			mechanism.awkwardThirdWheelOff();
-		} else {
-			mechanism.intakeBarOff();
-			mechanism.awkwardThirdWheelOff();
-		}
+		mechanism.idle();
 		isFinished = true;
 	}
 }

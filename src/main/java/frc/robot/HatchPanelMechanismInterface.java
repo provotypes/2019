@@ -1,18 +1,25 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 public interface HatchPanelMechanismInterface {
-	public void floorPickup();
 
-	public void stow();
+	void setMode(HatchPanelMode mode);
 
-	public void deposit();
+	void periodic();
 
-	public void periodic();
+	static HatchPanelMechanismInterface getDefaultHatchPanelMechnism() {
+		return new HatchPanelMechanism(
+				new VictorSPX(1),
+				new DoubleSolenoid(2, 7, 6),
+				new DoubleSolenoid(0, 2, 3));
+	}
 
-	public void detachOut();
-
-	public void detachIn();
-
-	//  if this needs to be diffrent then stow()
-	public void loadingStationPickup();
+	enum HatchPanelMode {
+		floorPickup,
+		stow,
+		deposit,
+		stationPickup,
+	}
 }

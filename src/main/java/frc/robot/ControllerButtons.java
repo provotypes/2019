@@ -11,6 +11,7 @@ package frc.robot;
  * Add your docs here.
  */
 public class ControllerButtons {
+	public static final int stationPickup = 4;
 
 	public static final int panelFloorPickup = 6;
 
