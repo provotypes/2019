@@ -15,7 +15,7 @@ public class HatchMechanismTask implements TaskInterface {
 
 	@Override
 	public void start() {
-		panel.deposit();
+		panel.setMode(HatchPanelMechanismInterface.HatchPanelMode.deposit);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class HatchMechanismTask implements TaskInterface {
 
 	@Override
 	public void end() {
-		panel.stow();
+		panel.setMode(HatchPanelMechanismInterface.HatchPanelMode.stow);
 	}
 
 }

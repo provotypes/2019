@@ -1,68 +1,70 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class HatchPanelMechanism implements HatchPanelMechanismInterface { 
-    /* //prototype robot
-    VictorSPX rollers = new VictorSPX(1);
-    DoubleSolenoid arm = new DoubleSolenoid(2, 3);
-    DoubleSolenoid detach = new DoubleSolenoid(0, 1);
-    // */
+import java.util.Map;
 
-	VictorSPX rollers = new VictorSPX(1);
-	DoubleSolenoid detach = new DoubleSolenoid(2, 7, 6);
-	DoubleSolenoid arm = new DoubleSolenoid(0, 2, 3);
+import static java.util.Map.entry;
 
-	HatchPanelState state = HatchPanelState.stow;
+public class HatchPanelMechanism implements HatchPanelMechanismInterface {
+	private final IMotorController rollers;
+	private final DoubleSolenoid detach;
+	private final DoubleSolenoid arm;
+
+	/* //prototype robot
+        VictorSPX rollers = new VictorSPX(1);
+        DoubleSolenoid arm = new DoubleSolenoid(2, 3);
+        DoubleSolenoid detach = new DoubleSolenoid(0, 1);
+        // */
+	public HatchPanelMechanism(IMotorController rollers, DoubleSolenoid detach, DoubleSolenoid arm) {
+		this.rollers = rollers;
+		this.detach = detach;
+		this.arm = arm;
+	}
+
+	private HatchPanelMode hatchPanelMode = HatchPanelMode.stow;
+
+	private final Map<HatchPanelMode, Runnable> hatchModes = Map.ofEntries(
+			entry(HatchPanelMode.deposit, this::executeDeposit),
+			entry(HatchPanelMode.floorPickup, this::executeFloorPickup),
+			entry(HatchPanelMode.stationPickup, this::executeStationPickup),
+			entry(HatchPanelMode.stow, this::executeStow)
+	);
+
+	@Override
+	public void setMode(HatchPanelMode mode) {
+		this.hatchPanelMode = mode;
+	}
 
 	@Override
 	public void periodic() {
-
-		switch (state) {
-
-			case floorPickup:
-				armOut();
-				rollerIntake();
-				detachIn();
-				break;
-			case stow:
-				armIn();
-				rollerStop();
-				detachIn();
-				break;
-			case deposit:
-				armIn();
-				rollerStop();
-				detachOut();
-				break;
-			case stationPickup:
-				armIn();
-				rollerReverse();
-				detachIn();
-				break;
-		}
+		hatchModes.get(hatchPanelMode).run();
 	}
 
-	@Override
-	public void floorPickup() {
-		state = HatchPanelState.floorPickup;
+	private void executeStationPickup() {
+		armIn();
+		rollerReverse();
+		detachIn();
 	}
 
-	@Override
-	public void stow() {
-		state = HatchPanelState.stow;
+	private void executeDeposit() {
+		armIn();
+		rollerStop();
+		detachOut();
 	}
 
-	@Override
-	public void deposit() {
-		state = HatchPanelState.deposit;
+	private void executeFloorPickup() {
+		armOut();
+		rollerIntake();
+		detachIn();
 	}
 
-	@Override
-	public void loadingStationPickup() {
-		state = HatchPanelState.stationPickup;
+	private void executeStow() {
+		armIn();
+		rollerStop();
+		detachIn();
 	}
 
 	//Arm Methonds
@@ -103,4 +105,9 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	public void rollerStop() {
 		rollers.set(ControlMode.PercentOutput, 0);
 	}
+
+	public HatchPanelMode getHatchPanelMode() {
+		return this.hatchPanelMode;
+	}
+
 }
