@@ -18,6 +18,8 @@ public class ControllerButtons {
 
 	public static final int panelStow = 3;
 
+	public static final int panelLoadingStationPickup = 4;
+
 	public static final int cargoFloorIntake = 2;
 
 	public static final int cargoMidIntake = 9;
