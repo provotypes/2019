@@ -103,12 +103,4 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	public void rollerStop() {
 		rollers.set(ControlMode.PercentOutput, 0);
 	}
-
-	private enum HatchPanelState {
-		floorPickup,
-		stow,
-		deposit,
-		stationPickup,
-	}
-
 }

@@ -1,18 +1,20 @@
 package frc.robot;
 
 public interface HatchPanelMechanismInterface {
-	public void floorPickup();
+	enum HatchPanelState {
+		floorPickup,
+		stow,
+		deposit,
+		stationPickup,
+	}
 
-	public void stow();
-
-	public void deposit();
-
-	public void periodic();
-
-	public void detachOut();
-
-	public void detachIn();
+	void floorPickup();
+	void stow();
+	void deposit();
+	void periodic();
+	void detachOut();
+	void detachIn();
 
 	//  if this needs to be diffrent then stow()
-	public void loadingStationPickup();
+	void loadingStationPickup();
 }
