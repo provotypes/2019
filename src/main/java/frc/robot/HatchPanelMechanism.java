@@ -39,6 +39,26 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	}
 
 	@Override
+	public void floorPickup() {
+		this.hatchPanelMode = HatchPanelMode.floorPickup;
+	}
+
+	@Override
+	public void stow() {
+		this.hatchPanelMode = HatchPanelMode.stow;
+	}
+
+	@Override
+	public void deposit() {
+		this.hatchPanelMode = HatchPanelMode.deposit;
+	}
+
+	@Override
+	public void stationPickup() {
+		this.hatchPanelMode = HatchPanelMode.stationPickup;
+	}
+
+	@Override
 	public void periodic() {
 		hatchModes.get(hatchPanelMode).run();
 	}

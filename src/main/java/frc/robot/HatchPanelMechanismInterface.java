@@ -7,6 +7,14 @@ public interface HatchPanelMechanismInterface {
 
 	void setMode(HatchPanelMode mode);
 
+	void floorPickup();
+
+	void stow();
+
+	void deposit();
+
+	void stationPickup();
+
 	void periodic();
 
 	static HatchPanelMechanismInterface getDefaultHatchPanelMechnism() {

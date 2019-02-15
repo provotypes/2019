@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.HatchPanelMechanismInterface.HatchPanelMode;
 
 /**
  * Add your docs here.
@@ -54,14 +55,14 @@ public class TeleopController {
 		this.speedMultiplierSupplier = speedMultiplierSupplier;
 		compressor.start();
 
-		// stick.bindButton(ControllerButtons., );
+		// panel::setMode(HatchPanelMode.)
 
 		// Operate
 		// cargo mech
 		stick.bindButtonPress(ControllerButtons.panelFloorPickup, panel::floorPickup);
 		stick.bindButtonPress(ControllerButtons.panelDetach, panel::deposit);
 		stick.bindButtonPress(ControllerButtons.panelStow, panel::stow);
-		stick.bindButtonPress(ControllerButtons.panelLoadingStationPickup, panel::loadingStationPickup);
+		stick.bindButtonPress(ControllerButtons.panelLoadingStationPickup, panel::stationPickup);
 
 		stick.bindButton(ControllerButtons.cargoFloorIntakeBarIn, cargo::floorIntakeBarIn);
 		stick.bindButton(ControllerButtons.cargoFloorIntakeBarOut, cargo::floorIntakeBarOut);
