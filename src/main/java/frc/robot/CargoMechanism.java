@@ -21,119 +21,182 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CargoMechanism implements CargoMechanismInterface {
     /* //prototype code
-    private VictorSP awkwardThirdWheel = new VictorSP(4);
+    private VictorSP stagingWheel = new VictorSP(4);
     private VictorSP launcher = new VictorSP(5);
     private TalonSRX intakeBar = new TalonSRX(5);
     // */
 
-	private TalonSRX awkwardThirdWheel = new TalonSRX(4);
+	private TalonSRX stagingWheel = new TalonSRX(4);
 	private TalonSRX launcher = new TalonSRX(6);
 	VictorSPX intakeBar = new VictorSPX(2);
 	DoubleSolenoid hood = new DoubleSolenoid(0, 7, 6);
 	DoubleSolenoid arm = new DoubleSolenoid(0, 4, 5);
 
 	CargoMechanismModes state = CargoMechanismModes.idle;
-	
-	public void idle(){
-
-    }
-    
-    public void floorIntakeBarOut(){
-
-    }
-    
-    public void floorIntakeBarIn(){
-
-    }
-    
-    public void midIntake(){
-
-    }
-    
-    public void stationIntake(){
-
-    }
-    
-    public void hoodIntake(){
-
-    }
-    
-    public void shootHigh(){
-	
-    }
-    
-    public void shootLow(){
-
-	}
-	
-	public void flush(){
-
-	}
 
 	@Override
-	public void intakeArmIn() {
+	public void periodic() {
+		
+		switch (state) {
+
+			case idle:
+			stagingWheelOff();
+			launcherOff();
+			intakeBarOff();
+			intakeArmIn();
+			hoodUp();
+			break;
+
+			case floorIntakeBarOut:
+			stagingWheelOn();
+			launcherOff();
+			intakeBarOn();
+			intakeArmOut();
+			hoodUp();
+			break;
+
+			case floorIntakeBarIn:
+			stagingWheelOn();
+			launcherOff();
+			intakeBarOn();
+			intakeArmIn();
+			hoodUp();
+			break;
+
+			case midIntake:
+			stagingWheelOn();
+			launcherOff();
+			intakeBarReverse();
+			intakeArmOut();
+			hoodUp();
+			break;
+
+			case hoodIntake:
+			stagingWheelOff();
+			launcherReverse();
+			intakeBarOff();
+			intakeArmIn();
+			hoodUp();
+			break;
+
+			case shootHigh:
+			stagingWheelOn();
+			launcherOn();
+			intakeBarOff();
+			intakeArmIn();
+			hoodDown();
+			break;
+
+			case shootLow:
+			stagingWheelOn();
+			launcherOn();
+			intakeBarOff();
+			intakeArmIn();
+			hoodUp();
+			break;
+
+			case flush:
+			stagingWheelReverse();
+			launcherReverse();
+			intakeBarReverse();
+			intakeArmIn();
+			hoodUp();
+			break;
+
+		}
+	}
+	
+	@Override
+	public void idle() {
+		state = CargoMechanismModes.idle;
+    }
+    
+	@Override
+	public void floorIntakeBarOut() {
+		state = CargoMechanismModes.floorIntakeBarOut;
+    }
+    
+	@Override
+	public void floorIntakeBarIn() {
+		state = CargoMechanismModes.floorIntakeBarIn;
+    }
+    
+	@Override
+	public void midIntake() {
+		state = CargoMechanismModes.midIntake;
+    }
+    
+	@Override
+	public void hoodIntake() {
+		state = CargoMechanismModes.hoodIntake;
+    }
+    
+	@Override
+	public void shootHigh() {
+		state = CargoMechanismModes.shootHigh;
+    }
+    
+	@Override
+	public void shootLow() {
+		state = CargoMechanismModes.shootLow;
+	}
+	
+	@Override
+	public void flush() {
+		state = CargoMechanismModes.flush;
+	}
+
+	private void intakeArmIn() {
 		arm.set(Value.kReverse);
 	}
 
-	@Override
-	public void intakeArmOut() {
+	private void intakeArmOut() {
 		arm.set(Value.kForward);
 	}
 
-	@Override
-	public void hoodOut(){
+	private void hoodDown() {
 		hood.set(Value.kForward);
 	}
 
-	@Override
-	public void hoodIn(){
+	private void hoodUp() {
 		hood.set(Value.kReverse);
 	}
 
-	@Override
-	public void intakeBarOn() {
+	private void intakeBarOn() {
 		intakeBar.set(ControlMode.PercentOutput, -0.7);
 	}
 
-	@Override
-	public void intakeBarOff() {
+	private void intakeBarOff() {
 		intakeBar.set(ControlMode.PercentOutput, 0);
 	}
 
-	@Override
-	public void intakeBarReverse() {
+	private void intakeBarReverse() {
 		intakeBar.set(ControlMode.PercentOutput, 0.7);
 	}
 
-	@Override
-	public void awkwardThirdWheelOn() {
-		awkwardThirdWheel.set(ControlMode.PercentOutput, -0.9);
+	private void stagingWheelOn() {
+		stagingWheel.set(ControlMode.PercentOutput, -0.9);
 	}
 
-	@Override
-	public void awkwardThirdWheelOff() {
-		awkwardThirdWheel.set(ControlMode.PercentOutput, 0);
+	private void stagingWheelOff() {
+		stagingWheel.set(ControlMode.PercentOutput, 0);
 	}
 
-	@Override
-	public void awkwardThirdWheelReverse() {
-		awkwardThirdWheel.set(ControlMode.PercentOutput, 0.9);
+	private void stagingWheelReverse() {
+		stagingWheel.set(ControlMode.PercentOutput, 0.9);
 	}
 
-	@Override
-	public void launcherOn() {
+	private void launcherOn() {
 		launcher.set(ControlMode.PercentOutput, SmartDashboard.getNumber("launcher speed", 0));
 		// launcher.set(ControlMode.Velocity, -10000);
 		// launcher.set(ControlMode.MotionMagic, demand);
 	}
 
-	@Override
-	public void launcherOff() {
+	private void launcherOff() {
 		launcher.set(ControlMode.PercentOutput, 0);
 	}
 
-	@Override
-	public void launcherReverse() {
+	private void launcherReverse() {
 		launcher.set(ControlMode.PercentOutput, -0.5);
 	}
 
