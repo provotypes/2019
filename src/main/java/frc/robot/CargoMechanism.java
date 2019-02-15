@@ -40,69 +40,61 @@ public class CargoMechanism implements CargoMechanismInterface {
 		switch (state) {
 
 			case idle:
-			stagingWheelOff();
-			launcherOff();
-			intakeBarOff();
-			intakeArmIn();
-			hoodUp();
-			break;
-
+				stagingWheelOff();
+				launcherOff();
+				intakeBarOff();
+				intakeArmIn();
+				hoodUp();
+				break;
 			case floorIntakeBarOut:
-			stagingWheelOn();
-			launcherOff();
-			intakeBarOn();
-			intakeArmOut();
-			hoodUp();
-			break;
-
+				stagingWheelOn();
+				launcherOff();
+				intakeBarOn();
+				intakeArmOut();
+				hoodUp();
+				break;
 			case floorIntakeBarIn:
-			stagingWheelOn();
-			launcherOff();
-			intakeBarOn();
-			intakeArmIn();
-			hoodUp();
-			break;
-
+				stagingWheelOn();
+				launcherOff();
+				intakeBarOn();
+				intakeArmIn();
+				hoodUp();
+				break;
 			case midIntake:
-			stagingWheelOn();
-			launcherOff();
-			intakeBarReverse();
-			intakeArmOut();
-			hoodUp();
-			break;
-
+				stagingWheelOn();
+				launcherOff();
+				intakeBarReverse();
+				intakeArmOut();
+				hoodUp();
+				break;
 			case hoodIntake:
-			stagingWheelOff();
-			launcherReverse();
-			intakeBarOff();
-			intakeArmIn();
-			hoodUp();
-			break;
-
+				stagingWheelOff();
+				launcherReverse();
+				intakeBarOff();
+				intakeArmIn();
+				hoodUp();
+				break;
 			case shootHigh:
-			stagingWheelOn();
-			launcherOn();
-			intakeBarOff();
-			intakeArmIn();
-			hoodDown();
-			break;
-
+				stagingWheelOn();
+				launcherOn();
+				intakeBarOff();
+				intakeArmIn();
+				hoodDown();
+				break;
 			case shootLow:
-			stagingWheelOn();
-			launcherOn();
-			intakeBarOff();
-			intakeArmIn();
-			hoodUp();
-			break;
-
+				stagingWheelOn();
+				launcherOn();
+				intakeBarOff();
+				intakeArmIn();
+				hoodUp();
+				break;
 			case flush:
-			stagingWheelReverse();
-			launcherReverse();
-			intakeBarReverse();
-			intakeArmIn();
-			hoodUp();
-			break;
-
+				stagingWheelReverse();
+				launcherReverse();
+				intakeBarReverse();
+				intakeArmIn();
+				hoodUp();
+				break;
 		}
 	}
 	
