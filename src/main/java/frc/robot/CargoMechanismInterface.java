@@ -2,29 +2,40 @@ package frc.robot;
 
 public interface CargoMechanismInterface {
 
-	public void intakeBarOn();
+	enum CargoMechanismModes {
+		idle,
+		floorIntakeBarOut,
+		floorIntakeBarIn,
+		midIntake,
+		hoodIntake,
+		shootHigh,
+		shootLow,
+		flush,
+	}
 
-	public void intakeBarReverse();
+	void intakeBarOn();
 
-	public void intakeBarOff();
+	void intakeBarReverse();
 
-	public void launcherOn();
+	void intakeBarOff();
 
-	public void launcherReverse();
+	void launcherOn();
 
-	public void launcherOff();
+	void launcherReverse();
 
-	public void awkwardThirdWheelOn();
+	void launcherOff();
 
-	public void awkwardThirdWheelReverse();
+	void awkwardThirdWheelOn();
 
-	public void awkwardThirdWheelOff();
+	void awkwardThirdWheelReverse();
 
-	public void intakeArmSwitch();
+	void awkwardThirdWheelOff();
 
-	public void hoodSwitch();
+	void intakeArmSwitch();
 
-	public boolean hoodState();
+	void hoodSwitch();
 
-	public boolean armState();
+	boolean hoodState();
+
+	boolean armState();
 }
