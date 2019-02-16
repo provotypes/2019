@@ -23,11 +23,23 @@ public class CargoMechanism implements CargoMechanismInterface {
 	private static final double LAUNCHER_HIGH_PERCENT_VOLTAGE = 0.8;
 	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.4;
 
-	private TalonSRX stagingWheel = new TalonSRX(4);
-	private TalonSRX launcher = new TalonSRX(6);
-	VictorSPX intakeBar = new VictorSPX(2);
-	DoubleSolenoid hood = new DoubleSolenoid(0, 7, 6);
-	DoubleSolenoid arm = new DoubleSolenoid(0, 4, 5);
+	private TalonSRX stagingWheel;
+	private TalonSRX launcher;
+	VictorSPX intakeBar;
+	DoubleSolenoid hood;
+	DoubleSolenoid arm;
+
+	public CargoMechanism(TalonSRX stagingWheel, 
+						  TalonSRX launcher, 
+						  VictorSPX intakeBar, 
+						  DoubleSolenoid hood, 
+						  DoubleSolenoid arm){
+		this.stagingWheel = stagingWheel;
+		this.launcher = launcher;
+		this.intakeBar = intakeBar;
+		this.hood = hood;
+		this.arm = arm;
+	}
 
 	CargoMechanismModes state = CargoMechanismModes.idle;
 
