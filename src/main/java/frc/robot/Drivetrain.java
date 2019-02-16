@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -21,7 +22,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	SpeedControllerGroup right_a;
 
 	ADXRS450_Gyro gyro;
-	Encoder encoderLeft, encoderRight;
+	CANEncoder encoderFrontLeft, encoderRearLeft, encoderFrontRight, encoderRearRight;
 
 	public Drivetrain(CANSparkMax front_l,
 					  CANSparkMax rear_l, 
@@ -29,9 +30,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 					  CANSparkMax rear_r,
 					  SpeedControllerGroup left,
 					  SpeedControllerGroup right,
-					  ADXRS450_Gyro gyro,
-					  Encoder encoderLeft,
-					  Encoder encoderRight
+					  ADXRS450_Gyro gyro
 					){
 		super(left, right);
 
@@ -54,11 +53,15 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 
 		this.gyro = gyro;
 
-		this.encoderLeft = encoderLeft;
-		this.encoderRight = encoderRight;
+		this.encoderFrontLeft = front_left.getEncoder();
+		this.encoderRearLeft = rear_left.getEncoder();
+		this.encoderFrontRight = front_right.getEncoder();
+		this.encoderRearRight = rear_right.getEncoder();
 
-		this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
-		this.encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
+		encoderFrontLeft.setPositionConversionFactor(DISTANCE_PER_PULSE);
+		encoderRearLeft.setPositionConversionFactor(DISTANCE_PER_PULSE);
+		encoderFrontRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
+		encoderRearRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
 	}
 
 	@Override
@@ -84,7 +87,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 
 	@Override
 	public void resetEncodersAndGyro() {
-		encoderLeft.reset();
+		encoderFrontLeft.setPosition(0.0d);
 		encoderRight.reset();
 		gyro.reset();
 	}

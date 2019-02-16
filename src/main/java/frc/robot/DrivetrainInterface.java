@@ -22,9 +22,7 @@ public interface DrivetrainInterface extends EasyPathDriveTrain {
 							  rear_right,
 							  new SpeedControllerGroup(front_left, rear_left),
 							  new SpeedControllerGroup(front_right, rear_right),
-							  new ADXRS450_Gyro(),
-							  new Encoder(2, 3),
-							  new Encoder(1, 0)
+							  new ADXRS450_Gyro()
 		);
 	}
 
