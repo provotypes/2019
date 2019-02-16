@@ -27,6 +27,7 @@ public class CargoMechanismTask implements TaskInterface {
 	public void execute() {
 		if (numTicks < duration) {
 			modeMethod.run();
+			mechanism.periodic();
 		} else {
 			end();
 		}
@@ -41,6 +42,7 @@ public class CargoMechanismTask implements TaskInterface {
 	@Override
 	public void end() {
 		mechanism.idle();
+		mechanism.periodic();
 		isFinished = true;
 	}
 }
