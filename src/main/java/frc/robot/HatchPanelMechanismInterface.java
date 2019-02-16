@@ -17,7 +17,7 @@ public interface HatchPanelMechanismInterface {
 
 	void periodic();
 
-	static HatchPanelMechanismInterface getDefaultHatchPanelMechnism() {
+	static HatchPanelMechanismInterface getDefaultHatchPanelMechanism() {
 		return new HatchPanelMechanism(
 				new VictorSPX(1),
 				new DoubleSolenoid(2, 7, 6),
