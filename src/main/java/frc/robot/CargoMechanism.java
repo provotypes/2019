@@ -29,7 +29,11 @@ public class CargoMechanism implements CargoMechanismInterface {
 	DoubleSolenoid hood;
 	DoubleSolenoid arm;
 
-	public CargoMechanism(TalonSRX stagingWheel, TalonSRX launcher, VictorSPX intakeBar, DoubleSolenoid hood, DoubleSolenoid arm){
+	public CargoMechanism(TalonSRX stagingWheel, 
+						  TalonSRX launcher, 
+						  VictorSPX intakeBar, 
+						  DoubleSolenoid hood, 
+						  DoubleSolenoid arm){
 		this.stagingWheel = stagingWheel;
 		this.launcher = launcher;
 		this.intakeBar = intakeBar;
