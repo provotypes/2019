@@ -49,8 +49,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+
+		AutoFactory autoFactory = new AutoFactory(drivetrain, panel, cargo, vision);
+
 		RobotInit.init(drivetrain);
-		teleController = new TeleopController(drivetrain, panel, cargo,
+		teleController = new TeleopController(drivetrain, panel, cargo, autoFactory,
 				RobotInit.getDriveChooser(),
 				RobotInit.getOperateChooser(),
 				RobotInit.getSideChooser(),
@@ -58,7 +61,7 @@ public class Robot extends TimedRobot {
 				() -> SmartDashboard.getNumber("speed multiplier", 1)
 		);
 
-		autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo, vision));
+		autoChooser = new AutoChooser(autoFactory);
 
 		//visionAutoTask = new VisionLineUpTask();
 		vision.beginCamera();
@@ -126,6 +129,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		teleController.teleopInit();
 	}
 
 	/**

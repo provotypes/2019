@@ -7,10 +7,13 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.autotasks.*;
+import easypath.*;
 
 public class TeleopController {
 
@@ -27,6 +30,11 @@ public class TeleopController {
 	SendableChooser<String> driveChooser;
 
 	private String driveSelected;
+	private boolean isHumanControlled;
+	private TaskInterface visionHatchPlaceRoutine;
+	private AutoFactory autoFactory;
+
+	private boolean isCargoForward;
 
 	private double rotateMultiplier = 1;
 	private double speedMultiplier = 1;
@@ -37,6 +45,7 @@ public class TeleopController {
 	public TeleopController(DrivetrainInterface d,
 							HatchPanelMechanismInterface p,
 							CargoMechanismInterface c,
+							AutoFactory a,
 							SendableChooser<String> driveChooser,
 							SendableChooser<String> operateChooser,
 							SendableChooser<String> sideChooser,
@@ -45,6 +54,7 @@ public class TeleopController {
 		cargo = c;
 		panel = p;
 		driveTrain = d;
+		autoFactory = a;
 		this.driveChooser = driveChooser;
 
 		this.rotateMultiplierSupplier = rotateMultiplierSupplier;
@@ -69,6 +79,15 @@ public class TeleopController {
 
 		// Drive
 		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
+		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
+		gamepad.bindButtonPress(gamepad.START_BUTTON, () -> isCargoForward = !isCargoForward);
+		gamepad.bindButtonPress(gamepad.A_BUTTON, this::startVisionHatchTask);
+		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
+	}
+
+	public void teleopInit() {
+		isHumanControlled = true;
+		isCargoForward = false;
 	}
 
 	public void runTeleop() {
@@ -77,18 +96,34 @@ public class TeleopController {
 		rotateMultiplier = rotateMultiplierSupplier.get();
 		speedMultiplier = speedMultiplierSupplier.get();
 
-		panel.periodic();
-		cargo.periodic();
-
+		if (!isHumanControlled) {
+			if (!visionHatchPlaceRoutine.isFinished()){
+				visionHatchPlaceRoutine.execute();
+			} else {
+				visionHatchPlaceRoutine.end();
+				isHumanControlled = true;
+			}
+		}
+		
 		gamepad.run();
 		stick.run();
+
+		panel.periodic();
+		cargo.periodic();
+	}
+
+	private void startVisionHatchTask() {
+		isHumanControlled = false;
+		visionHatchPlaceRoutine = new AutoRoutine(autoFactory.visionHatchPlace());
+		visionHatchPlaceRoutine.start();
 	}
 
 	private void arcade(double speed, double rotation) {
 		double outSpeed = speedMultiplier * speed;
 		double outRotation = rotation * rotateMultiplier;
-
-		driveTrain.setArcadeDriveSpeed(outSpeed, -outRotation);
+		if (isHumanControlled) {
+			driveTrain.setArcadeDriveSpeed(outSpeed, -outRotation);
+		}
 	}
 
 	private void tank(double left, double right) {
