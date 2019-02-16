@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
@@ -13,22 +12,36 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
 	public static final double RAMP_PERIOD = 0.5;
 
-	static CANSparkMax front_left = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
-	static CANSparkMax rear_left = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
+	CANSparkMax front_left;
+	CANSparkMax rear_left;
+	CANSparkMax front_right;
+	CANSparkMax rear_right;
 
-	static SpeedControllerGroup left_a = new SpeedControllerGroup(front_left, rear_left);
-
-	static CANSparkMax front_right = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-	static CANSparkMax rear_right = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
-
-	static SpeedControllerGroup right_a = new SpeedControllerGroup(front_right, rear_right);
+	SpeedControllerGroup left_a;
+	SpeedControllerGroup right_a;
 
 	ADXRS450_Gyro gyro;
-
 	Encoder encoderLeft, encoderRight;
 
-	public Drivetrain() {
-		super(left_a, right_a);
+	public Drivetrain(CANSparkMax front_l,
+					  CANSparkMax rear_l, 
+					  CANSparkMax front_r, 
+					  CANSparkMax rear_r,
+					  SpeedControllerGroup left,
+					  SpeedControllerGroup right,
+					  ADXRS450_Gyro gyro,
+					  Encoder encoderLeft,
+					  Encoder encoderRight
+					){
+		super(left, right);
+
+		this.front_left = front_l;
+		this.rear_left = rear_l;
+		this.front_right = front_r;
+		this.rear_right = rear_r;
+
+		this.left_a = left;
+		this.right_a = right;
 
 		front_left.setRampRate(RAMP_PERIOD);
 		rear_left.setRampRate(RAMP_PERIOD);
@@ -36,16 +49,16 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		front_right.setRampRate(RAMP_PERIOD);
 		rear_right.setRampRate(RAMP_PERIOD);
 
-		left_a.setInverted(true);
-		right_a.setInverted(true);
+		this.left_a.setInverted(true);
+		this.right_a.setInverted(true);
 
-		gyro = new ADXRS450_Gyro();
+		this.gyro = gyro;
 
-		encoderLeft = new Encoder(2, 3);
-		encoderRight = new Encoder(1, 0);
+		this.encoderLeft = encoderLeft;
+		this.encoderRight = encoderRight;
 
-		encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
-		encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
+		this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
+		this.encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
 	}
 
 	@Override
