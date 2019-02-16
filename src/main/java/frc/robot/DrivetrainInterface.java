@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import easypath.EasyPathDriveTrain;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 public interface DrivetrainInterface extends EasyPathDriveTrain {
