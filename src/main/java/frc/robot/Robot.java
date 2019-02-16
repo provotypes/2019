@@ -23,8 +23,8 @@ import frc.robot.autotasks.*;
 public class Robot extends TimedRobot {
 
 	DrivetrainInterface drivetrain = new Drivetrain();
-	CargoMechanismInterface cargo = new CargoMechanism();
-	HatchPanelMechanismInterface panel = HatchPanelMechanismInterface.getDefaultHatchPanelMechnism();
+	CargoMechanismInterface cargo = CargoMechanismInterface.getDefaulCargoMechanism();
+	HatchPanelMechanismInterface panel = HatchPanelMechanismInterface.getDefaultHatchPanelMechanism();
 
 	TaskInterface autoRoutine;
 	TaskInterface visionAutoTask;
