@@ -1,12 +1,10 @@
 package frc.robot;
 
-import java.util.ArrayList;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.autotasks.*;
-import easypath.*;
 
 public class TeleopController {
 
