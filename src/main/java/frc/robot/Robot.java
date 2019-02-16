@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
 
 	DrivetrainInterface drivetrain = new Drivetrain();
 	CargoMechanismInterface cargo = new CargoMechanism();
-	HatchPanelMechanismInterface panel = new HatchPanelMechanism();
+	HatchPanelMechanismInterface panel = HatchPanelMechanismInterface.getDefaultHatchPanelMechnism();
 
 	TaskInterface autoRoutine;
 	TaskInterface visionAutoTask;

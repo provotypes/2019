@@ -101,13 +101,48 @@ public abstract class BindableJoystick extends Joystick {
 	}
 
 	/**
-	 * Bind an action to a button.  Whenever the button is pressed, the action will be run.
+	 * Bind an action to a button.  Whenever the button is held, the action will be run.
 	 * @param button The button number for the Joystick in use.
 	 * @param action An action (function) to execute when and while the button is pressed (whenever
 	 *               {@code getRawButton()} is true).
 	 */
 	public void bindButton(int button, Runnable action) {
 		bind(() -> super.getRawButton(button), action);
+	}
+
+	/**
+	 * Bind an action to a button press.  Whenever the button is pressed, the action will be run.
+	 * This is diffrent from {@code bindButton()} in that it only runs once when the button is pressed,
+	 * not continually.  See {@code bindButtonRelease()}.
+	 * @param button The button number for the Joystick in use.
+	 * @param action An action (function) to execute when the button is pressed (whenever
+	 *               {@code getRawButtonPressed()} is true).
+	 */
+	public void bindButtonPress(int button, Runnable action) {
+		bind(() -> super.getRawButtonPressed(button), action);
+	}
+
+	/**
+	 * Bind an action to a button release.  Whenever the button is released, the action will be run.
+	 * This is different from the {@code bindButton()} in that it only runs once when the button is pressed,
+	 * not continually.  See {@code bindButtonPress()}.
+	 * @param button
+	 * @param action
+	 */
+	public void bindButtonRelease(int button, Runnable action) {
+		bind(() -> super.getRawButtonReleased(button), action);
+	}
+
+	/**
+	 * Bind two actions to a button press and release; typically used for toggling.  This will run only once
+	 * when pressed and only once when released, not continually.
+	 * @param button
+	 * @param actionOnPress
+	 * @param actionOnRelease
+	 */
+	public void bindButtonToggle(int button, Runnable actionOnPress, Runnable actionOnRelease) {
+		bindButtonPress(button, actionOnPress);
+		bindButtonRelease(button, actionOnRelease);
 	}
 
 	/**
@@ -156,13 +191,17 @@ public abstract class BindableJoystick extends Joystick {
 	 */
 	public void run() {
 		for (BindableAction bindableAction : boundActions) {
+			System.out.println("Found " + bindableAction.getAction());
 			if (bindableAction.getCondition().getAsBoolean()) {
+				System.out.println("Running " + bindableAction.getAction());
 				bindableAction.getAction().run();
 			}
 		}
 	}
 
-	
+	/**
+	 * Clears all actions from the list of bound actions.
+	 */
 	public void clear(){
 		boundActions.clear();
 	}

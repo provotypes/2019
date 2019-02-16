@@ -67,9 +67,8 @@ repositories {
         url 'http://devsite.ctr-electronics.com/maven/release/'
     }
     mavenCentral()
+    jcenter()
 }
-
-def jmockitVersion = '1.44'
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
@@ -81,8 +80,8 @@ dependencies {
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     testCompile wpi.deps.wpilib()
     testCompile wpi.deps.vendor.java()
-    testCompile "org.jmockit:jmockit:$jmockitVersion"
     testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:2.+"
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -95,5 +94,5 @@ jar {
 
 
 test {
-    jvmArgs "-javaagent:${classpath.find { it.name.contains("jmockit") }.absolutePath}"
+
 }
