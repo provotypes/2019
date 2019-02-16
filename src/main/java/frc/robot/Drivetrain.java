@@ -39,17 +39,16 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		this.front_right = front_r;
 		this.rear_right = rear_r;
 
+		front_left.setOpenLoopRampRate(RAMP_PERIOD);
+		rear_left.setOpenLoopRampRate(RAMP_PERIOD);
+		front_right.setOpenLoopRampRate(RAMP_PERIOD);
+		rear_right.setOpenLoopRampRate(RAMP_PERIOD);
+
 		this.left_a = left;
 		this.right_a = right;
 
-		front_left.setRampRate(RAMP_PERIOD);
-		rear_left.setRampRate(RAMP_PERIOD);
-
-		front_right.setRampRate(RAMP_PERIOD);
-		rear_right.setRampRate(RAMP_PERIOD);
-
-		this.left_a.setInverted(true);
-		this.right_a.setInverted(true);
+		left_a.setInverted(true);
+		right_a.setInverted(true);
 
 		this.gyro = gyro;
 
@@ -88,16 +87,18 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	@Override
 	public void resetEncodersAndGyro() {
 		encoderFrontLeft.setPosition(0.0d);
-		encoderRight.reset();
+		encoderRearLeft.setPosition(0.0d);
+		encoderFrontRight.setPosition(0.0d);
+		encoderRearRight.setPosition(0.0d);
 		gyro.reset();
 	}
 
 	public double getLeftEncoderDistance() {
-		return encoderLeft.getDistance();
+		return (encoderFrontLeft.getPosition() + encoderRearLeft.getPosition() / 2.0d);
 	}
 
 	public double getRightEncoderDistance() {
-		return encoderRight.getDistance();
+		return (encoderFrontRight.getPosition() + encoderRearRight.getPosition() / 2.0d);
 	}
 
 	@Override
