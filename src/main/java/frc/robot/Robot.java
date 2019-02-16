@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -49,8 +42,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+
+		AutoFactory autoFactory = new AutoFactory(drivetrain, panel, cargo, vision);
+
 		RobotInit.init(drivetrain);
-		teleController = new TeleopController(drivetrain, panel, cargo,
+		teleController = new TeleopController(drivetrain, panel, cargo, autoFactory,
 				RobotInit.getDriveChooser(),
 				RobotInit.getOperateChooser(),
 				RobotInit.getSideChooser(),
@@ -58,7 +54,7 @@ public class Robot extends TimedRobot {
 				() -> SmartDashboard.getNumber("speed multiplier", 1)
 		);
 
-		autoChooser = new AutoChooser(new AutoFactory(drivetrain, panel, cargo, vision));
+		autoChooser = new AutoChooser(autoFactory);
 
 		//visionAutoTask = new VisionLineUpTask();
 		vision.beginCamera();
@@ -126,6 +122,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		teleController.teleopInit();
 	}
 
 	/**

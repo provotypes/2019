@@ -168,4 +168,14 @@ public class AutoFactory {
 		return taskList;
 	}
 
+	public List<TaskInterface> visionHatchPlace() {
+		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
+
+		taskList.add(new VisionLineUpTask(drivetrain, vision));
+		taskList.add(new HatchMechanismTask(hatchPanelMech));
+		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
+
+		return taskList;
+	}
+
 }
