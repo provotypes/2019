@@ -7,6 +7,7 @@
 
 package frc.robot.autotasks;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.DrivetrainInterface;
 import frc.robot.VisionCom;
 
@@ -28,14 +29,21 @@ public class VisionLineUpTask implements TaskInterface {
 
 	@Override
 	public void execute() {
-		double turn = -vision.getLineAngle() / 45;
-		if (turn > 0.5) {
-			turn = 0.5;
-		} else if (turn < -0.5) {
-			turn = -0.5;
+		double diff = -vision.getLineAngle() / 45.0d;
+		double turn = diff / 45.0d;
+		double drive = 0.4;
+
+		if (Math.abs(turn) > 0.4) {
+			turn = Math.copySign(0.4, turn);
+			// drive = 0;
 		}
 
-		dt.setArcadeDriveSpeed(0.5, turn);
+		if ((Math.abs(diff) > 1) && (Math.abs(turn) < 0.25)) {
+			turn = Math.copySign(0.25, turn);
+			// drive = 0.3;
+		}
+
+		dt.setArcadeDriveSpeed(drive, turn);
 	}
 
 	@Override

@@ -84,6 +84,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
 		SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
+		SmartDashboard.putNumber("vision line count", vision.getLineCount());
+		SmartDashboard.putNumber("vision line angle", vision.getLineAngle());
+
 		SmartDashboard.putNumber("line angle", vision.getLineAngle());
 		if (SmartDashboard.getBoolean("calibrate gyro", false)) {
 			drivetrain.calibrateGyro();
@@ -177,23 +180,20 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		/*
-		double diff = (90 - drivetrain.getCurrentAngle());
-
-		double turn = diff;
-		drivetrain.setArcadeDriveSpeed(0, turn);
-		// */
 		// /*
-		double turn = (90 - drivetrain.getCurrentAngle()) / 45;
-		if (turn > 0.3) {
-			turn = 0.3;
-		} else if (turn < -3) {
-			turn = -0.3;
+		double diff = -(90 - drivetrain.getCurrentAngle());
+		double turn = diff / 45;
+
+		if (Math.abs(turn) > 0.4) {
+			turn = Math.copySign(0.4, turn);
 		}
+
+		if ((Math.abs(diff) > 1) && (Math.abs(turn) < 0.25)) {
+			turn = Math.copySign(0.25, turn);
+		}
+
 		drivetrain.setArcadeDriveSpeed(0, turn);
 		// */
-		// */
-
-		// drivetrain.setArcadeDriveSpeed(0.0, SmartDashboard.getNumber("turn speed", 0.0));
+		
 	}
 }

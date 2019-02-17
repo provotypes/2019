@@ -173,7 +173,7 @@ public class AutoFactory {
 
 		taskList.add(new VisionLineUpTask(drivetrain, vision));
 		taskList.add(new HatchMechanismTask(hatchPanelMech));
-		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
+		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.5)));
 
 		return taskList;
 	}
