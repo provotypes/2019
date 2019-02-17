@@ -91,6 +91,8 @@ public class Robot extends TimedRobot {
 
 		autoRoutine = autoChooser.getChosenAuto();
 		autoRoutine.start();
+
+		teleController.autoControlsInit();
 	}
 
 	/**
@@ -98,18 +100,21 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		/*if (!autoRoutine.isFinished()) {
-			autoRoutine.execute();
-		} else {
-			autoRoutine.end();
-		}*/
-
-    teleController.runTeleop();
+		if (!teleController.autoEnded){
+			if (!autoRoutine.isFinished()) {
+				autoRoutine.execute();
+			} else {
+				autoRoutine.end();
+				teleController.endAuto();
+			}
+		}
+		
+    teleController.run();
 	}
 
 	@Override
 	public void teleopInit() {
-		teleController.teleopInit();
+		teleController.endAuto();
 	}
 
 	/**
@@ -118,7 +123,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		teleController.runTeleop();
+		teleController.run();
 
     /* //This is the code that switches from human controlled to autonomous 
     int visionState = 0;

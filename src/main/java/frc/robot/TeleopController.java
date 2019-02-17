@@ -19,6 +19,8 @@ public class TeleopController {
 
 	private boolean isHumanControlled;
 	private boolean teleControlsBound;
+	public boolean autoEnded;
+
 	private TaskInterface visionHatchPlaceRoutine;
 	private AutoFactory autoFactory;
 
@@ -50,49 +52,58 @@ public class TeleopController {
 
 		compressor.start();
 
+		autoEnded = false;
+
 		teleControlsBound = false;
 		isHumanControlled = false;
 	}
 
+	public void autoControlsInit(){
+		gamepad.bindButtonPress(gamepad.Y_BUTTON, () -> autoEnded = true);
+	}
+
 	public void teleopInit() {
+		System.out.println("TELEOP WAS INIT");
+
+		autoEnded = true;
 		isHumanControlled = true;
 		isCargoForward = false;
 
-		if (!teleControlsBound){
-			// Operate
-			stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::floorPickup,       panel::stow);
-			stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_TOP_BUTTON,      panel::deposit,           panel::stow);
-			stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_TOP_BUTTON,     panel::stationPickup,     panel::stow);
-			stick.bindButtonPress(Extreme3DProJoystick.BOTTOM_RIGHT_TOP_BUTTON,   panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::floorPickup,       panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_TOP_BUTTON,      panel::deposit,           panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_TOP_BUTTON,     panel::stationPickup,     panel::stow);
+		stick.bindButtonPress(Extreme3DProJoystick.BOTTOM_RIGHT_TOP_BUTTON,   panel::stow);
 
-			stick.bindButtonToggle(Extreme3DProJoystick.TRIGGER,                  cargo::shootHigh,         cargo::idle);
-			stick.bindButtonToggle(Extreme3DProJoystick.THUMB_BUTTON,             cargo::shootLow,          cargo::idle);
-			stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_BASE_BUTTON,     cargo::floorIntakeBarIn,  cargo::idle);
-			stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_BASE_BUTTON,    cargo::floorIntakeBarOut, cargo::idle);
-			stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_LEFT_BASE_BUTTON,  cargo::midIntake,         cargo::idle);
-			stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_RIGHT_BASE_BUTTON, cargo::hoodIntake,        cargo::idle);
-			stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_BASE_BUTTON,  cargo::flush,             cargo::idle);
-			stick.bindButtonPress(Extreme3DProJoystick.BOTTOM_RIGHT_BASE_BUTTON,  cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.TRIGGER,                  cargo::shootHigh,         cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.THUMB_BUTTON,             cargo::shootLow,          cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_BASE_BUTTON,     cargo::floorIntakeBarIn,  cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_BASE_BUTTON,    cargo::floorIntakeBarOut, cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_LEFT_BASE_BUTTON,  cargo::midIntake,         cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_RIGHT_BASE_BUTTON, cargo::hoodIntake,        cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_BASE_BUTTON,  cargo::flush,             cargo::idle);
+		stick.bindButtonPress(Extreme3DProJoystick.BOTTOM_RIGHT_BASE_BUTTON,  cargo::idle);
 
-			// Drive
-			gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
-			gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
-			gamepad.bindButtonPress(gamepad.A_BUTTON, () -> isCargoForward = !isCargoForward);
-			gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
-			gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
-			gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
-			gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
+		// Drive
+		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
+		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
+		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> isCargoForward = !isCargoForward);
+		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
+		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
+		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
+		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
 
-			teleControlsBound = true;
-		}
+		teleControlsBound = true;
 	}
 
-	public void runTeleop() {
+	private void runAuto(){
+		gamepad.run();
+	}
 
+	private void runTeleop() {
 		rotateMultiplier = rotateMultiplierSupplier.get();
 		speedMultiplier = speedMultiplierSupplier.get();
 
-		if (!isHumanControlled) {
+		if (!isHumanControlled && autoEnded) {
 			if (!visionHatchPlaceRoutine.isFinished()){
 				visionHatchPlaceRoutine.execute();
 			} else {
@@ -145,7 +156,19 @@ public class TeleopController {
 		compressor.start();
 	}
 
-	public void autoControlsInit(){
-		gamepad.bindButtonPress(gamepad.Y_BUTTON, this::teleopInit);
+	public void run(){
+		if (autoEnded){
+			if (!teleControlsBound){
+				teleopInit();
+			} else {
+				runTeleop();
+			}
+		} else {
+			runAuto();
+		}
+	}
+
+	public void endAuto(){
+		autoEnded = true;
 	}
 }
