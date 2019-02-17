@@ -46,14 +46,14 @@ public class Robot extends TimedRobot {
 		AutoFactory autoFactory = new AutoFactory(drivetrain, panel, cargo, vision);
 
 		RobotInit.init(drivetrain);
-		SmartDashboard.putNumber("rotate multiplier", 1);
-		SmartDashboard.putNumber("speed multiplier", 1);
+		SmartDashboard.putNumber("rotate multiplier", 0.5);
+		SmartDashboard.putNumber("speed multiplier", 0.85);
 		teleController = new TeleopController(drivetrain, panel, cargo, autoFactory,
 				RobotInit.getDriveChooser(),
 				RobotInit.getOperateChooser(),
 				RobotInit.getSideChooser(),
-				() -> SmartDashboard.getNumber("rotate multiplier", 1),
-				() -> SmartDashboard.getNumber("speed multiplier", 1)
+				() -> SmartDashboard.getNumber("rotate multiplier", 0.5),
+				() -> SmartDashboard.getNumber("speed multiplier", 0.85)
 		);
 
 		autoChooser = new AutoChooser(autoFactory);

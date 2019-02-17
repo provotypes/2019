@@ -71,10 +71,10 @@ public class TeleopController {
 		// Drive
 		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
 		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
-		gamepad.bindButtonPress(gamepad.START_BUTTON, () -> isCargoForward = !isCargoForward);
+		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> isCargoForward = !isCargoForward);
 		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
 		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
-		gamepad.bindButtonPress(gamepad.A_BUTTON, this::startVisionHatchTask);
+		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
 		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
 	}
 
