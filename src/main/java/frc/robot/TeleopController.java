@@ -12,7 +12,7 @@ public class TeleopController {
 	HatchPanelMechanismInterface panel;
 	DrivetrainInterface driveTrain;
 
-	Compressor compressor = new Compressor();
+	public Compressor compressor = new Compressor();
 
 	//Controllers
 	private Extreme3DProJoystick stick = new Extreme3DProJoystick(0);
@@ -136,5 +136,9 @@ public class TeleopController {
 		double outRight = -right * speedMultiplier;
 
 		driveTrain.setLeftRightDriveSpeed(outLeft, outRight);
+	}
+
+	public void startCompressor(){
+		compressor.start();
 	}
 }
