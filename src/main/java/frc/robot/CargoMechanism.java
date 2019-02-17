@@ -13,7 +13,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 	private static final double STAGING_WHEEL_PERCENT_VOLTAGE = 0.9;
 	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 0.8;
 	private static final double LAUNCHER_LOW_PERCENT_VOLTAGE = 0.4;
-	private static final double LAUNCHER_HIGH_PERCENT_VOLTAGE = 0.7;
+	private static final double LAUNCHER_HIGH_ENCODER_SPEED = 10000;
 	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.4;
 
 	private TalonSRX stagingWheel;
@@ -181,7 +181,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 	}
 
 	private void launcherOnHigh() {
-		launcher.set(ControlMode.PercentOutput, LAUNCHER_HIGH_PERCENT_VOLTAGE);
+		launcher.set(ControlMode.Velocity, LAUNCHER_HIGH_ENCODER_SPEED);
 	}
 
 	private void launcherOnLow() {
