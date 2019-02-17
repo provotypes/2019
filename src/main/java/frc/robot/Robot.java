@@ -178,14 +178,22 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 		/*
-		double turn = (90 - drivetrain.getCurrentAngle()) / 45;
-		if (turn > 0.6) {
-			turn = 0.6;
-		} else if (turn < -0.6) {
-			turn = -0.6;
-		}
+		double diff = (90 - drivetrain.getCurrentAngle());
 
+		double turn = diff;
 		drivetrain.setArcadeDriveSpeed(0, turn);
-		*/
+		// */
+		// /*
+		double turn = (90 - drivetrain.getCurrentAngle()) / 45;
+		if (turn > 0.3) {
+			turn = 0.3;
+		} else if (turn < -3) {
+			turn = -0.3;
+		}
+		drivetrain.setArcadeDriveSpeed(0, turn);
+		// */
+		// */
+
+		// drivetrain.setArcadeDriveSpeed(0.0, SmartDashboard.getNumber("turn speed", 0.0));
 	}
 }
