@@ -46,6 +46,8 @@ public class Robot extends TimedRobot {
 		AutoFactory autoFactory = new AutoFactory(drivetrain, panel, cargo, vision);
 
 		RobotInit.init(drivetrain);
+		SmartDashboard.putNumber("rotate multiplier", 1);
+		SmartDashboard.putNumber("speed multiplier", 1);
 		teleController = new TeleopController(drivetrain, panel, cargo, autoFactory,
 				RobotInit.getDriveChooser(),
 				RobotInit.getOperateChooser(),
@@ -58,7 +60,7 @@ public class Robot extends TimedRobot {
 
 		//visionAutoTask = new VisionLineUpTask();
 		vision.beginCamera();
-		// vision.start();
+		vision.start();
 		SmartDashboard.putBoolean("calibrate gyro", false);
 		drivetrain.calibrateGyro();
 
@@ -176,9 +178,10 @@ public class Robot extends TimedRobot {
     } else if (armState == false) {
       //just leave it
     }
-    */
+    
 
 		drivetrain.resetEncodersAndGyro();
+		*/
 	}
 
 	/**
@@ -186,6 +189,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		/*
 		double turn = (90 - drivetrain.getCurrentAngle()) / 45;
 		if (turn > 0.6) {
 			turn = 0.6;
@@ -194,5 +198,6 @@ public class Robot extends TimedRobot {
 		}
 
 		drivetrain.setArcadeDriveSpeed(0, turn);
+		*/
 	}
 }
