@@ -15,6 +15,8 @@ public interface HatchPanelMechanismInterface {
 
 	void stationPickup();
 
+	void rollersForward();
+
 	void periodic();
 
 	static HatchPanelMechanismInterface getDefaultHatchPanelMechanism() {
@@ -29,5 +31,6 @@ public interface HatchPanelMechanismInterface {
 		stow,
 		deposit,
 		stationPickup,
+		rollersForward,
 	}
 }
