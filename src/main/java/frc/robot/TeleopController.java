@@ -3,7 +3,6 @@ package frc.robot;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.autotasks.*;
 
 public class TeleopController {
@@ -15,13 +14,13 @@ public class TeleopController {
 	public Compressor compressor = new Compressor();
 
 	//Controllers
-	private Extreme3DProJoystick stick = new Extreme3DProJoystick(0);
-	private LogitechGamepadController gamepad = new LogitechGamepadController(1);
+	private Extreme3DProJoystick stick;
+	private LogitechGamepadController gamepad;
 
-	SendableChooser<String> driveChooser;
-
-	private String driveSelected;
 	private boolean isHumanControlled;
+	private boolean teleControlsBound;
+	public boolean autoEnded;
+
 	private TaskInterface visionHatchPlaceRoutine;
 	private AutoFactory autoFactory;
 
@@ -33,27 +32,43 @@ public class TeleopController {
 	private final Supplier<Double> rotateMultiplierSupplier;
 	private final Supplier<Double> speedMultiplierSupplier;
 
-	public TeleopController(DrivetrainInterface d,
+	public TeleopController(Extreme3DProJoystick j,
+							LogitechGamepadController g,
+							DrivetrainInterface d,
 							HatchPanelMechanismInterface p,
 							CargoMechanismInterface c,
 							AutoFactory a,
-							SendableChooser<String> driveChooser,
-							SendableChooser<String> operateChooser,
-							SendableChooser<String> sideChooser,
 							Supplier<Double> rotateMultiplierSupplier,
 							Supplier<Double> speedMultiplierSupplier) {
+		stick = j;
+		gamepad = g;
 		cargo = c;
 		panel = p;
 		driveTrain = d;
 		autoFactory = a;
-		this.driveChooser = driveChooser;
 
 		this.rotateMultiplierSupplier = rotateMultiplierSupplier;
 		this.speedMultiplierSupplier = speedMultiplierSupplier;
 
 		compressor.start();
 
-		// Operate
+		autoEnded = false;
+
+		teleControlsBound = false;
+		isHumanControlled = false;
+	}
+
+	public void autoControlsInit(){
+		gamepad.bindButtonPress(gamepad.Y_BUTTON, () -> autoEnded = true);
+	}
+
+	public void teleopInit() {
+		System.out.println("TELEOP WAS INIT");
+
+		autoEnded = true;
+		isHumanControlled = true;
+		isCargoForward = false;
+
 		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::floorPickup,       panel::stow);
 		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_TOP_BUTTON,      panel::deposit,           panel::stow);
 		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_TOP_BUTTON,     panel::stationPickup,     panel::stow);
@@ -76,20 +91,19 @@ public class TeleopController {
 		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
 		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
 		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
+
+		teleControlsBound = true;
 	}
 
-	public void teleopInit() {
-		isHumanControlled = true;
-		isCargoForward = false;
+	private void runAuto(){
+		gamepad.run();
 	}
 
-	public void runTeleop() {
-		driveSelected = driveChooser.getSelected();
-
+	private void runTeleop() {
 		rotateMultiplier = rotateMultiplierSupplier.get();
 		speedMultiplier = speedMultiplierSupplier.get();
 
-		if (!isHumanControlled) {
+		if (!isHumanControlled && autoEnded) {
 			if (!visionHatchPlaceRoutine.isFinished()){
 				visionHatchPlaceRoutine.execute();
 			} else {
@@ -140,5 +154,21 @@ public class TeleopController {
 
 	public void startCompressor(){
 		compressor.start();
+	}
+
+	public void run(){
+		if (autoEnded){
+			if (!teleControlsBound){
+				teleopInit();
+			} else {
+				runTeleop();
+			}
+		} else {
+			runAuto();
+		}
+	}
+
+	public void endAuto(){
+		autoEnded = true;
 	}
 }

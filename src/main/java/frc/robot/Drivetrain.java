@@ -2,15 +2,14 @@ package frc.robot;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
-	// public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
-	// public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
-	public static final double DISTANCE_PER_PULSE = 1.0d / 1114.0d; // inches
+	public static final double DISTANCE_PER_ROTATION = 1.0d/8.45d * 6.0d * Math.PI; // inches
 	public static final double RAMP_PERIOD = 0.5;
 
 	CANSparkMax front_left;
@@ -39,15 +38,10 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		this.front_right = front_r;
 		this.rear_right = rear_r;
 
-		front_left.setOpenLoopRampRate(RAMP_PERIOD);
-		rear_left.setOpenLoopRampRate(RAMP_PERIOD);
-		front_right.setOpenLoopRampRate(RAMP_PERIOD);
-		rear_right.setOpenLoopRampRate(RAMP_PERIOD);
-
-		front_left.setClosedLoopRampRate(RAMP_PERIOD);
-		rear_left.setClosedLoopRampRate(RAMP_PERIOD);
-		front_right.setClosedLoopRampRate(RAMP_PERIOD);
-		rear_right.setClosedLoopRampRate(RAMP_PERIOD);
+		front_left.setIdleMode(IdleMode.kCoast);
+		rear_left.setIdleMode(IdleMode.kCoast);
+		front_right.setIdleMode(IdleMode.kCoast);
+		rear_right.setIdleMode(IdleMode.kCoast);
 
 		this.left_a = left;
 		this.right_a = right;
@@ -61,11 +55,6 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		this.encoderRearLeft = rear_left.getEncoder();
 		this.encoderFrontRight = front_right.getEncoder();
 		this.encoderRearRight = rear_right.getEncoder();
-
-		encoderFrontLeft.setPositionConversionFactor(-DISTANCE_PER_PULSE);
-		encoderRearLeft.setPositionConversionFactor(-DISTANCE_PER_PULSE);
-		encoderFrontRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
-		encoderRearRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
 	}
 
 	@Override
@@ -99,11 +88,11 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	}
 
 	public double getLeftEncoderDistance() {
-		return ((encoderFrontLeft.getPosition() + encoderRearLeft.getPosition()) / 2.0d);
+		return (((encoderFrontLeft.getPosition() + encoderRearLeft.getPosition()) / 2.0d) * DISTANCE_PER_ROTATION);
 	}
 
 	public double getRightEncoderDistance() {
-		return ((encoderFrontRight.getPosition() + encoderRearRight.getPosition()) / 2.0d);
+		return (((encoderFrontRight.getPosition() + encoderRearRight.getPosition()) / 2.0d) * DISTANCE_PER_ROTATION);
 	}
 
 	@Override

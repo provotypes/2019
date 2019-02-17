@@ -29,7 +29,7 @@ public class AutoFactory {
 
 	public List<TaskInterface> straightPath() {
 		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
-		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
+		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.4)));
 		// taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 		return taskList;
 	}

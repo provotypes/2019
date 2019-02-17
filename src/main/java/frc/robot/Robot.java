@@ -48,19 +48,13 @@ public class Robot extends TimedRobot {
 		RobotInit.init(drivetrain);
 		SmartDashboard.putNumber("rotate multiplier", 0.5);
 		SmartDashboard.putNumber("speed multiplier", 0.85);
-		teleController = new TeleopController(drivetrain, panel, cargo, autoFactory,
-				RobotInit.getDriveChooser(),
-				RobotInit.getOperateChooser(),
-				RobotInit.getSideChooser(),
-				() -> SmartDashboard.getNumber("rotate multiplier", 0.5),
-				() -> SmartDashboard.getNumber("speed multiplier", 0.85)
-		);
+		teleController = getDefaultTeleopController(autoFactory);
 
 		autoChooser = new AutoChooser(autoFactory);
 
 		//visionAutoTask = new VisionLineUpTask();
 		vision.beginCamera();
-		vision.start();
+		//vision.start();
 		SmartDashboard.putBoolean("calibrate gyro", false);
 		drivetrain.calibrateGyro();
 
@@ -100,6 +94,8 @@ public class Robot extends TimedRobot {
 
 		autoRoutine = autoChooser.getChosenAuto();
 		autoRoutine.start();
+
+		teleController.autoControlsInit();
 	}
 
 	/**
@@ -107,27 +103,21 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		if (!autoRoutine.isFinished()) {
-			autoRoutine.execute();
-		} else {
-			autoRoutine.end();
+		if (!teleController.autoEnded){
+			if (!autoRoutine.isFinished()) {
+				autoRoutine.execute();
+			} else {
+				autoRoutine.end();
+				teleController.endAuto();
+			}
 		}
-
-    /* //This is the code that switches from autonomous to human controlled
-    if (gamepadDriver.getRawButtonPressed(2)){
-      autoTogglePressed = !autoTogglePressed;
-    }
-
-    if(!autoTogglePressed){
-      drivetrain.arcadeDrive(gamepadDriver.getY() * .7, -gamepadDriver.getZ() * .7);
-    } else {
-    } 
-    // */
+		
+    teleController.run();
 	}
 
 	@Override
 	public void teleopInit() {
-		teleController.teleopInit();
+		teleController.endAuto();
 	}
 
 	/**
@@ -136,7 +126,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		teleController.runTeleop();
+		teleController.run();
 
     /* //This is the code that switches from human controlled to autonomous 
     int visionState = 0;
@@ -195,5 +185,17 @@ public class Robot extends TimedRobot {
 		drivetrain.setArcadeDriveSpeed(0, turn);
 		// */
 		
+	}
+
+	private TeleopController getDefaultTeleopController(AutoFactory autoFactory){
+		return new TeleopController(new Extreme3DProJoystick(0), 
+									new LogitechGamepadController(1), 
+									drivetrain, 
+									panel, 
+									cargo, 
+									autoFactory,
+									() -> SmartDashboard.getNumber("rotate multiplier", 0.5),
+									() -> SmartDashboard.getNumber("speed multiplier", 0.85)
+							);
 	}
 }
