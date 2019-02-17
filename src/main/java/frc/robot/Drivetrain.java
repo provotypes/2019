@@ -8,9 +8,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
-	// public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
-	// public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
-	public static final double DISTANCE_PER_PULSE = 1.0d / 1114.0d; // inches
+	public static final double DISTANCE_PER_ROTATION = 1.0d/8.45d * 6.0d * Math.PI; // inches
 	public static final double RAMP_PERIOD = 0.5;
 
 	CANSparkMax front_left;
@@ -61,11 +59,6 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		this.encoderRearLeft = rear_left.getEncoder();
 		this.encoderFrontRight = front_right.getEncoder();
 		this.encoderRearRight = rear_right.getEncoder();
-
-		encoderFrontLeft.setPositionConversionFactor(-DISTANCE_PER_PULSE);
-		encoderRearLeft.setPositionConversionFactor(-DISTANCE_PER_PULSE);
-		encoderFrontRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
-		encoderRearRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
 	}
 
 	@Override
@@ -99,11 +92,11 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	}
 
 	public double getLeftEncoderDistance() {
-		return ((encoderFrontLeft.getPosition() + encoderRearLeft.getPosition()) / 2.0d);
+		return (((encoderFrontLeft.getPosition() + encoderRearLeft.getPosition()) / 2.0d) * DISTANCE_PER_ROTATION);
 	}
 
 	public double getRightEncoderDistance() {
-		return ((encoderFrontRight.getPosition() + encoderRearRight.getPosition()) / 2.0d);
+		return (((encoderFrontRight.getPosition() + encoderRearRight.getPosition()) / 2.0d) * DISTANCE_PER_ROTATION);
 	}
 
 	@Override
