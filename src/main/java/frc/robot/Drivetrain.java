@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
 	// public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
 	// public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
-	public static final double DISTANCE_PER_PULSE = 16.2879; // inches
+	public static final double DISTANCE_PER_PULSE = 1.0d / 1114.0d; // inches
 	public static final double RAMP_PERIOD = 0.5;
 
 	CANSparkMax front_left;
@@ -44,6 +44,11 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		front_right.setOpenLoopRampRate(RAMP_PERIOD);
 		rear_right.setOpenLoopRampRate(RAMP_PERIOD);
 
+		front_left.setClosedLoopRampRate(RAMP_PERIOD);
+		rear_left.setClosedLoopRampRate(RAMP_PERIOD);
+		front_right.setClosedLoopRampRate(RAMP_PERIOD);
+		rear_right.setClosedLoopRampRate(RAMP_PERIOD);
+
 		this.left_a = left;
 		this.right_a = right;
 
@@ -70,7 +75,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 
 	@Override
 	public void setArcadeDriveSpeed(double speed, double turn) {
-		arcadeDrive(speed, turn);
+		arcadeDrive(speed, turn, true);
 	}
 
 	@Override
