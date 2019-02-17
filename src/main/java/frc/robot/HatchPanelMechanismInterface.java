@@ -20,7 +20,7 @@ public interface HatchPanelMechanismInterface {
 	static HatchPanelMechanismInterface getDefaultHatchPanelMechanism() {
 		return new HatchPanelMechanism(
 				new VictorSPX(1),
-				new DoubleSolenoid(2, 7, 6),
+				new DoubleSolenoid(2, 6, 7),
 				new DoubleSolenoid(0, 2, 3));
 	}
 

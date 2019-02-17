@@ -115,11 +115,11 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 
 	//Rollers
 	public void rollerIntake() {
-		rollers.set(ControlMode.PercentOutput, 0.5);
+		rollers.set(ControlMode.PercentOutput, 1);
 	}
 
 	public void rollerReverse() {
-		rollers.set(ControlMode.PercentOutput, -0.5);
+		rollers.set(ControlMode.PercentOutput, -0.8);
 	}
 
 	public void rollerStop() {

@@ -191,9 +191,9 @@ public abstract class BindableJoystick extends Joystick {
 	 */
 	public void run() {
 		for (BindableAction bindableAction : boundActions) {
-			System.out.println("Found " + bindableAction.getAction());
+			// System.out.println("Found " + bindableAction.getAction());
 			if (bindableAction.getCondition().getAsBoolean()) {
-				System.out.println("Running " + bindableAction.getAction());
+				// System.out.println("Running " + bindableAction.getAction());
 				bindableAction.getAction().run();
 			}
 		}

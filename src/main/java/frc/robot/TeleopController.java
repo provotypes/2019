@@ -12,7 +12,7 @@ public class TeleopController {
 	HatchPanelMechanismInterface panel;
 	DrivetrainInterface driveTrain;
 
-	Compressor compressor = new Compressor();
+	public Compressor compressor = new Compressor();
 
 	//Controllers
 	private Extreme3DProJoystick stick = new Extreme3DProJoystick(0);
@@ -54,9 +54,9 @@ public class TeleopController {
 		compressor.start();
 
 		// Operate
-		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_TOP_BUTTON,     panel::floorPickup,       panel::stow);
-		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::deposit,           panel::stow);
-		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::stationPickup,     panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::floorPickup,       panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_TOP_BUTTON,      panel::deposit,           panel::stow);
+		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_TOP_BUTTON,     panel::stationPickup,     panel::stow);
 		stick.bindButtonPress(Extreme3DProJoystick.BOTTOM_RIGHT_TOP_BUTTON,   panel::stow);
 
 		stick.bindButtonToggle(Extreme3DProJoystick.TRIGGER,                  cargo::shootHigh,         cargo::idle);
@@ -71,8 +71,10 @@ public class TeleopController {
 		// Drive
 		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
 		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
-		gamepad.bindButtonPress(gamepad.START_BUTTON, () -> isCargoForward = !isCargoForward);
-		gamepad.bindButtonPress(gamepad.A_BUTTON, this::startVisionHatchTask);
+		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> isCargoForward = !isCargoForward);
+		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
+		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
+		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
 		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
 	}
 
@@ -113,8 +115,20 @@ public class TeleopController {
 		double outSpeed = speedMultiplier * speed;
 		double outRotation = rotation * rotateMultiplier;
 		if (isHumanControlled) {
-			driveTrain.setArcadeDriveSpeed(outSpeed, -outRotation);
+			if (isCargoForward){
+				driveTrain.setArcadeDriveSpeed(outSpeed, -outRotation);
+			} else {
+				driveTrain.setArcadeDriveSpeed(-outSpeed, -outRotation);
+			}
 		}
+	}
+
+	private void quickTurnleft() {
+		driveTrain.setArcadeDriveSpeed(0, 0.5);
+	}
+
+	private void quickTurnRight() {
+		driveTrain.setArcadeDriveSpeed(0, -0.5);
 	}
 
 	private void tank(double left, double right) {
@@ -122,5 +136,9 @@ public class TeleopController {
 		double outRight = -right * speedMultiplier;
 
 		driveTrain.setLeftRightDriveSpeed(outLeft, outRight);
+	}
+
+	public void startCompressor(){
+		compressor.start();
 	}
 }

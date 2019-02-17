@@ -1,15 +1,16 @@
 package frc.robot;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
-	public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
-	public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
+	// public static final double TICKS_PER_INCH = 2048.0d / (6.0d * Math.PI); //FIXME calibrate this
+	// public static final double DISTANCE_PER_PULSE = 1.0d / TICKS_PER_INCH;
+	public static final double DISTANCE_PER_PULSE = 1.0d / 1114.0d; // inches
 	public static final double RAMP_PERIOD = 0.5;
 
 	CANSparkMax front_left;
@@ -21,17 +22,15 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 	SpeedControllerGroup right_a;
 
 	ADXRS450_Gyro gyro;
-	Encoder encoderLeft, encoderRight;
+	CANEncoder encoderFrontLeft, encoderRearLeft, encoderFrontRight, encoderRearRight;
 
 	public Drivetrain(CANSparkMax front_l,
-					  CANSparkMax rear_l, 
+					  CANSparkMax rear_l,
 					  CANSparkMax front_r, 
 					  CANSparkMax rear_r,
 					  SpeedControllerGroup left,
 					  SpeedControllerGroup right,
-					  ADXRS450_Gyro gyro,
-					  Encoder encoderLeft,
-					  Encoder encoderRight
+					  ADXRS450_Gyro gyro
 					){
 		super(left, right);
 
@@ -40,25 +39,33 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		this.front_right = front_r;
 		this.rear_right = rear_r;
 
+		front_left.setOpenLoopRampRate(RAMP_PERIOD);
+		rear_left.setOpenLoopRampRate(RAMP_PERIOD);
+		front_right.setOpenLoopRampRate(RAMP_PERIOD);
+		rear_right.setOpenLoopRampRate(RAMP_PERIOD);
+
+		front_left.setClosedLoopRampRate(RAMP_PERIOD);
+		rear_left.setClosedLoopRampRate(RAMP_PERIOD);
+		front_right.setClosedLoopRampRate(RAMP_PERIOD);
+		rear_right.setClosedLoopRampRate(RAMP_PERIOD);
+
 		this.left_a = left;
 		this.right_a = right;
 
-		front_left.setRampRate(RAMP_PERIOD);
-		rear_left.setRampRate(RAMP_PERIOD);
-
-		front_right.setRampRate(RAMP_PERIOD);
-		rear_right.setRampRate(RAMP_PERIOD);
-
-		this.left_a.setInverted(true);
-		this.right_a.setInverted(true);
+		left_a.setInverted(true);
+		right_a.setInverted(true);
 
 		this.gyro = gyro;
 
-		this.encoderLeft = encoderLeft;
-		this.encoderRight = encoderRight;
+		this.encoderFrontLeft = front_left.getEncoder();
+		this.encoderRearLeft = rear_left.getEncoder();
+		this.encoderFrontRight = front_right.getEncoder();
+		this.encoderRearRight = rear_right.getEncoder();
 
-		this.encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
-		this.encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
+		encoderFrontLeft.setPositionConversionFactor(-DISTANCE_PER_PULSE);
+		encoderRearLeft.setPositionConversionFactor(-DISTANCE_PER_PULSE);
+		encoderFrontRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
+		encoderRearRight.setPositionConversionFactor(DISTANCE_PER_PULSE);
 	}
 
 	@Override
@@ -68,7 +75,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 
 	@Override
 	public void setArcadeDriveSpeed(double speed, double turn) {
-		arcadeDrive(speed, turn);
+		arcadeDrive(speed, turn, true);
 	}
 
 	@Override
@@ -84,17 +91,19 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 
 	@Override
 	public void resetEncodersAndGyro() {
-		encoderLeft.reset();
-		encoderRight.reset();
+		encoderFrontLeft.setPosition(0.0d);
+		encoderRearLeft.setPosition(0.0d);
+		encoderFrontRight.setPosition(0.0d);
+		encoderRearRight.setPosition(0.0d);
 		gyro.reset();
 	}
 
 	public double getLeftEncoderDistance() {
-		return encoderLeft.getDistance();
+		return ((encoderFrontLeft.getPosition() + encoderRearLeft.getPosition()) / 2.0d);
 	}
 
 	public double getRightEncoderDistance() {
-		return encoderRight.getDistance();
+		return ((encoderFrontRight.getPosition() + encoderRearRight.getPosition()) / 2.0d);
 	}
 
 	@Override

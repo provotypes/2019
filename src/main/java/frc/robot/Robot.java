@@ -46,19 +46,21 @@ public class Robot extends TimedRobot {
 		AutoFactory autoFactory = new AutoFactory(drivetrain, panel, cargo, vision);
 
 		RobotInit.init(drivetrain);
+		SmartDashboard.putNumber("rotate multiplier", 0.5);
+		SmartDashboard.putNumber("speed multiplier", 0.85);
 		teleController = new TeleopController(drivetrain, panel, cargo, autoFactory,
 				RobotInit.getDriveChooser(),
 				RobotInit.getOperateChooser(),
 				RobotInit.getSideChooser(),
-				() -> SmartDashboard.getNumber("rotate multiplier", 1),
-				() -> SmartDashboard.getNumber("speed multiplier", 1)
+				() -> SmartDashboard.getNumber("rotate multiplier", 0.5),
+				() -> SmartDashboard.getNumber("speed multiplier", 0.85)
 		);
 
 		autoChooser = new AutoChooser(autoFactory);
 
 		//visionAutoTask = new VisionLineUpTask();
 		vision.beginCamera();
-		// vision.start();
+		vision.start();
 		SmartDashboard.putBoolean("calibrate gyro", false);
 		drivetrain.calibrateGyro();
 
@@ -158,27 +160,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-    /*
+    
     panel.stow();
     panel.periodic();
 
-    boolean hoodState = cargo.hoodState();
-    boolean armState = cargo.armState();
-    
-    if (hoodState == true) {
-      cargo.hoodSwitch();    
-    } else if (hoodState == false) {
-      //just leave it
-    }
-
-    if (armState == true) { 
-      cargo.intakeArmSwitch();
-    } else if (armState == false) {
-      //just leave it
-    }
-    */
+		cargo.idle();
+		cargo.periodic();
 
 		drivetrain.resetEncodersAndGyro();
+
+		teleController.startCompressor();
 	}
 
 	/**
@@ -186,6 +177,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		/*
 		double turn = (90 - drivetrain.getCurrentAngle()) / 45;
 		if (turn > 0.6) {
 			turn = 0.6;
@@ -194,5 +186,6 @@ public class Robot extends TimedRobot {
 		}
 
 		drivetrain.setArcadeDriveSpeed(0, turn);
+		*/
 	}
 }
