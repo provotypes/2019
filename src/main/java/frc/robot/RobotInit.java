@@ -26,7 +26,7 @@ public class RobotInit {
 	//SendableChooser for Auto
 	//TODO: populate with auto options
 	public static final String kDefaultAuto = "Default";
-	public static final String kCustomAuto = "My Auto";
+	public static final String kRightToRightFarBay = "Right - Right Far Bay";
 	private static final SendableChooser<String> autoChooser = new SendableChooser<>();
 
 	public static void init(DrivetrainInterface drivetrain) {

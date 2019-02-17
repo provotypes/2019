@@ -160,28 +160,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-    /*
+    
     panel.stow();
     panel.periodic();
 
-    boolean hoodState = cargo.hoodState();
-    boolean armState = cargo.armState();
-    
-    if (hoodState == true) {
-      cargo.hoodSwitch();    
-    } else if (hoodState == false) {
-      //just leave it
-    }
-
-    if (armState == true) { 
-      cargo.intakeArmSwitch();
-    } else if (armState == false) {
-      //just leave it
-    }
-    
+		cargo.idle();
+		cargo.periodic();
 
 		drivetrain.resetEncodersAndGyro();
-		*/
+
+		teleController.startCompressor();
 	}
 
 	/**
