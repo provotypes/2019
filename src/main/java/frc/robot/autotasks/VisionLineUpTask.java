@@ -29,13 +29,13 @@ public class VisionLineUpTask implements TaskInterface {
 	@Override
 	public void execute() {
 		double turn = -vision.getLineAngle() / 45;
-		if (turn > 0.7) {
-			turn = 0.7;
-		} else if (turn < -0.7) {
-			turn = -0.7;
+		if (turn > 0.5) {
+			turn = 0.5;
+		} else if (turn < -0.5) {
+			turn = -0.5;
 		}
 
-		dt.setArcadeDriveSpeed(0.67, turn);
+		dt.setArcadeDriveSpeed(0.5, turn);
 	}
 
 	@Override
