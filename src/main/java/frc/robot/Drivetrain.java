@@ -39,9 +39,9 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		this.rear_right = rear_r;
 
 		front_left.setIdleMode(IdleMode.kCoast);
-		rear_left.setIdleMode(IdleMode.kCoast);
+		rear_left.setIdleMode(IdleMode.kBrake);
 		front_right.setIdleMode(IdleMode.kCoast);
-		rear_right.setIdleMode(IdleMode.kCoast);
+		rear_right.setIdleMode(IdleMode.kBrake);
 
 		this.left_a = left;
 		this.right_a = right;
