@@ -1,20 +1,24 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 // import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoMechanism implements CargoMechanismInterface {
 
 	private static final double STAGING_WHEEL_PERCENT_VOLTAGE = 0.9;
-	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 0.8;
+	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 1;
 	private static final double LAUNCHER_LOW_PERCENT_VOLTAGE = 0.4;
-	private static final double LAUNCHER_HIGH_ENCODER_SPEED = 10000;
-	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.4;
+	private static final double LAUNCHER_HIGH_ENCODER_SPEED = 7500;
+	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.5;
+
+	private double varLauncherSet = 0.6;
 
 	private TalonSRX stagingWheel;
 	private TalonSRX launcher;
@@ -26,12 +30,17 @@ public class CargoMechanism implements CargoMechanismInterface {
 						  TalonSRX launcher, 
 						  VictorSPX intakeBar, 
 						  DoubleSolenoid hood, 
-						  DoubleSolenoid arm){
+						  DoubleSolenoid arm) {
 		this.stagingWheel = stagingWheel;
 		this.launcher = launcher;
 		this.intakeBar = intakeBar;
 		this.hood = hood;
 		this.arm = arm;
+
+		launcher.configVoltageCompSaturation(12.0);
+		launcher.enableVoltageCompensation(true);
+
+		SmartDashboard.putNumber("launcher set point", varLauncherSet);
 	}
 
 	CargoMechanismModes state = CargoMechanismModes.idle;
@@ -72,6 +81,13 @@ public class CargoMechanism implements CargoMechanismInterface {
 			case hoodIntake:
 				stagingWheelOff();
 				launcherReverse();
+				intakeBarOff();
+				intakeArmIn();
+				hoodUp();
+				break;
+			case shootMax:
+				stagingWheelOn();
+				launcherOnMax();
 				intakeBarOff();
 				intakeArmIn();
 				hoodUp();
@@ -124,7 +140,12 @@ public class CargoMechanism implements CargoMechanismInterface {
 	public void hoodIntake() {
 		state = CargoMechanismModes.hoodIntake;
     }
-    
+	
+	@Override
+	public void shootMax() {
+		state = CargoMechanismModes.shootMax;
+	}
+
 	@Override
 	public void shootHigh() {
 		state = CargoMechanismModes.shootHigh;
@@ -180,8 +201,24 @@ public class CargoMechanism implements CargoMechanismInterface {
 		stagingWheel.set(ControlMode.PercentOutput, STAGING_WHEEL_PERCENT_VOLTAGE);
 	}
 
+	private void launcherOnMax() {
+		launcher.set(ControlMode.PercentOutput, 1);
+	}
+
 	private void launcherOnHigh() {
-		launcher.set(ControlMode.Velocity, LAUNCHER_HIGH_ENCODER_SPEED);
+		double velocity = launcher.getSelectedSensorVelocity();
+		SmartDashboard.putNumber("launcher Speed", velocity);
+		varLauncherSet = SmartDashboard.getNumber("launcher set point", varLauncherSet);
+
+		launcher.set(ControlMode.PercentOutput, varLauncherSet);
+
+		/*
+		if (velocity < varLauncherSet) {
+			launcher.set(ControlMode.PercentOutput, 0.8);
+		} else {
+			launcher.set(ControlMode.PercentOutput, 0);
+		}
+		*/
 	}
 
 	private void launcherOnLow() {

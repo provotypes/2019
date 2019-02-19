@@ -30,7 +30,8 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 			entry(HatchPanelMode.deposit, this::executeDeposit),
 			entry(HatchPanelMode.floorPickup, this::executeFloorPickup),
 			entry(HatchPanelMode.stationPickup, this::executeStationPickup),
-			entry(HatchPanelMode.stow, this::executeStow)
+			entry(HatchPanelMode.stow, this::executeStow),
+			entry(HatchPanelMode.rollersForward, this::executeForwardRollers)
 	);
 
 	@Override
@@ -59,13 +60,24 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	}
 
 	@Override
+	public void rollersForward() {
+		this.hatchPanelMode = HatchPanelMode.rollersForward;
+	}
+
+	@Override
 	public void periodic() {
 		hatchModes.get(hatchPanelMode).run();
 	}
 
 	private void executeStationPickup() {
-		armIn();
+		armOut();
 		rollerReverse();
+		detachIn();
+	}
+
+	private void executeForwardRollers() {
+		armIn();
+		rollerIntakeSlow();
 		detachIn();
 	}
 
@@ -116,6 +128,10 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	//Rollers
 	public void rollerIntake() {
 		rollers.set(ControlMode.PercentOutput, 1);
+	}
+
+	public void rollerIntakeSlow() {
+		rollers.set(ControlMode.PercentOutput, 0.5);
 	}
 
 	public void rollerReverse() {

@@ -86,7 +86,14 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
+	public void disabledInit() {
+		drivetrain.setCoast();
+	}
+
+	@Override
 	public void autonomousInit() {
+		drivetrain.setBrake();
+
 		autoTogglePressed = false;
 
 		autoRoutine = autoChooser.getChosenAuto();
@@ -115,6 +122,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		teleController.endAuto();
+		drivetrain.setBrake();
 	}
 
 	/**
@@ -150,9 +158,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-    
-    panel.stow();
-    panel.periodic();
+	
+		drivetrain.setBrake();
+
+		panel.stow();
+		panel.periodic();
 
 		cargo.idle();
 		cargo.periodic();

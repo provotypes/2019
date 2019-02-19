@@ -35,5 +35,9 @@ public interface DrivetrainInterface extends EasyPathDriveTrain {
 
 	double getRightEncoderDistance();
 
+	void setBrake();
+
+	void setCoast();
+
 	void calibrateGyro();
 }

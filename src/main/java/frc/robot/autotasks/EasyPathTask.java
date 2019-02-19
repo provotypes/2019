@@ -25,6 +25,7 @@ public class EasyPathTask implements TaskInterface {
 	 */
 	public void start() {
 		path.initialize();
+		System.out.println("easypath task start");
 	}
 
 	/**
@@ -32,6 +33,7 @@ public class EasyPathTask implements TaskInterface {
 	 */
 	public void execute() {
 		path.execute();
+		System.out.println("easypath task execute");
 	}
 
 	/**
@@ -40,6 +42,7 @@ public class EasyPathTask implements TaskInterface {
 	 * @return whether the task is finished
 	 */
 	public boolean isFinished() {
+		System.out.println("easypath task is finished is " + path.isFinished());
 		return path.isFinished();
 	}
 
@@ -50,6 +53,7 @@ public class EasyPathTask implements TaskInterface {
 	 */
 	public void end() {
 		path.end();
+		System.out.println("easypath task end");
 	}
 
 }

@@ -87,8 +87,24 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		gyro.reset();
 	}
 
+	@Override
+	public void setBrake() {
+		front_left.setIdleMode(IdleMode.kCoast);
+		rear_left.setIdleMode(IdleMode.kBrake);
+		front_right.setIdleMode(IdleMode.kCoast);
+		rear_right.setIdleMode(IdleMode.kBrake);
+	}
+
+	@Override
+	public void setCoast() {
+		front_left.setIdleMode(IdleMode.kCoast);
+		rear_left.setIdleMode(IdleMode.kCoast);
+		front_right.setIdleMode(IdleMode.kCoast);
+		rear_right.setIdleMode(IdleMode.kCoast);
+	}
+
 	public double getLeftEncoderDistance() {
-		return (((encoderFrontLeft.getPosition() + encoderRearLeft.getPosition()) / 2.0d) * DISTANCE_PER_ROTATION);
+		return (((encoderFrontLeft.getPosition() + encoderRearLeft.getPosition()) / 2.0d) * -DISTANCE_PER_ROTATION);
 	}
 
 	public double getRightEncoderDistance() {

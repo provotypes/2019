@@ -27,10 +27,18 @@ public class AutoFactory {
 
 	}
 
-	public List<TaskInterface> straightPath() {
+	public List<TaskInterface> straightPath(double inches) {
 		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
-		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.4)));
+		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(inches), -0.4)));
 		// taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
+		return taskList;
+	}
+
+	public List<TaskInterface> centerBayNoVision() {
+		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
+		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(160), -0.4)));
+		taskList.add(new HatchMechanismTask(hatchPanelMech));
+		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 		return taskList;
 	}
 
@@ -42,7 +50,7 @@ public class AutoFactory {
 				/*{"start":{"x":94,"y":208},"mid1":{"x":179,"y":214},"mid2":{"x":267,"y":300},"end":{"x":260,"y":229}} */
 				(-711 * Math.pow(t, 2) + 480 * t + 18) / (-294 * Math.pow(t, 2) + 18 * t + 255),
 				196.337),
-				0.7)));
+				-0.7)));
 
 		taskList.add(new VisionLineUpTask(drivetrain, vision));
 		taskList.add(new HatchMechanismTask(hatchPanelMech));
@@ -70,13 +78,20 @@ public class AutoFactory {
 		//Right side start - Far right bay.
 
 		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
-		taskList.add(new EasyPathTask(new FollowPath(new Path(t ->
-				/* {"start":{"x":94,"y":208},"mid1":{"x":266,"y":199},"mid2":{"x":279,"y":278},"end":{"x":302,"y":227}} */
-				(-654 * Math.pow(t, 2) + 528 * t + -27) / (507 * Math.pow(t, 2) + -954 * t + 516),
-				222.275),
-				0.7)));
+		// taskList.add(new EasyPathTask(new FollowPath(new Path(t ->
+		// 		/* {"start":{"x":94,"y":208},"mid1":{"x":266,"y":199},"mid2":{"x":279,"y":278},"end":{"x":302,"y":227}} */
+		// 		(-654 * Math.pow(t, 2) + 528 * t + -27) / (507 * Math.pow(t, 2) + -954 * t + 516),
+		// 		222.275),
+		// 		0.7)));
 
-		taskList.add(new VisionLineUpTask(drivetrain, vision));
+		taskList.add(new EasyPathTask(new FollowPath(new Path(t -> 
+		/* {"start":{"x":87,"y":213},"mid1":{"x":144,"y":215},"mid2":{"x":323,"y":347},"end":{"x":319,"y":210}} */
+		(-1197 * Math.pow(t, 2) + 780 * t + 6) / (-915 * Math.pow(t, 2) + 732 * t + 171),
+		284.933),
+				-0.4)));
+
+				
+		// taskList.add(new VisionLineUpTask(drivetrain, vision));
 		taskList.add(new HatchMechanismTask(hatchPanelMech));
 		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(20), 0.7)));
 

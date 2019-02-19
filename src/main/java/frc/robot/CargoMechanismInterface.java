@@ -24,6 +24,7 @@ public interface CargoMechanismInterface {
 		floorIntakeBarIn,
 		midIntake,
 		shootHigh,
+		shootMax,
 		shootLow,
 		flush,
 	}
@@ -33,7 +34,8 @@ public interface CargoMechanismInterface {
     void floorIntakeBarOut();    
     void floorIntakeBarIn();    
     void midIntake();    
-    void hoodIntake();    
+	void hoodIntake();
+	void shootMax();    
     void shootHigh();    
     void shootLow();	
 	void flush();

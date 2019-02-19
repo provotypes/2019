@@ -30,7 +30,7 @@ public class AutoChooser {
 				break;
 			case RobotInit.kDefaultAuto:
 			default:
-				chosenRoutine = new AutoRoutine(autoFactory.straightPath());
+				chosenRoutine = new AutoRoutine(autoFactory.centerBayNoVision());
 				break;
 		}
 
