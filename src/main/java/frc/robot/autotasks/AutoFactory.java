@@ -58,7 +58,7 @@ public class AutoFactory {
 		return taskList;
 	}
 
-	public List<TaskInterface> rightSideMiddleRightBay() {
+	public List<TaskInterface> rightStartMiddleRightBay() {
 		// Right side start - Middle right bay.
 
 		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
@@ -132,8 +132,8 @@ public class AutoFactory {
 		return taskList;
 	}
 
-	public List<TaskInterface> leftSideCloserLeftBay() {
-		//Left Side - Closer Left Bay.
+	public List<TaskInterface> leftStartCloserLeftBay() {
+		//Left Side Start - Closer Left Bay.
 
 		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
 		taskList.add(new EasyPathTask(new FollowPath(new Path(t ->
@@ -149,8 +149,8 @@ public class AutoFactory {
 		return taskList;
 	}
 
-	public List<TaskInterface> leftSideMiddleLeftBay() {
-		//Left Side - Middle Left Bay.
+	public List<TaskInterface> leftStartMiddleLeftBay() {
+		//Left Side Start- Middle Left Bay.
 
 		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
 		taskList.add(new EasyPathTask(new FollowPath(new Path(t ->
@@ -166,8 +166,8 @@ public class AutoFactory {
 		return taskList;
 	}
 
-	public List<TaskInterface> leftSideFarLeftBay() {
-		//Left Side - Far Left Bay.
+	public List<TaskInterface> leftStartFarLeftBay() {
+		//Left Side Start - Far Left Bay.
 
 		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
 		taskList.add(new EasyPathTask(new FollowPath(new Path(t ->
