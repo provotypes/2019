@@ -7,15 +7,32 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotInit {
 	//SendableChooser for Auto
-	//TODO: populate with auto options
-	public static final String kDefaultAuto = "Default";
-	public static final String kCustomAuto = "Custom Auto";
+
+	public static final String kCenterBayNoVision = "Center Bay No Vision";
+	public static final String kRightStartCloseRightBay = "Right Start Close Right Bay";
+	public static final String kRightStartMiddleRightBay = "Right Start Middle Right Bay";
+	public static final String kRightStartFarRightBay = "Right Start Far Right Bay";
+	public static final String kMiddleStartRightBay = "Middle Start Right Bay";
+	public static final String kMiddleStartLeftBay = "Middle Start Left Bay";
+	public static final String kLeftStartCloserLeftBay = "Left Start Closer Left Bay";
+	public static final String kLeftStartMiddleLeftBay = "Left Start Middle Left Bay";
+	public static final String kLeftStartFarLeftBay = "Left Start Far Left Bay";
+
 	private static final SendableChooser<String> autoChooser = new SendableChooser<>();
 
 	public static void init(DrivetrainInterface drivetrain) {
 
-		autoChooser.setDefaultOption("Default Auto", kDefaultAuto);
-		autoChooser.addOption("My Auto", kCustomAuto);
+		autoChooser.setDefaultOption("Center Bay No Vision",  kCenterBayNoVision);
+		autoChooser.addOption("Right Start Close Right Bay",  kRightStartCloseRightBay);
+		autoChooser.addOption("Right Start Middle Right Bay", kRightStartMiddleRightBay);
+		autoChooser.addOption("Right Start Far Right Bay",    kRightStartFarRightBay);
+		autoChooser.addOption("Middle Start Right Bay",       kMiddleStartRightBay);
+		autoChooser.addOption("Middle Start Left Bay",        kMiddleStartLeftBay);
+		autoChooser.addOption("Left Start Closer Left Bay",   kLeftStartCloserLeftBay);
+		autoChooser.addOption("Left Start Middle Left Bay",   kLeftStartMiddleLeftBay);
+		autoChooser.addOption("Left Start Far Left Bay",      kLeftStartFarLeftBay);
+		
+
 		SmartDashboard.putData("Auto Choice", autoChooser);
 
 		EasyPathConfig pathConfig = new EasyPathConfig(
@@ -32,4 +49,3 @@ public class RobotInit {
 		return autoChooser;
 	}
 }
-
