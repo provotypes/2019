@@ -25,10 +25,31 @@ public class AutoChooser {
 		AutoRoutine chosenRoutine;
 
 		switch (autoSelected) {
-			case RobotInit.kCustomAuto:
+			case RobotInit.kRightStartCloseRightBay:
+				chosenRoutine = new AutoRoutine(autoFactory.rightStartCloseRightBay());
+				break;
+			case RobotInit.kRightStartMiddleRightBay:
+				chosenRoutine = new AutoRoutine(autoFactory.rightStartMiddleRightBay());
+				break;
+			case RobotInit.kRightStartFarRightBay:
 				chosenRoutine = new AutoRoutine(autoFactory.rightStartFarRightBay());
 				break;
-			case RobotInit.kDefaultAuto:
+			case RobotInit.kMiddleStartRightBay:
+				chosenRoutine = new AutoRoutine(autoFactory.middleStartRightBay());
+				break;
+			case RobotInit.kMiddleStartLeftBay:
+				chosenRoutine = new AutoRoutine(autoFactory.middleStartLeftBay());
+				break;
+			case RobotInit.kLeftStartCloserLeftBay:
+				chosenRoutine = new AutoRoutine(autoFactory.leftStartCloserLeftBay());
+				break;
+			case RobotInit.kLeftStartMiddleLeftBay:
+				chosenRoutine = new AutoRoutine(autoFactory.leftStartMiddleLeftBay());
+				break;
+			case RobotInit.kLeftStartFarLeftBay:
+				chosenRoutine = new AutoRoutine(autoFactory.leftStartFarLeftBay());
+				break;
+			case RobotInit.kCenterBayNoVision:
 			default:
 				chosenRoutine = new AutoRoutine(autoFactory.centerBayNoVision());
 				break;
