@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -15,10 +14,8 @@ public class CargoMechanism implements CargoMechanismInterface {
 	private static final double STAGING_WHEEL_PERCENT_VOLTAGE = 0.9;
 	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 1;
 	private static final double LAUNCHER_LOW_PERCENT_VOLTAGE = 0.4;
-	private static final double LAUNCHER_HIGH_ENCODER_SPEED = 7500;
+	private static final double LAUNCHER_HIGH_PERCENT_VOLTAGE = 0.6;
 	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.5;
-
-	private double varLauncherSet = 0.6;
 
 	private TalonSRX stagingWheel;
 	private TalonSRX launcher;
@@ -39,8 +36,6 @@ public class CargoMechanism implements CargoMechanismInterface {
 
 		launcher.configVoltageCompSaturation(12.0);
 		launcher.enableVoltageCompensation(true);
-
-		SmartDashboard.putNumber("launcher set point", varLauncherSet);
 	}
 
 	CargoMechanismModes state = CargoMechanismModes.idle;
@@ -208,17 +203,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 	private void launcherOnHigh() {
 		double velocity = launcher.getSelectedSensorVelocity();
 		SmartDashboard.putNumber("launcher Speed", velocity);
-		varLauncherSet = SmartDashboard.getNumber("launcher set point", varLauncherSet);
-
-		launcher.set(ControlMode.PercentOutput, varLauncherSet);
-
-		/*
-		if (velocity < varLauncherSet) {
-			launcher.set(ControlMode.PercentOutput, 0.8);
-		} else {
-			launcher.set(ControlMode.PercentOutput, 0);
-		}
-		*/
+		launcher.set(ControlMode.PercentOutput, LAUNCHER_HIGH_PERCENT_VOLTAGE);
 	}
 
 	private void launcherOnLow() {
