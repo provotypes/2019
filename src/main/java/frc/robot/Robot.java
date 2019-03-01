@@ -32,7 +32,8 @@ public class Robot extends TimedRobot {
 	Joystick gamepadDriver = new Joystick(4);
 	Joystick gamepadOperator = new Joystick(5);
 
-	VisionCom vision = new VisionCom();
+	VisionCom vision = VisionCom.getInstance();
+
 
 	private boolean autoTogglePressed = false;
 
@@ -51,9 +52,8 @@ public class Robot extends TimedRobot {
 		teleController = getDefaultTeleopController(autoFactory);
 
 		autoChooser = new AutoChooser(autoFactory);
-
 		//visionAutoTask = new VisionLineUpTask();
-		vision.beginCamera();
+		vision.run();
 		//vision.start();
 		SmartDashboard.putBoolean("calibrate gyro", false);
 		drivetrain.calibrateGyro();
@@ -78,7 +78,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Left encoder", drivetrain.getLeftEncoderDistance());
 		SmartDashboard.putNumber("Right encoder", drivetrain.getRightEncoderDistance());
 
-		SmartDashboard.putNumber("line angle", vision.getLineAngle());
 		if (SmartDashboard.getBoolean("calibrate gyro", false)) {
 			drivetrain.calibrateGyro();
 			SmartDashboard.putBoolean("calibrate gyro", false);
