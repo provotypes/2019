@@ -71,6 +71,7 @@ public class TeleopController {
 		autoEnded = true;
 		isHumanControlled = true;
 		isCargoForward = false;
+		camera.setCameraPanel();
 
 		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::floorPickup,       panel::stow);
 		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_TOP_BUTTON,      panel::deposit,           panel::stow);
@@ -90,8 +91,12 @@ public class TeleopController {
 		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
 		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
 		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> { isCargoForward = !isCargoForward;
-														 												
-		});
+		                                                  if (isCargoForward){
+															  camera.setCameraCargo();
+														  } else {
+															  camera.setCameraPanel();
+														  }
+		                                                });
 		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
 		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
 		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
