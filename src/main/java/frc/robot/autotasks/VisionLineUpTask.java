@@ -40,12 +40,15 @@ public class VisionLineUpTask implements TaskInterface {
 
 	@Override
 	public boolean isFinished() {
+		/*
 		double lineCount = vision.getLineCount();
 
 		if (Double.isNaN(lineCount)) {
 			lineCount = 1.0;
 		}
 		return lineCount < 1;
+		*/
+		return true;
 	}
 
 	@Override
