@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 
 	AutoChooser autoChooser;
 	TeleopController teleController;
-
+	DriverCameras cameras = DriverCameras.getInstance();
 	Joystick gamepadDriver = new Joystick(4);
 	Joystick gamepadOperator = new Joystick(5);
 
@@ -194,6 +194,7 @@ public class Robot extends TimedRobot {
 									drivetrain, 
 									panel, 
 									cargo, 
+									cameras,
 									autoFactory,
 									() -> SmartDashboard.getNumber("rotate multiplier", 0.5),
 									() -> SmartDashboard.getNumber("speed multiplier", 0.85)
