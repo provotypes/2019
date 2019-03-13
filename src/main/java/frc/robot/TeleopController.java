@@ -32,11 +32,14 @@ public class TeleopController {
 	private final Supplier<Double> rotateMultiplierSupplier;
 	private final Supplier<Double> speedMultiplierSupplier;
 
+	private DriverCameras camera;
+
 	public TeleopController(Extreme3DProJoystick j,
 							LogitechGamepadController g,
 							DrivetrainInterface d,
 							HatchPanelMechanismInterface p,
 							CargoMechanismInterface c,
+							DriverCameras dc,
 							AutoFactory a,
 							Supplier<Double> rotateMultiplierSupplier,
 							Supplier<Double> speedMultiplierSupplier) {
@@ -46,7 +49,7 @@ public class TeleopController {
 		panel = p;
 		driveTrain = d;
 		autoFactory = a;
-
+		camera = dc;
 		this.rotateMultiplierSupplier = rotateMultiplierSupplier;
 		this.speedMultiplierSupplier = speedMultiplierSupplier;
 
@@ -86,7 +89,9 @@ public class TeleopController {
 		// Drive
 		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
 		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
-		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> isCargoForward = !isCargoForward);
+		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> { isCargoForward = !isCargoForward;
+														 												
+		});
 		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
 		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
 		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
