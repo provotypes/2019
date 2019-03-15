@@ -160,7 +160,7 @@ public class Robot extends TimedRobot {
 	
 		drivetrain.setBrake();
 
-		panel.stow();
+		panel.startingConfig();
 		panel.periodic();
 
 		cargo.idle();

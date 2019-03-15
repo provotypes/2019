@@ -12,25 +12,28 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	private final IMotorController rollers;
 	private final DoubleSolenoid detach;
 	private final DoubleSolenoid arm;
+	private final DoubleSolenoid claw;
 
 	/* //prototype robot
         VictorSPX rollers = new VictorSPX(1);
         DoubleSolenoid arm = new DoubleSolenoid(2, 3);
         DoubleSolenoid detach = new DoubleSolenoid(0, 1);
         // */
-	public HatchPanelMechanism(IMotorController rollers, DoubleSolenoid detach, DoubleSolenoid arm) {
+	public HatchPanelMechanism(IMotorController rollers, DoubleSolenoid detach, DoubleSolenoid arm, DoubleSolenoid claw) {
 		this.rollers = rollers;
 		this.detach = detach;
 		this.arm = arm;
+		this.claw = claw;
 	}
 
-	private HatchPanelMode hatchPanelMode = HatchPanelMode.stow;
+	private HatchPanelMode hatchPanelMode = HatchPanelMode.startingConfig;
 
 	private final Map<HatchPanelMode, Runnable> hatchModes = Map.ofEntries(
 			entry(HatchPanelMode.deposit, this::executeDeposit),
 			entry(HatchPanelMode.floorPickup, this::executeFloorPickup),
 			entry(HatchPanelMode.stationPickup, this::executeStationPickup),
-			entry(HatchPanelMode.stow, this::executeStow),
+			entry(HatchPanelMode.startingConfig, this::executeStartingConfig),
+			entry(HatchPanelMode.holdPanel, this::executeHoldPanel),
 			entry(HatchPanelMode.rollersForward, this::executeForwardRollers)
 	);
 
@@ -45,8 +48,13 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	}
 
 	@Override
-	public void stow() {
-		this.hatchPanelMode = HatchPanelMode.stow;
+	public void startingConfig() {
+		this.hatchPanelMode = HatchPanelMode.startingConfig;
+	}
+
+	@Override
+	public void holdPanel() {
+		this.hatchPanelMode = HatchPanelMode.holdPanel;
 	}
 
 	@Override
@@ -70,33 +78,45 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 	}
 
 	private void executeStationPickup() {
-		armOut();
-		rollerReverse();
+		armIn();
+		rollerStop();
 		detachIn();
+		clawStow();
 	}
 
 	private void executeForwardRollers() {
 		armIn();
 		rollerIntakeSlow();
 		detachIn();
+		clawStow();
 	}
 
 	private void executeDeposit() {
 		armIn();
 		rollerStop();
 		detachOut();
+		clawStow();
 	}
 
 	private void executeFloorPickup() {
 		armOut();
 		rollerIntake();
 		detachIn();
+		clawStow();
 	}
 
-	private void executeStow() {
+	private void executeStartingConfig() {
 		armIn();
 		rollerStop();
 		detachIn();
+		clawStow();
+	}
+
+	private void executeHoldPanel() {
+		armIn();
+		rollerStop();
+		detachIn();
+		clawGrab();
 	}
 
 	//Arm Methonds
@@ -123,6 +143,19 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 
 	public void detachIn() {
 		detach.set(DoubleSolenoid.Value.kReverse);
+	}
+
+	//Claw
+	public void clawNeutral() {
+		claw.set(DoubleSolenoid.Value.kOff);
+	}
+
+	public void clawGrab() {
+		claw.set(DoubleSolenoid.Value.kForward);
+	}
+
+	public void clawStow() {
+		claw.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	//Rollers

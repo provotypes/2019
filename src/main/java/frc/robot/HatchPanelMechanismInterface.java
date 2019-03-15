@@ -9,7 +9,9 @@ public interface HatchPanelMechanismInterface {
 
 	void floorPickup();
 
-	void stow();
+	void startingConfig();
+
+	void holdPanel();
 
 	void deposit();
 
@@ -23,12 +25,14 @@ public interface HatchPanelMechanismInterface {
 		return new HatchPanelMechanism(
 				new VictorSPX(1),
 				new DoubleSolenoid(2, 6, 7),
-				new DoubleSolenoid(0, 2, 3));
+				new DoubleSolenoid(0, 2, 3),
+				new DoubleSolenoid(100, 100, 101));
 	}
 
 	enum HatchPanelMode {
 		floorPickup,
-		stow,
+		startingConfig,
+		holdPanel,
 		deposit,
 		stationPickup,
 		rollersForward,

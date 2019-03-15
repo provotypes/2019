@@ -13,46 +13,48 @@ public class HatchPanelMechanismTest {
 	private IMotorController motorController;
 	private DoubleSolenoid arm;
 	private DoubleSolenoid detach;
+	private DoubleSolenoid claw;
 
 	@Before
 	public void init() {
 		motorController = mock(IMotorController.class);
 		arm = mock(DoubleSolenoid.class);
 		detach = mock(DoubleSolenoid.class);
+		claw = mock(DoubleSolenoid.class);
 	}
 
 	@Test
 	public void defaultPeriodic() {
 
-		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm);
+		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm, claw);
 
 		// Default mode should be stow
 		hatchPanelMechanism.periodic();
 		verifyStow(motorController, arm, detach);
 
-		assertThat(hatchPanelMechanism.getHatchPanelMode(), org.hamcrest.CoreMatchers.is(HatchPanelMechanismInterface.HatchPanelMode.stow));
+		assertThat(hatchPanelMechanism.getHatchPanelMode(), org.hamcrest.CoreMatchers.is(HatchPanelMechanismInterface.HatchPanelMode.startingConfig));
 	}
 
 	@Test
 	public void stowPeriodic() {
 
-		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm);
+		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm, claw);
 
 		hatchPanelMechanism.setMode(HatchPanelMechanismInterface.HatchPanelMode.stationPickup);
 		hatchPanelMechanism.periodic();
 		//verifyStationPickup(motorController, arm, detach);
 
-		hatchPanelMechanism.setMode(HatchPanelMechanismInterface.HatchPanelMode.stow);
+		hatchPanelMechanism.setMode(HatchPanelMechanismInterface.HatchPanelMode.startingConfig);
 		hatchPanelMechanism.periodic();
 		verifyStow(motorController, arm, detach);
 
-		assertThat(hatchPanelMechanism.getHatchPanelMode(), org.hamcrest.CoreMatchers.is(HatchPanelMechanismInterface.HatchPanelMode.stow));
+		assertThat(hatchPanelMechanism.getHatchPanelMode(), org.hamcrest.CoreMatchers.is(HatchPanelMechanismInterface.HatchPanelMode.startingConfig));
 	}
 
 	@Test
 	public void depositPeriodic() {
 
-		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm);
+		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm, claw);
 
 		hatchPanelMechanism.setMode(HatchPanelMechanismInterface.HatchPanelMode.deposit);
 		hatchPanelMechanism.periodic();
@@ -64,7 +66,7 @@ public class HatchPanelMechanismTest {
 	@Test
 	public void stationPickupPeriodic() {
 
-		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm);
+		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm, claw);
 
 		hatchPanelMechanism.setMode(HatchPanelMechanismInterface.HatchPanelMode.stationPickup);
 		//verifyStationPickup(motorController, arm, detach);
@@ -78,7 +80,7 @@ public class HatchPanelMechanismTest {
 	@Test
 	public void floorPickupPeriodic() {
 
-		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm);
+		HatchPanelMechanism hatchPanelMechanism = new HatchPanelMechanism(motorController, detach, arm, claw);
 
 		hatchPanelMechanism.setMode(HatchPanelMechanismInterface.HatchPanelMode.floorPickup);
 		hatchPanelMechanism.periodic();
