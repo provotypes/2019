@@ -44,16 +44,18 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
+		System.out.println("Program started!");
+
 		AutoFactory autoFactory = new AutoFactory(drivetrain, panel, cargo, vision);
 
 		RobotInit.init(drivetrain);
 		SmartDashboard.putNumber("rotate multiplier", 0.5);
-		SmartDashboard.putNumber("speed multiplier", 0.85);
+		SmartDashboard.putNumber("speed multiplier", 0.8);
 		teleController = getDefaultTeleopController(autoFactory);
 
 		autoChooser = new AutoChooser(autoFactory);
 		//visionAutoTask = new VisionLineUpTask();
-		vision.run();
+		// vision.run();
 		//vision.start();
 		SmartDashboard.putBoolean("calibrate gyro", false);
 		drivetrain.calibrateGyro();

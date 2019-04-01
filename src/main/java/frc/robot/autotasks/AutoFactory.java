@@ -193,4 +193,11 @@ public class AutoFactory {
 		return taskList;
 	}
 
+	public List<TaskInterface> emptyList() {
+		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
+		taskList.add(new EmptyTask(hatchPanelMech));
+		return taskList;
+		
+	}
+
 }

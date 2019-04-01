@@ -13,8 +13,8 @@ public class CargoMechanism implements CargoMechanismInterface {
 
 	private static final double STAGING_WHEEL_PERCENT_VOLTAGE = 0.9;
 	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 1;
-	private static final double LAUNCHER_LOW_PERCENT_VOLTAGE = 0.4;
-	private static final double LAUNCHER_HIGH_PERCENT_VOLTAGE = 0.6;
+	private static final double LAUNCHER_LOW_PERCENT_VOLTAGE = 0.5;
+	private static final double LAUNCHER_HIGH_PERCENT_VOLTAGE = 0.65;
 	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.5;
 
 	private TalonSRX stagingWheel;
@@ -36,6 +36,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 
 		launcher.configVoltageCompSaturation(12.0);
 		launcher.enableVoltageCompensation(true);
+		SmartDashboard.putNumber("launcher set pount", 0.65);
 	}
 
 	CargoMechanismModes state = CargoMechanismModes.idle;
@@ -197,13 +198,15 @@ public class CargoMechanism implements CargoMechanismInterface {
 	}
 
 	private void launcherOnMax() {
-		launcher.set(ControlMode.PercentOutput, 1);
+		launcher.set(ControlMode.PercentOutput, 0.75);
 	}
 
 	private void launcherOnHigh() {
 		double velocity = launcher.getSelectedSensorVelocity();
 		SmartDashboard.putNumber("launcher Speed", velocity);
-		launcher.set(ControlMode.PercentOutput, LAUNCHER_HIGH_PERCENT_VOLTAGE);
+		
+		launcher.set(ControlMode.PercentOutput, SmartDashboard.getNumber("launcher set pount", 0.65));
+		// launcher.set(ControlMode.PercentOutput, LAUNCHER_HIGH_PERCENT_VOLTAGE);
 	}
 
 	private void launcherOnLow() {

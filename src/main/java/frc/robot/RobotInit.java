@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotInit {
 	//SendableChooser for Auto
 
+	public static final String kDoNothing = "Do Nothing / Human Controlled";
 	public static final String kCenterBayNoVision = "Center Bay No Vision";
 	public static final String kRightStartCloseRightBay = "Right Start Close Right Bay";
 	public static final String kRightStartMiddleRightBay = "Right Start Middle Right Bay";
@@ -22,7 +23,8 @@ public class RobotInit {
 
 	public static void init(DrivetrainInterface drivetrain) {
 
-		autoChooser.setDefaultOption("Center Bay No Vision",  kCenterBayNoVision);
+		autoChooser.setDefaultOption("Human Controlled", kDoNothing);
+		autoChooser.addOption("Center Bay No Vision",  kCenterBayNoVision);
 		autoChooser.addOption("Right Start Close Right Bay",  kRightStartCloseRightBay);
 		autoChooser.addOption("Right Start Middle Right Bay", kRightStartMiddleRightBay);
 		autoChooser.addOption("Right Start Far Right Bay",    kRightStartFarRightBay);

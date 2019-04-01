@@ -50,8 +50,11 @@ public class AutoChooser {
 				chosenRoutine = new AutoRoutine(autoFactory.leftStartFarLeftBay());
 				break;
 			case RobotInit.kCenterBayNoVision:
-			default:
 				chosenRoutine = new AutoRoutine(autoFactory.centerBayNoVision());
+				break;
+			case RobotInit.kDoNothing:
+			default:
+				chosenRoutine = new AutoRoutine(autoFactory.emptyList());
 				break;
 		}
 

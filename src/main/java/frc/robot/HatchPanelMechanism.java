@@ -102,7 +102,7 @@ public class HatchPanelMechanism implements HatchPanelMechanismInterface {
 		armOut();
 		rollerIntake();
 		detachIn();
-		clawStow();
+		clawGrab();
 	}
 
 	private void executeStartingConfig() {

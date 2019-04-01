@@ -53,6 +53,7 @@ public class TeleopController {
 		this.rotateMultiplierSupplier = rotateMultiplierSupplier;
 		this.speedMultiplierSupplier = speedMultiplierSupplier;
 
+		camera.start();
 		compressor.start();
 
 		autoEnded = false;

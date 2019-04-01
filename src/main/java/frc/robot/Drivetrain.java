@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class Drivetrain extends DifferentialDrive implements DrivetrainInterface {
 	public static final double DISTANCE_PER_ROTATION = 1.0d/8.45d * 6.0d * Math.PI; // inches
-	public static final double RAMP_PERIOD = 0.5;
+	public static final double RAMP_PERIOD = 0.40;
 
 	CANSparkMax front_left;
 	CANSparkMax rear_left;
@@ -42,6 +42,11 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		rear_left.setIdleMode(IdleMode.kBrake);
 		front_right.setIdleMode(IdleMode.kCoast);
 		rear_right.setIdleMode(IdleMode.kBrake);
+
+		front_left.setOpenLoopRampRate(RAMP_PERIOD);
+		rear_left.setOpenLoopRampRate(RAMP_PERIOD);
+		front_right.setOpenLoopRampRate(RAMP_PERIOD);
+		rear_right.setOpenLoopRampRate(RAMP_PERIOD);
 
 		this.left_a = left;
 		this.right_a = right;
