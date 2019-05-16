@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.operatorinterface;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -47,7 +47,7 @@ import java.util.function.Consumer;
  * </pre>
  *
  * Java's compiler will also let you do things like {@code shooter::shoot} if it fulfills the required function
- * signature (i.e., if it takes no parameters and doesn't return anything, you can use that for any Runnable).
+ * signature (height.e., if it takes no parameters and doesn't return anything, you can use that for any Runnable).
  *
  * Note how much cleaner this is than a bunch of if statements.
  */

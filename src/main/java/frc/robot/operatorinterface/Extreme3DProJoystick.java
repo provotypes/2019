@@ -1,4 +1,6 @@
-package frc.robot;
+package frc.robot.operatorinterface;
+
+import frc.robot.operatorinterface.BindableJoystick;
 
 /**
  * Bindable Joystic Class for the Extreme 3D Pro Joystick that comes in the Kit of Parts.

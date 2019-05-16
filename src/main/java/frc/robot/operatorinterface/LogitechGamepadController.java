@@ -1,4 +1,6 @@
-package frc.robot;
+package frc.robot.operatorinterface;
+
+import frc.robot.operatorinterface.BindableJoystick;
 
 /**
  * Describes a Logitech Gamepad Controller.  This type of controller is used

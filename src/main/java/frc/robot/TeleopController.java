@@ -3,7 +3,11 @@ package frc.robot;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Compressor;
-import frc.robot.autotasks.*;
+import frc.robot.operatorinterface.Extreme3DProJoystick;
+import frc.robot.operatorinterface.LogitechGamepadController;
+import frc.robot.subsystems.CargoMechanismInterface;
+import frc.robot.subsystems.DrivetrainInterface;
+import frc.robot.subsystems.HatchPanelMechanismInterface;
 
 public class TeleopController {
 
@@ -21,9 +25,6 @@ public class TeleopController {
 	private boolean teleControlsBound;
 	public boolean autoEnded;
 
-	private TaskInterface visionHatchPlaceRoutine;
-	private AutoFactory autoFactory;
-
 	private boolean isCargoForward;
 
 	private double rotateMultiplier = 1;
@@ -40,7 +41,6 @@ public class TeleopController {
 							HatchPanelMechanismInterface p,
 							CargoMechanismInterface c,
 							DriverCameras dc,
-							AutoFactory a,
 							Supplier<Double> rotateMultiplierSupplier,
 							Supplier<Double> speedMultiplierSupplier) {
 		stick = j;
@@ -48,7 +48,6 @@ public class TeleopController {
 		cargo = c;
 		panel = p;
 		driveTrain = d;
-		autoFactory = a;
 		camera = dc;
 		this.rotateMultiplierSupplier = rotateMultiplierSupplier;
 		this.speedMultiplierSupplier = speedMultiplierSupplier;
@@ -100,7 +99,6 @@ public class TeleopController {
 		                                                });
 		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
 		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
-		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
 		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
 
 		teleControlsBound = true;
@@ -114,26 +112,11 @@ public class TeleopController {
 		rotateMultiplier = rotateMultiplierSupplier.get();
 		speedMultiplier = speedMultiplierSupplier.get();
 
-		if (!isHumanControlled && autoEnded) {
-			if (!visionHatchPlaceRoutine.isFinished()){
-				visionHatchPlaceRoutine.execute();
-			} else {
-				visionHatchPlaceRoutine.end();
-				isHumanControlled = true;
-			}
-		}
-		
 		gamepad.run();
 		stick.run();
 
 		panel.periodic();
 		cargo.periodic();
-	}
-
-	private void startVisionHatchTask() {
-		isHumanControlled = false;
-		visionHatchPlaceRoutine = new AutoRoutine(autoFactory.visionHatchPlace());
-		visionHatchPlaceRoutine.start();
 	}
 
 	private void arcade(double speed, double rotation) {
