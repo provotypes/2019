@@ -62,7 +62,7 @@ public class TeleopController {
 	}
 
 	public void autoControlsInit(){
-		gamepad.bindButtonPress(gamepad.Y_BUTTON, () -> autoEnded = true);
+		gamepad.bindButtonPress(gamepad.Companion.getY_BUTTON(), () -> autoEnded = true);
 	}
 
 	public void teleopInit() {
@@ -73,33 +73,33 @@ public class TeleopController {
 		isCargoForward = false;
 		camera.setCameraPanel();
 
-		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_TOP_BUTTON,   panel::floorPickup,       panel::holdPanel);
-		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_TOP_BUTTON,      panel::deposit,           panel::holdPanel);
-		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_TOP_BUTTON,     panel::stationPickup,     panel::holdPanel);
-		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_RIGHT_TOP_BUTTON,  panel::rollersForward,    panel::holdPanel);
+		stick.bindButtonToggle(Extreme3DProJoystick.getBottomTopButton,   panel::floorPickup,       panel::holdPanel);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getTOP_LEFT_TOP_BUTTON(),      panel::deposit,           panel::holdPanel);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getTOP_RIGHT_TOP_BUTTON(),     panel::stationPickup,     panel::holdPanel);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getBOTTOM_RIGHT_TOP_BUTTON(),  panel::rollersForward,    panel::holdPanel);
 
-		stick.bindButtonToggle(Extreme3DProJoystick.TRIGGER,                  cargo::shootHigh,         cargo::idle);
-		stick.bindButtonToggle(Extreme3DProJoystick.THUMB_BUTTON,             cargo::shootLow,          cargo::idle);
-		stick.bindButtonToggle(Extreme3DProJoystick.TOP_LEFT_BASE_BUTTON,     cargo::floorIntakeBarIn,  cargo::idle);
-		stick.bindButtonToggle(Extreme3DProJoystick.TOP_RIGHT_BASE_BUTTON,    cargo::floorIntakeBarOut, cargo::idle);
-		stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_LEFT_BASE_BUTTON,  cargo::midIntake,         cargo::idle);
-		stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_RIGHT_BASE_BUTTON, cargo::hoodIntake,        cargo::idle);
-		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_BASE_BUTTON,  cargo::flush,             cargo::idle);
-		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_RIGHT_BASE_BUTTON, cargo::shootMax,          cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getTRIGGER(),                  cargo::shootHigh,         cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getTHUMB_BUTTON(),             cargo::shootLow,          cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getTOP_LEFT_BASE_BUTTON(),     cargo::floorIntakeBarIn,  cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getTOP_RIGHT_BASE_BUTTON(),    cargo::floorIntakeBarOut, cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getMIDDLE_LEFT_BASE_BUTTON(),  cargo::midIntake,         cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getMIDDLE_RIGHT_BASE_BUTTON(), cargo::hoodIntake,        cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getBOTTOM_LEFT_BASE_BUTTON(),  cargo::flush,             cargo::idle);
+		stick.bindButtonToggle(Extreme3DProJoystick.Companion.getBOTTOM_RIGHT_BASE_BUTTON(), cargo::shootMax,          cargo::idle);
 
 		// Drive
-		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
-		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
-		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> { isCargoForward = !isCargoForward;
+		gamepad.bindAxes(gamepad.Companion.getLEFT_Y_AXIS(), gamepad.Companion.getRIGHT_X_AXIS(), this::arcade);
+		gamepad.bindButtonPress(gamepad.Companion.getLEFT_STICK_IN(), () -> isCargoForward = !isCargoForward);
+		gamepad.bindButtonPress(gamepad.Companion.getA_BUTTON(), () -> { isCargoForward = !isCargoForward;
 		                                                  if (isCargoForward){
 															  camera.setCameraCargo();
 														  } else {
 															  camera.setCameraPanel();
 														  }
 		                                                });
-		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
-		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
-		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
+		gamepad.bindButton(gamepad.Companion.getLEFT_BUMPER(), this::quickTurnleft);
+		gamepad.bindButton(gamepad.Companion.getRIGHT_BUMPER(), this::quickTurnRight);
+		gamepad.bindButtonPress(gamepad.Companion.getB_BUTTON(), () -> isHumanControlled = true);
 
 		teleControlsBound = true;
 	}

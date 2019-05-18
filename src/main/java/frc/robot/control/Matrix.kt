@@ -1,8 +1,7 @@
 package frc.robot.control
 
 /**
- * A class to represent arbitrary matrices of doubles.  Primarily used to
- * facilitate state space control.
+ * A class to represent arbitrary matrices of doubles.  Primarily used to facilitate state space control.
  *
  * @author Brennon Brimhall <brennonbrimhall@provotypes.org
  * @property height the number of rows
@@ -47,8 +46,7 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Set the element at the given two-dimensional location in the matrix to
-     * the specified value.
+     * Set the element at the given two-dimensional location in the matrix to the specified value.
      */
     operator fun set(row: Int, col: Int, d: Double) {
         if (row >= height || col >= width) {
@@ -59,16 +57,14 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Set the element at the given one-dimensional location in the matrix to
-     * the specified value.
+     * Set the element at the given one-dimensional location in the matrix to the specified value.
      */
     operator fun set(i: Int, d: Double) {
         data[i] = d
     }
 
     /**
-     * Perform matrix addition.  Throws an error if the provided matrix is not
-     * the same size as this matrix.
+     * Perform matrix addition.  Throws an error if the provided matrix is not the same size as this matrix.
      */
     operator fun plus(m: Matrix): Matrix {
         if (!sameSize(m)) {
@@ -79,8 +75,7 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Perform matrix subtraction.  Throws an error if the provided matrix is
-     * not the same size as this matrix.
+     * Perform matrix subtraction.  Throws an error if the provided matrix is not the same size as this matrix.
      */
     operator fun minus(m: Matrix): Matrix {
         if (!sameSize(m)) {
@@ -91,8 +86,8 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Perform matrix multiplication.  Throws an error if the provided matrix's
-     * height does not equal this matrix's width.
+     * Perform matrix multiplication.  Throws an error if the provided matrix's height does not equal this matrix's
+     * width.
      */
     operator fun times(m: Matrix): Matrix {
         if (this.width != m.height) {
@@ -132,8 +127,7 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Compare the dimensions of another matrix and determine if they are
-     * equal to our dimensions.
+     * Compare the dimensions of another matrix and determine if they are equal to our dimensions.
      */
     private fun sameSize(m: Matrix): Boolean {
         return m.width == width && m.height == height
@@ -147,8 +141,7 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Compute a new matrix by using the provided function to calculate each
-     * element.
+     * Compute a new matrix by using the provided function to calculate each element.
      */
     fun elementwise(f: (Double) -> Double): Matrix {
         return Matrix(height, width) { i -> f(this[i]) }
@@ -164,16 +157,14 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Compute a new matrix by using the provided secondary matrix and function
-     * to calculate each element.
+     * Compute a new matrix by using the provided secondary matrix and function to calculate each element.
      */
     fun elementwise(m: Matrix, f: (Double, Double) -> Double): Matrix {
         return Matrix(height, width) { i -> f(this[i], m[i]) }
     }
 
     /**
-     * Apply the given function in place to each element of this matrix, using
-     * the secondary matrix.
+     * Apply the given function in place to each element of this matrix, using the secondary matrix.
      */
     fun applyElementwise(m: Matrix, f: (Double, Double) -> Double) {
         if (!sameSize(m)) {
@@ -193,8 +184,8 @@ class Matrix(val height: Int, val width: Int, initFunction: (Int) -> Double = { 
     }
 
     /**
-     * Clip the elements of this matrix so that the ith element of this matrix
-     * is between the ith element of min and the ith element of max, inclusive.
+     * Clip the elements of this matrix so that the ith element of this matrix is between the ith element of min and the
+     * ith element of max, inclusive.
      */
     fun clip(lower: Matrix, upper: Matrix) {
         if (!sameSize(lower)) {
