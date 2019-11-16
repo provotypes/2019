@@ -38,10 +38,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 		this.front_right = front_r;
 		this.rear_right = rear_r;
 
-		front_left.setIdleMode(IdleMode.kCoast);
-		rear_left.setIdleMode(IdleMode.kBrake);
-		front_right.setIdleMode(IdleMode.kCoast);
-		rear_right.setIdleMode(IdleMode.kBrake);
+		setCoast();
 
 		front_left.setOpenLoopRampRate(RAMP_PERIOD);
 		rear_left.setOpenLoopRampRate(RAMP_PERIOD);
