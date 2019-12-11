@@ -8,15 +8,18 @@ public class LogitechGamepadController extends BindableJoystick {
 
 	//Buttons
 	public static final int A_BUTTON = 1;
-	public static final int B_BUTTON = 2;
+	public static final int B_BUTTON = 2;	
 	public static final int X_BUTTON = 3;
 	public static final int Y_BUTTON = 4;
 	public static final int LEFT_BUMPER = 5;
 	public static final int RIGHT_BUMPER = 6;
 	public static final int START_BUTTON = 8;
 	public static final int LEFT_STICK_IN = 9;
+	
+	// If the Right Stick In is pressed, use Extreme3DPro Controller to drive.
+	public static final int RIGHT_STICK_IN = 10;
 
-	//Axes
+	//Axis
 	public static final int LEFT_X_AXIS = 0;
 	public static final int LEFT_Y_AXIS = 1;
 	public static final int LEFT_TRIGGER = 2;
@@ -54,6 +57,14 @@ public class LogitechGamepadController extends BindableJoystick {
 
 	public boolean getStart() {
 		return super.getRawButton(START_BUTTON);
+	}
+
+	public boolean getLeftJoystick() {
+		return super.getRawButton(LEFT_STICK_IN);
+	}
+
+	public boolean getRightJoystick() {
+		return super.getRawButton(RIGHT_STICK_IN);
 	}
 
 	public double getLeftX() {

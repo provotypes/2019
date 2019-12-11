@@ -1,4 +1,4 @@
-package frc.robot;
+/*package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
@@ -100,7 +100,7 @@ public class HatchPanelMechanismTest {
 		verify(detach, atLeast(1)).set(DoubleSolenoid.Value.kReverse);
 		verify(motorController, atLeast(1)).set(ControlMode.PercentOutput, -0.5d);
 	}*/
-
+    /*
 	private void verifyStow(IMotorController motorController, DoubleSolenoid arm, DoubleSolenoid detach) {
 		verify(arm, atLeast(1)).set(DoubleSolenoid.Value.kReverse);
 		verify(detach, atLeast(1)).set(DoubleSolenoid.Value.kReverse);
@@ -113,3 +113,5 @@ public class HatchPanelMechanismTest {
 		verify(motorController, atLeast(1)).set(ControlMode.PercentOutput, 0);
 	}
 }
+
+    */

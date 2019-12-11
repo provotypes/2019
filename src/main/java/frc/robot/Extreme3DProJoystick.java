@@ -8,7 +8,7 @@ public class Extreme3DProJoystick extends BindableJoystick {
 	// Buttons
 	public static final int TRIGGER = 1;
 	public static final int THUMB_BUTTON = 2;
-
+	
 	public static final int TOP_LEFT_TOP_BUTTON = 5;
 	public static final int TOP_RIGHT_TOP_BUTTON = 6;
 	public static final int BOTTOM_LEFT_TOP_BUTTON = 3;
@@ -20,8 +20,20 @@ public class Extreme3DProJoystick extends BindableJoystick {
 	public static final int MIDDLE_RIGHT_BASE_BUTTON = 10;
 	public static final int BOTTOM_LEFT_BASE_BUTTON = 11;
 	public static final int BOTTOM_RIGHT_BASE_BUTTON = 12;
-
+	
+	//Axis
+	public static final int FORWARD_Y_AXIS = 1;
+	public static final int TURNING_Z_ROTATE = 2;
+ 
 	public Extreme3DProJoystick(int port) {
 		super(port);
+	}
+
+	public double getForwardY() {
+		return super.getRawAxis(FORWARD_Y_AXIS);
+	}
+	
+	public double getTurningZ() {
+		return super.getRawAxis(TURNING_Z_ROTATE);
 	}
 }

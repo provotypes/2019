@@ -20,7 +20,7 @@ public class TeleopController {
 	private boolean isHumanControlled;
 	private boolean teleControlsBound;
 	public boolean autoEnded;
-
+	private boolean caseyDriving;
 	private TaskInterface visionHatchPlaceRoutine;
 	private AutoFactory autoFactory;
 
@@ -88,22 +88,32 @@ public class TeleopController {
 		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_BASE_BUTTON,  cargo::flush,             cargo::idle);
 		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_RIGHT_BASE_BUTTON, cargo::shootMax,          cargo::idle);
 
+		gamepad.bindButtonPress(gamepad.RIGHT_STICK_IN, () -> caseyDriving = true);
+		
 		// Drive
-		gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
-		gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
-		gamepad.bindButtonPress(gamepad.A_BUTTON, () -> { isCargoForward = !isCargoForward;
-		                                                  if (isCargoForward){
-															  camera.setCameraCargo();
-														  } else {
-															  camera.setCameraPanel();
-														  }
-		                                                });
-		gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
-		gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
-		gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
-		gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
+		if(caseyDriving == false){
+			gamepad.bindAxes(gamepad.LEFT_Y_AXIS, gamepad.RIGHT_X_AXIS, this::arcade);
+			gamepad.bindButtonPress(gamepad.LEFT_STICK_IN, () -> isCargoForward = !isCargoForward);
+			gamepad.bindButtonPress(gamepad.A_BUTTON, () -> { isCargoForward = !isCargoForward;
+															if (isCargoForward){
+																camera.setCameraCargo();
+															} else {
+																camera.setCameraPanel();
+															}
+															});
+			gamepad.bindButton(gamepad.LEFT_BUMPER, this::quickTurnleft);
+			gamepad.bindButton(gamepad.RIGHT_BUMPER, this::quickTurnRight);
+			gamepad.bindButtonPress(gamepad.X_BUTTON, this::startVisionHatchTask);
+			gamepad.bindButtonPress(gamepad.B_BUTTON, () -> isHumanControlled = true);
+
 
 		teleControlsBound = true;
+	
+		} else if(caseyDriving == true){
+			stick.bindAxes(stick.FORWARD_Y_AXIS, stick.TURNING_Z_ROTATE, this::arcade);
+			teleControlsBound = true;
+		}
+		 
 	}
 
 	private void runAuto(){

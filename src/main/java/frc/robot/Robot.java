@@ -194,7 +194,7 @@ public class Robot extends TimedRobot {
 		return new TeleopController(new Extreme3DProJoystick(0), 
 									new LogitechGamepadController(1), 
 									drivetrain, 
-									panel, 
+									panel,    
 									cargo, 
 									cameras,
 									autoFactory,

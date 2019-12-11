@@ -1,4 +1,4 @@
-package frc.robot;
+/*package frc.robot;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -129,5 +129,8 @@ public class TeleopControllerTest {
 		verify(arm, atLeast(1)).set(DoubleSolenoid.Value.kReverse);
 		verify(detach, atLeast(1)).set(DoubleSolenoid.Value.kForward);
 		verify(motorController, atLeast(1)).set(ControlMode.PercentOutput, 0);
-	}*/
+    }*/
+    /*
 }
+
+*/
