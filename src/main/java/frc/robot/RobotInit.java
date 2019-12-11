@@ -18,6 +18,7 @@ public class RobotInit {
 	public static final String kLeftStartCloserLeftBay = "Left Start Closer Left Bay";
 	public static final String kLeftStartMiddleLeftBay = "Left Start Middle Left Bay";
 	public static final String kLeftStartFarLeftBay = "Left Start Far Left Bay";
+	public static final String kAMESAuto = "The one you want for AMES!";
 
 	private static final SendableChooser<String> autoChooser = new SendableChooser<>();
 
@@ -33,6 +34,7 @@ public class RobotInit {
 		autoChooser.addOption("Left Start Closer Left Bay",   kLeftStartCloserLeftBay);
 		autoChooser.addOption("Left Start Middle Left Bay",   kLeftStartMiddleLeftBay);
 		autoChooser.addOption("Left Start Far Left Bay",      kLeftStartFarLeftBay);
+		autoChooser.addOption("The one you want for AMES!",   kAMESAuto);
 		
 
 		SmartDashboard.putData("Auto Choice", autoChooser);
