@@ -200,11 +200,4 @@ public class AutoFactory {
 		
 	}
 
-	public List<TaskInterface> AMESAuto() {
-		List<TaskInterface> taskList = new ArrayList<TaskInterface>();
-		taskList.add(new EasyPathTask(new FollowPath(PathUtil.createStraightPath(180), 0.5)));
-		taskList.add(new CargoMechanismTask(cargoMech , cargoMech::flush, 50));
-		return taskList;
-	}
-
 }
