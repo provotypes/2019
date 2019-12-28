@@ -18,8 +18,8 @@ public class VisionLineUpTask implements TaskInterface {
 	private VisionCom vision;
 
 	public VisionLineUpTask(DrivetrainInterface d, VisionCom v) {
-		dt = d;
-		vision = v;
+		this.dt = d;
+		this.vision = v;
 	}
 
 	@Override

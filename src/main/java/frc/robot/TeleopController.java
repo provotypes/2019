@@ -86,7 +86,7 @@ public class TeleopController {
 		stick.bindButtonToggle(Extreme3DProJoystick.MIDDLE_RIGHT_BASE_BUTTON, cargo::hoodIntake,        cargo::idle);
 		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_LEFT_BASE_BUTTON,  cargo::flush,             cargo::idle);
 		stick.bindButtonToggle(Extreme3DProJoystick.BOTTOM_RIGHT_BASE_BUTTON, cargo::shootMax,          cargo::idle);
-				
+		
 		gamepad.bindButtonPress(gamepad.RIGHT_STICK_IN, () -> {
 		stick.bindAxes(stick.FORWARD_Y_AXIS, stick.TURNING_Z_ROTATE, this::arcade);
 		});

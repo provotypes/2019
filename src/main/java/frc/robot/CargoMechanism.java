@@ -36,7 +36,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 
 		launcher.configVoltageCompSaturation(12.0);
 		launcher.enableVoltageCompensation(true);
-		SmartDashboard.putNumber("launcher set pount", 0.65);
+		SmartDashboard.putNumber("launcher set point", 0.65);
 	}
 
 	CargoMechanismModes state = CargoMechanismModes.idle;

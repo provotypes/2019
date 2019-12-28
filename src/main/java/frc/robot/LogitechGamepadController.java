@@ -16,7 +16,7 @@ public class LogitechGamepadController extends BindableJoystick {
 	public static final int START_BUTTON = 8;
 	public static final int LEFT_STICK_IN = 9;
 	
-	// If the Right Stick In is pressed, use Extreme3DPro Controller to drive.
+	// If the Right Joystick is pressed, use Extreme3DPro Controller to drive.
 	public static final int RIGHT_STICK_IN = 10;
 
 	//Axis
