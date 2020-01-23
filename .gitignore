@@ -48,6 +48,8 @@
 .mtj.tmp/
 
 # Package Files #
+*.jar
+!javafx.graphics.jar
 *.war
 *.nar
 *.ear
@@ -150,11 +152,11 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 # # VS Code Specific Java Settings
-.vscode/
 .classpath
 .project
 .settings/
 bin/
+imgui.ini
 
 
 # End of https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode

@@ -16,9 +16,9 @@ public class DriverCameras {
     
     private static DriverCameras instance;
 
-    private UsbCamera cameraCargo;
+    // private UsbCamera cameraCargo;
 
-	private UsbCamera cameraPanel;
+	// private UsbCamera cameraPanel;
     
     private MjpegServer stream;
 
@@ -32,11 +32,11 @@ public class DriverCameras {
     }
 
     public void start(){
-        cameraCargo = CameraServer.getInstance().startAutomaticCapture(1);
-        cameraPanel = CameraServer.getInstance().startAutomaticCapture(0);
+        // cameraCargo = CameraServer.getInstance().startAutomaticCapture(1);
+        // cameraPanel = CameraServer.getInstance().startAutomaticCapture(0);
 
-        cameraCargo.setResolution(320, 240);
-        cameraPanel.setResolution(320, 240);
+        // cameraCargo.setResolution(320, 240);
+        // cameraPanel.setResolution(320, 240);
         
         // cameraCargo.setConnectionStrategy(ConnectionStrategy.kForceClose);
         // cameraPanel.setConnectionStrategy(ConnectionStrategy.kForceClose);
@@ -44,15 +44,15 @@ public class DriverCameras {
         stream = CameraServer.getInstance().addSwitchedCamera("Driver Cameras");
 
         SmartDashboard.putString("stream info", stream.getPort() + " " + stream.getListenAddress());
-        stream.setSource(cameraPanel);
+        // stream.setSource(cameraPanel);
 
 		cameraKey = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");
     }
     
     public void setCameraCargo() {
 		
-        cameraKey.setString(cameraCargo.getName());
-        stream.setSource(cameraCargo);
+        // cameraKey.setString(cameraCargo.getName());
+        // stream.setSource(cameraCargo);
         
         
         System.out.println("camera set cargo");
@@ -60,8 +60,8 @@ public class DriverCameras {
 
     public void setCameraPanel(){
 		
-        cameraKey.setString(cameraPanel.getName());
-        stream.setSource(cameraPanel);
+        // cameraKey.setString(cameraPanel.getName());
+        // stream.setSource(cameraPanel);
         
 
 

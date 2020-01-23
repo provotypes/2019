@@ -47,8 +47,7 @@ public class Drivetrain extends DifferentialDrive implements DrivetrainInterface
 
 		this.left_a = left;
 		this.right_a = right;
-		
-// this might be the solution to make robot's default "front" be the cargo side
+
 		left_a.setInverted(true);
 		right_a.setInverted(true);
 

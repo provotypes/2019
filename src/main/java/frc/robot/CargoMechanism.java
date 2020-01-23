@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CargoMechanism implements CargoMechanismInterface {
 
-	private static final double STAGING_WHEEL_PERCENT_VOLTAGE = 0.9;
-	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 1;
+	private static final double STAGING_WHEEL_PERCENT_VOLTAGE = 1.0;
+	private static final double INTAKE_BAR_PERCENT_VOLTAGE = 1.0;
 	private static final double LAUNCHER_LOW_PERCENT_VOLTAGE = 0.5;
 	private static final double LAUNCHER_HIGH_PERCENT_VOLTAGE = 0.65;
 	private static final double LAUNCHER_REVERSE_PERCENT_VOLTAGE = -0.5;
@@ -36,7 +36,7 @@ public class CargoMechanism implements CargoMechanismInterface {
 
 		launcher.configVoltageCompSaturation(12.0);
 		launcher.enableVoltageCompensation(true);
-		SmartDashboard.putNumber("launcher set point", 0.65);
+		SmartDashboard.putNumber("launcher set pount", 0.65);
 	}
 
 	CargoMechanismModes state = CargoMechanismModes.idle;
@@ -105,7 +105,8 @@ public class CargoMechanism implements CargoMechanismInterface {
 			case flush:
 				stagingWheelReverse();
 				launcherReverse();
-				intakeBarReverse();
+				// intakeBarReverse();
+				intakeBarOff();
 				intakeArmIn();
 				hoodUp();
 				break;
